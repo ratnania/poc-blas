@@ -11,5 +11,5 @@ pyccel blas.py --libs blas
 ## Running the tests
 
 ```shell
-python3 main.py
+python3 test_blas.py
 ```
