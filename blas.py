@@ -176,7 +176,7 @@ def blas_idamax(x: 'float64[:]',
 
 # ==============================================================================
 def blas_dgemv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 1.,
+               beta: 'float64' = 0.,
                incx: 'int64' = 1,
                incy: 'int64' = 1,
                trans: 'bool' = False
