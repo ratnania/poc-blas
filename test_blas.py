@@ -281,7 +281,7 @@ def test_dgbmv_1():
 
     n = 8
     ag = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
-    ku = 2 ; kl = 2
+    ku = kl = np.int32(2)
     a = general_to_band(kl, ku, ag)
 
     np.random.seed(2021)
@@ -323,7 +323,7 @@ def test_dsbmv_1():
 
     n = 8
     ag = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
-    k = 2
+    k = np.int32(2)
     a = general_to_band(k, k, ag)
 
     np.random.seed(2021)

@@ -4,6 +4,8 @@ The aim of this file is to provide functions that can be either:
     - called as inlined statements
 """
 
+import numpy as np
+
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -34,134 +36,134 @@ def blas_drotmg(d1: 'float64', d2: 'float64', x1: 'float64', y1: 'float64',
 
 # ==============================================================================
 def blas_drot(x: 'float64[:]', y: 'float64[:]', c: 'float64', s: 'float64',
-               incx: 'int64' = 1,
-               incy: 'int64' = 1
+              incx: 'int32' = 1,
+              incy: 'int32' = 1
               ):
     """
     """
     from pyccel.stdlib.internal.blas import drot
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     drot (n, x, incx, y, incy, c, s)
 
 # ==============================================================================
 def blas_drotm(x: 'float64[:]', y: 'float64[:]', param: 'float64[:]',
-               incx: 'int64' = 1,
-               incy: 'int64' = 1
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
               ):
     """
     """
     from pyccel.stdlib.internal.blas import drotm
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     drotm (n, x, incx, y, incy, param)
 
 # ==============================================================================
 def blas_dcopy(x: 'float64[:]', y: 'float64[:]',
-               incx: 'int64' = 1,
-               incy: 'int64' = 1
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
               ):
     """
     y ← x
     """
     from pyccel.stdlib.internal.blas import dcopy
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     dcopy (n, x, incx, y, incy)
 
 # ==============================================================================
 def blas_dswap(x: 'float64[:]', y: 'float64[:]',
-               incx: 'int64' = 1,
-               incy: 'int64' = 1
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
               ):
     """
     x ↔ y
     """
     from pyccel.stdlib.internal.blas import dswap
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     dswap (n, x, incx, y, incy)
 
 # ==============================================================================
 def blas_dscal(alpha: 'float64', x: 'float64[:]',
-               incx: 'int64' = 1,
+               incx: 'int32' = 1,
               ):
     """
     x ← αx
     """
     from pyccel.stdlib.internal.blas import dscal
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     dscal (n, alpha, x, incx)
 
 # ==============================================================================
 def blas_ddot(x: 'float64[:]', y: 'float64[:]',
-               incx: 'int64' = 1,
-               incy: 'int64' = 1
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
               ):
     """
     y ← x
     """
     from pyccel.stdlib.internal.blas import ddot
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     return ddot (n, x, incx, y, incy)
 
 # ==============================================================================
 def blas_daxpy(x: 'float64[:]', y: 'float64[:]',
                a: 'float64' = 1.,
-               incx: 'int64' = 1,
-               incy: 'int64' = 1
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
               ):
     """
     y ← αx + y
     """
     from pyccel.stdlib.internal.blas import daxpy
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     daxpy (n, a, x, incx, y, incy)
 
 # ==============================================================================
 def blas_dnrm2(x: 'float64[:]',
-               incx: 'int64' = 1,
+               incx: 'int32' = 1,
               ):
     """
     ||x||_2
     """
     from pyccel.stdlib.internal.blas import dnrm2
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     return dnrm2 (n, x, incx)
 
 # ==============================================================================
 def blas_dasum(x: 'float64[:]',
-               incx: 'int64' = 1,
+               incx: 'int32' = 1,
               ):
     """
     """
     from pyccel.stdlib.internal.blas import dasum
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     return dasum (n, x, incx)
 
 # ==============================================================================
 def blas_idamax(x: 'float64[:]',
-               incx: 'int64' = 1,
+               incx: 'int32' = 1,
               ):
     """
     """
     from pyccel.stdlib.internal.blas import idamax
 
-    n = x.shape[0]
+    n = np.int32(x.shape[0])
 
     i = idamax (n, x, incx)
     # we must substruct 1 because of the fortran indexing
@@ -177,8 +179,8 @@ def blas_idamax(x: 'float64[:]',
 # ==============================================================================
 def blas_dgemv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 0.,
-               incx: 'int64' = 1,
-               incy: 'int64' = 1,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
                trans: 'bool' = False
               ):
     """
@@ -186,7 +188,8 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64
     """
     from pyccel.stdlib.internal.blas import dgemv
 
-    m,n = a.shape
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
     lda = m
 
     # ...
@@ -197,11 +200,11 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64
     dgemv (flag, m, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dgbmv(kl : 'int64', ku: 'int64',
+def blas_dgbmv(kl : 'int32', ku: 'int32',
                alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 1.,
-               incx: 'int64' = 1,
-               incy: 'int64' = 1,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
                trans: 'bool' = False
               ):
     """
@@ -209,7 +212,8 @@ def blas_dgbmv(kl : 'int64', ku: 'int64',
     """
     from pyccel.stdlib.internal.blas import dgbmv
 
-    m,n = a.shape
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
     # TODO which one?
     #      shall we put lda as optional kwarg?
     lda = m
@@ -225,8 +229,8 @@ def blas_dgbmv(kl : 'int64', ku: 'int64',
 # ==============================================================================
 def blas_dsymv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 1.,
-               incx: 'int64' = 1,
-               incy: 'int64' = 1,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
                lower: 'bool' = False
               ):
     """
@@ -234,7 +238,8 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64
     """
     from pyccel.stdlib.internal.blas import dsymv
 
-    m,n = a.shape
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
     lda = m
 
     # ...
@@ -245,11 +250,11 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64
     dsymv (flag, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dsbmv(k : 'int64',
+def blas_dsbmv(k : 'int32',
                alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 1.,
-               incx: 'int64' = 1,
-               incy: 'int64' = 1,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
                lower: 'bool' = False
               ):
     """
@@ -257,7 +262,8 @@ def blas_dsbmv(k : 'int64',
     """
     from pyccel.stdlib.internal.blas import dsbmv
 
-    m,n = a.shape
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
     lda = m
 
     # ...
@@ -269,15 +275,16 @@ def blas_dsbmv(k : 'int64',
 
 # ==============================================================================
 def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:]',
-              incx: 'int64' = 1,
-              incy: 'int64' = 1,
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
               ):
     """
     A ← αxy^T + A
     """
     from pyccel.stdlib.internal.blas import dger
 
-    m,n = a.shape
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
     lda = m
 
     dger (m, n, alpha, x, incx, y, incy, a, lda)
@@ -302,7 +309,8 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     """
     from pyccel.stdlib.internal.blas import dgemm
 
-    l,n = c.shape
+    l = np.int32(c.shape[0])
+    n = np.int32(c.shape[1])
 
     # ...
     flag_a = 'N'
@@ -314,9 +322,9 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
 
     # ...
     if trans_a:
-        m = a.shape[0]
+        m = np.int32(a.shape[0])
     else:
-        m = a.shape[1]
+        m = np.int32(a.shape[1])
     # ...
 
     # TODO to be checked
@@ -338,7 +346,8 @@ def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     """
     from pyccel.stdlib.internal.blas import dsymm
 
-    m,n = c.shape
+    m = np.int32(c.shape[0])
+    n = np.int32(c.shape[1])
 
     # ...
     # equation 1
@@ -372,7 +381,8 @@ def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](or
     """
     from pyccel.stdlib.internal.blas import dsyrk
 
-    n,k = c.shape
+    n = np.int32(c.shape[0])
+    k = np.int32(c.shape[1])
 
     # ...
     # equation 1
@@ -405,18 +415,18 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
     """
     from pyccel.stdlib.internal.blas import dsyr2k
 
-    n = c.shape[0]
+    n = np.int32(c.shape[0])
 
     # ...
     # equation 1
     flag_trans = 'N'
-    k = a.shape[1]
+    k = np.int32(a.shape[1])
     lda = n
     ldb = n
     # equation 2
     if trans:
         flag_trans = 'T'
-        k = a.shape[0]
+        k = np.int32(a.shape[0])
         lda = k
         ldb = k
     # ...
