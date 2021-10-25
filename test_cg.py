@@ -10,8 +10,9 @@ from time import time
 from tabulate import tabulate
 from scipy.io import mmread
 from cg_blas import cg as cg_pyccel
+from cg_pure import cg as cg_pure
 
-# ========================================================================
+# ======================================================================
 def cg_old(A,b,x,itermax,tol):
     r    = p = b- blas.dgemv(1.0, A, x)
     k    = 0
@@ -25,8 +26,9 @@ def cg_old(A,b,x,itermax,tol):
         k     = k + 1
     return x, k
 
-# ========================================================================
-def solve_sparse_scipy(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None, solver='cg', x0=None):
+# ======================================================================
+def solve_sparse_scipy(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None,
+                       solver='cg', x0=None, xref=None):
 
     # ...
     num_iters = 0
@@ -57,13 +59,17 @@ def solve_sparse_scipy(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None, solver=
         raise NotImplemented('solver not available')
 
     t2 = time()
-    err = np.linalg.norm(A.dot(x) - b)
-    info = {'niter': num_iters, 'res_norm': err, 'time': (t2-t1)*1000}
+    res_norm = np.linalg.norm(A.dot(x) - b)
+    err_norm = None
+    if not( xref is None ):
+        err_norm   = np.linalg.norm(x - xref)
+    info = {'niter': num_iters, 'res_norm': res_norm, 'err_norm': err_norm, 'time': (t2-t1)*1000}
 
     return x, info
 
-# ========================================================================
-def solve_sparse_pyccel(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None, solver='cg', x0=None):
+# ======================================================================
+def solve_sparse_pyccel(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None,
+                        solver='cg', x0=None, xref=None):
 
     # TODO
     if not( M is None):
@@ -87,6 +93,10 @@ def solve_sparse_pyccel(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None, solver
         err_r, num_iters = cg_pyccel(A, b, x, maxiter=maxiter, tol=tol)
 
     # TODO remove
+    elif solver == 'cg_pure':
+        num_iters = cg_pure(A, b, x, maxiter, tol)
+
+    # TODO remove
     elif solver == 'cg_old':
         x, num_iters = cg_old(A, b, x, maxiter, tol)
 
@@ -94,13 +104,17 @@ def solve_sparse_pyccel(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None, solver
         raise NotImplemented('solver not available')
 
     t2 = time()
-    err = np.linalg.norm(A.dot(x) - b)
-    info = {'niter': num_iters, 'res_norm': err, 'time': (t2-t1)*1000}
+    res_norm = np.linalg.norm(A.dot(x) - b)
+    err_norm = None
+    if not( xref is None ):
+        err_norm   = np.linalg.norm(x - xref)
+    info = {'niter': num_iters, 'res_norm': res_norm, 'err_norm': err_norm, 'time': (t2-t1)*1000}
 
     return x, info
 
-# ==============================================================================
+# ======================================================================
 def run(A, tol=1.e-5, maxiter=10):
+    table = []
     np.random.seed(2021)
 
     n  = A.shape[0]
@@ -108,45 +122,30 @@ def run(A, tol=1.e-5, maxiter=10):
     b  = A @ x
     x0 = np.zeros(n)
 
-    x_scipy, info_scipy = solve_sparse_scipy(A, b, tol=tol, maxiter=maxiter, x0=x0)
-    time_scipy  = info_scipy['time']
-    niter_scipy = info_scipy['niter']
-    res_scipy   = info_scipy['res_norm']
-    err_scipy   = np.linalg.norm(x_scipy - x)
-    print(info_scipy)
+    x_scipy, info = solve_sparse_scipy(A, b, tol=tol, maxiter=maxiter, x0=x0, xref=x)
+    line = ['scipy', info['niter'], info['res_norm'], info['err_norm'], info['time']] ; table.append(line)
 
-    x_pyccel, info_pyccel = solve_sparse_pyccel(A, b, tol=tol, maxiter=maxiter, x0=x0)
-    time_pyccel  = info_pyccel['time']
-    niter_pyccel = info_pyccel['niter']
-    res_pyccel   = info_pyccel['res_norm']
-    err_pyccel   = np.linalg.norm(x_pyccel - x)
-    print(info_pyccel)
+    x_pyccel, info = solve_sparse_pyccel(A, b, tol=tol, maxiter=maxiter, x0=x0, xref=x)
+    line = ['pyccel-blas', info['niter'], info['res_norm'], info['err_norm'], info['time']] ; table.append(line)
 
-#    l = []
-#    l.append(A.shape)
-#    l.append(lg.cond(A))
-#    l.append(iterm)
-#    l.append(res)
-#    l.append(time_pyccel)
-#    l.append(err)
-#    l.append(niter_scipy)
-#    l.append(res_scipy)
-#    l.append(time_scipy)
-#    l.append(err_scipy)
-#    my_data.append(l)
+    x_pyccel, info = solve_sparse_pyccel(A, b, tol=tol, maxiter=maxiter, x0=x0, xref=x, solver='cg_pure')
+    line = ['pyccel-pure', info['niter'], info['res_norm'], info['err_norm'], info['time']] ; table.append(line)
 
-B1=np.array(mmread('matrices/bcsstm21.mtx.gz').todense())
+    return table
+
+#B1=np.array(mmread('matrices/bcsstm21.mtx.gz').todense())
 #B2=np.array(mmread('matrices/bcsstk16.mtx.gz').todense())
 
+# create header
+headers = ['implementation', 'num_iters','res','err','time(ms)']
+
 from scipy.sparse import diags
-for n in [200, 500, 1000, 2000, 3000, 4000]:
+for n in [200, 500, 1000, 2000, 3000, 4000, 6000]:
     print('>>> n = ', n)
     A = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
 
-    run(A)
+    table = run(A)
 
-## create header
-#head = ['matrix','condition number','Our_nbr_iter','res','time(ms)','Our_err','scipy_nbr_iter','res_scipy','time(ms)','scipy_err']
+    # display table
+    print(tabulate(table, headers=headers, tablefmt="grid"))
 
-# display table
-#print(tabulate(my_data, headers=head, tablefmt="grid"))
