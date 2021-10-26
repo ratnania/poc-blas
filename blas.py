@@ -177,7 +177,7 @@ def blas_idamax(x: 'float64[:]',
 # ==============================================================================
 
 # ==============================================================================
-def blas_dgemv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
+def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
@@ -201,8 +201,8 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64
 
 # ==============================================================================
 def blas_dgbmv(kl : 'int32', ku: 'int32',
-               alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 1.,
+               alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
+               beta: 'float64' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                trans: 'bool' = False
@@ -257,7 +257,7 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
 # ==============================================================================
 def blas_dsbmv(k : 'int32',
                alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 1.,
+               beta: 'float64' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                lower: 'bool' = False
@@ -315,6 +315,48 @@ def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     # ...
 
     dtrmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
+
+# ==============================================================================
+def blas_dtrsv(a: 'float64[:,:](order=F)', x: 'float64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRSV  solves one of the systems of equations
+
+    A*x = b,   or   A**T*x = b,
+
+    where b and x are n element vectors and A is an n by n unit, or
+    non-unit, upper or lower triangular matrix.
+
+    No test for singularity or near-singularity is included in this
+    routine. Such tests must be performed before calling this routine.
+    """
+
+    from pyccel.stdlib.internal.blas import dtrsv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    dtrsv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
 
 # ==============================================================================
 def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:]',

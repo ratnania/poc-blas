@@ -261,32 +261,16 @@ def test_daxpy_1():
 def test_dgemv_1():
     from blas import blas_dgemv
 
-    n = 10
-    a = np.ones((n,n))
-    x = np.ones(n)
-    y = np.zeros(n)
-
-    # ...
-    alpha = 1.
-    beta = 0.
-    expected = y.copy()
-    expected = sp_blas.dgemv (alpha, a, x, beta=beta, y=expected)
-    blas_dgemv (alpha, a, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-14))
-    # ...
-
-# ==============================================================================
-def test_dgemv_2():
-    from blas import blas_dgemv
+    np.random.seed(2021)
 
     n = 10
-    a = np.ones((n,n))
-    x = np.ones(n)
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
     y = np.ones(n)
 
     # ...
     alpha = 1.
-    beta = 1.
+    beta = 0.5
     expected = y.copy()
     expected = sp_blas.dgemv (alpha, a, x, beta=beta, y=expected)
     blas_dgemv (alpha, a, x, y, beta=beta)
@@ -301,7 +285,7 @@ def test_dgbmv_1():
     n = 8
     ag = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
     ku = kl = np.int32(2)
-    a = general_to_band(kl, ku, ag)
+    a = general_to_band(kl, ku, ag).copy(order='F')
 
     np.random.seed(2021)
 
@@ -311,7 +295,7 @@ def test_dgbmv_1():
     # ...
     alpha = 1.
     beta = 0.
-    expected = alpha * ag @ x
+    expected = alpha * ag @ x + beta * y
     blas_dgbmv (kl, ku, alpha, a, x, y, beta=beta)
 #    print('> expected = ', expected)
 #    print('> y        = ', y)
@@ -384,6 +368,25 @@ def test_dtrmv_1():
     # ...
     expected = a @ x
     blas_dtrmv (a, x)
+    assert(np.allclose(x, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
+def test_dtrsv_1():
+    from blas import blas_dtrsv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    expected = x
+    blas_dtrsv (a, x)
     assert(np.allclose(x, expected, 1.e-14))
     # ...
 
@@ -587,11 +590,11 @@ if __name__ == '__main__':
 
     # ... LEVEL 2
     test_dgemv_1()
-    test_dgemv_2()
     test_dgbmv_1()
     test_dsymv_1()
     test_dsbmv_1()
     test_dtrmv_1()
+    test_dtrsv_1()
     test_dger_1()
     test_dsyr_1()
     test_dsyr2_1()
