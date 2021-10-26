@@ -13,20 +13,6 @@ from cg_blas import cg as cg_pyccel
 from cg_pure import cg as cg_pure
 
 # ======================================================================
-def cg_old(A,b,x,itermax,tol):
-    r    = p = b- blas.dgemv(1.0, A, x)
-    k    = 0
-    while blas.dnrm2(r) > tol and k<itermax:
-        alpha =  blas.dnrm2(r)**2/( blas.ddot(blas.dgemv(1.0, A, p), p))
-        x     = x + alpha*p
-        rpr   = r.copy()
-        r     = rpr - blas.dgemv(alpha, A, p)
-        beta  = (blas.dnrm2(r))**2/blas.dnrm2(rpr)**2
-        p     = r + beta*p
-        k     = k + 1
-    return x, k
-
-# ======================================================================
 def solve_sparse_scipy(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None,
                        solver='cg', x0=None, xref=None):
 
@@ -92,13 +78,8 @@ def solve_sparse_pyccel(A, b, tol=1.e-5, maxiter=3000, M=None, atol=None,
     if solver == 'cg':
         err_r, num_iters = cg_pyccel(A, b, x, maxiter=maxiter, tol=tol)
 
-    # TODO remove
     elif solver == 'cg_pure':
         num_iters = cg_pure(A, b, x, maxiter, tol)
-
-    # TODO remove
-    elif solver == 'cg_old':
-        x, num_iters = cg_old(A, b, x, maxiter, tol)
 
     else:
         raise NotImplemented('solver not available')
