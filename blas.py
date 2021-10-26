@@ -577,3 +577,107 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
     ldc = n
 
     dsyr2k (flag_lower, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+
+# ==============================================================================
+def blas_dtrmm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)',
+               side: 'bool' = False,
+               lower: 'bool' = False,
+               trans_a: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRMM  performs one of the matrix-matrix operations
+
+    B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
+
+    where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
+    non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+
+    op( A ) = A   or   op( A ) = A**T.
+    """
+    from pyccel.stdlib.internal.blas import dtrmm
+
+    m = np.int32(b.shape[0])
+    n = np.int32(b.shape[1])
+
+    # ...
+    # equation 1
+    flag_side = 'L'
+    lda = m
+    # equation 2
+    if side:
+        flag_side = 'R'
+        lda = n
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans_a = 'N'
+    if trans_a: flag_trans_a = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ldb = m
+
+    dtrmm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
+
+# ==============================================================================
+def blas_dtrsm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)',
+               side: 'bool' = False,
+               lower: 'bool' = False,
+               trans_a: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRSM  solves one of the matrix equations
+
+    op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
+
+    where alpha is a scalar, X and B are m by n matrices, A is a unit, or
+    non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+
+    op( A ) = A   or   op( A ) = A**T.
+
+    The matrix X is overwritten on B.
+    """
+    from pyccel.stdlib.internal.blas import dtrsm
+
+    m = np.int32(b.shape[0])
+    n = np.int32(b.shape[1])
+
+    # ...
+    # equation 1
+    flag_side = 'L'
+    lda = m
+    # equation 2
+    if side:
+        flag_side = 'R'
+        lda = n
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans_a = 'N'
+    if trans_a: flag_trans_a = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ldb = m
+
+    dtrsm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)

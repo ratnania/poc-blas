@@ -93,5 +93,5 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 | xHERK       | C,Z          |             |             |
 | xSYR2K      | S,D,C,Z      | D           |             |
 | xHER2K      | C,Z          |             |             |
-| xTRMM       | S,D,C,Z      |             |             |
-| xTRSM       | S,D,C,Z      |             |             |
+| xTRMM       | S,D,C,Z      | D           |             |
+| xTRSM       | S,D,C,Z      | D           |             |

@@ -385,7 +385,8 @@ def test_dtrsv_1():
     a = triangulize(a)
 
     # ...
-    expected = x
+    expected = x.copy()
+    x = a @ x
     blas_dtrsv (a, x)
     assert(np.allclose(x, expected, 1.e-14))
     # ...
@@ -520,6 +521,48 @@ def test_dsymm_1():
     # ...
 
 # ==============================================================================
+def test_dtrmm_1():
+    from blas import blas_dtrmm
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    b = np.random.random((n,n)).copy(order='F')
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    alpha = 1.
+    expected = alpha * a @ b
+    blas_dtrmm (alpha, a, b)
+    assert(np.allclose(b, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
+def test_dtrsm_1():
+    from blas import blas_dtrsm
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    b = np.random.random((n,n)).copy(order='F')
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    alpha = 1.
+    expected = b.copy()
+    b = alpha * a @ b
+    b = b.copy(order='F')
+    blas_dtrsm (alpha, a, b)
+    assert(np.allclose(b, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dsyrk_1():
     from blas import blas_dsyrk
 
@@ -604,6 +647,8 @@ if __name__ == '__main__':
     test_dgemm_1()
     test_dgemm_2()
     test_dsymm_1()
+    test_dtrmm_1()
+    test_dtrsm_1()
     test_dsyrk_1()
     test_dsyr2k_1()
     # ...
