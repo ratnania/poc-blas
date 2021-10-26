@@ -5,11 +5,30 @@ import scipy.linalg.blas as sp_blas
 #dsdot
 
 # ==============================================================================
-def symmetrize(a):
+def symmetrize(a, lower=False):
     n = a.shape[0]
-    for i in range(n):
-        for j in range(i):
-            a[i,j] = a[j,i]
+    if lower:
+        for j in range(n):
+            for i in range(j):
+                a[i,j] = a[j,i]
+    else:
+        for i in range(n):
+            for j in range(i):
+                a[i,j] = a[j,i]
+
+    return a
+
+# ==============================================================================
+def triangulize(a, lower=False):
+    n = a.shape[0]
+    if lower:
+        for j in range(n):
+            for i in range(j):
+                a[i,j] = 0.
+    else:
+        for i in range(n):
+            for j in range(i):
+                a[i,j] = 0.
 
     return a
 
@@ -303,15 +322,23 @@ def test_dgbmv_1():
 def test_dsymv_1():
     from blas import blas_dsymv
 
-    n = 10
-    a = np.zeros((n,n))
-    x = np.ones(n)
-    y = np.zeros(n)
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+    y = np.random.random(n)
+
+    # make a symmetric
+    a = symmetrize(a)
 
     # ...
     alpha = 1.
-    beta = 0.
-    expected = alpha * a @ x
+    beta = 0.5
+    expected = alpha * a @ x + beta * y
+
+    # make a triangular
+    a = triangulize(a)
     blas_dsymv (alpha, a, x, y, beta=beta)
     assert(np.allclose(y, expected, 1.e-14))
     # ...
@@ -342,6 +369,25 @@ def test_dsbmv_1():
     # ...
 
 # ==============================================================================
+def test_dtrmv_1():
+    from blas import blas_dtrmv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    expected = a @ x
+    blas_dtrmv (a, x)
+    assert(np.allclose(x, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dger_1():
     from blas import blas_dger
 
@@ -357,6 +403,49 @@ def test_dger_1():
     alpha = 1.
     expected = alpha * np.outer(x,y) + a
     blas_dger (alpha, x, y, a)
+    assert(np.allclose(a, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
+def test_dsyr_1():
+    from blas import blas_dsyr
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+
+    # syrketrize a
+    a = symmetrize(a)
+
+    # ...
+    alpha = 1.
+    expected = alpha * np.outer(x.T, x) + a
+    blas_dsyr (alpha, x, a, lower=False)
+    a = symmetrize(a, lower=False)
+    assert(np.allclose(a, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
+def test_dsyr2_1():
+    from blas import blas_dsyr2
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+    y = np.random.random(n)
+
+    # syrketrize a
+    a = symmetrize(a)
+
+    # ...
+    alpha = 1.
+    expected = alpha * np.outer(y.T, x) + alpha * np.outer(x.T, y) + a
+    blas_dsyr2 (alpha, x, y, a, lower=False)
+    a = symmetrize(a, lower=False)
     assert(np.allclose(a, expected, 1.e-14))
     # ...
 
@@ -502,7 +591,10 @@ if __name__ == '__main__':
     test_dgbmv_1()
     test_dsymv_1()
     test_dsbmv_1()
+    test_dtrmv_1()
     test_dger_1()
+    test_dsyr_1()
+    test_dsyr2_1()
     # ...
 
     # ... LEVEL 3

@@ -227,14 +227,19 @@ def blas_dgbmv(kl : 'int32', ku: 'int32',
     dgbmv (flag, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dsymv(alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 1.,
+def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
+               beta: 'float64' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                lower: 'bool' = False
               ):
     """
-    y ← αAx + βy
+    DSYMV  performs the matrix-vector  operation
+
+    y := alpha*A*x + beta*y,
+
+    where alpha and beta are scalars, x and y are n element vectors and
+    A is an n by n symmetric matrix.
     """
     from pyccel.stdlib.internal.blas import dsymv
 
@@ -274,6 +279,44 @@ def blas_dsbmv(k : 'int32',
     dsbmv (flag, n, k, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
+def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRMV  performs one of the matrix-vector operations
+
+    x := A*x,   or   x := A**T*x,
+
+    where x is an n element vector and  A is an n by n unit, or non-unit,
+    upper or lower triangular matrix.
+    """
+    from pyccel.stdlib.internal.blas import dtrmv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    dtrmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
+
+# ==============================================================================
 def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:]',
               incx: 'int32' = 1,
               incy: 'int32' = 1,
@@ -288,6 +331,59 @@ def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,
     lda = m
 
     dger (m, n, alpha, x, incx, y, incy, a, lda)
+
+# ==============================================================================
+def blas_dsyr(alpha: 'float64', x: 'float64[:]', a: 'float64[:,:](order=F)',
+              incx: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    DSYR   performs the symmetric rank 1 operation
+
+    A := alpha*x*x**T + A,
+
+    where alpha is a real scalar, x is an n element vector and A is an
+    n by n symmetric matrix.
+    """
+    from pyccel.stdlib.internal.blas import dsyr
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag = 'U'
+    if lower : flag = 'L'
+    # ...
+
+    dsyr (flag, n, alpha, x, incx, a, lda)
+
+# ==============================================================================
+def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:](order=F)',
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    DSYR2  performs the symmetric rank 2 operation
+
+    A := alpha*x*y**T + alpha*y*x**T + A,
+
+    where alpha is a scalar, x and y are n element vectors and A is an n
+    by n symmetric matrix.
+    """
+    from pyccel.stdlib.internal.blas import dsyr2
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag = 'U'
+    if lower : flag = 'L'
+    # ...
+
+    dsyr2 (flag, n, alpha, x, incx, y, incy, a, lda)
 
 # ==============================================================================
 #
