@@ -452,6 +452,31 @@ def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
     dsyr2 (flag_uplo, n, alpha, x, incx, y, incy, a, lda)
 
 # ==============================================================================
+def blas_dspr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:]',
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    DSPR2  performs the symmetric rank 2 operation
+
+    A := alpha*x*y**T + alpha*y*x**T + A,
+
+    where alpha is a scalar, x and y are n element vectors and A is an
+    n by n symmetric matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import dspr2
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    dspr2 (flag_uplo, n, alpha, x, incx, y, incy, a)
+
+# ==============================================================================
 #
 #                                  LEVEL 3
 #

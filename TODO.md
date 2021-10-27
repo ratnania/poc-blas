@@ -77,9 +77,9 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 | xHER2       | C,Z          |             |             |
 | xHPR2       | C,Z          |             |             |
 | xSYR        | S,D          | D           |             |
-| xSPR        | S,D          |             |             |
+| xSPR        | S,D          | D           |             |
 | xSYR2       | S,D          | D           |             |
-| xSPR2       | S,D          |             |             |
+| xSPR2       | S,D          | D           |             |
 
 ## Level 3 
 

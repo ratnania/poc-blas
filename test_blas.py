@@ -495,6 +495,29 @@ def test_dsyr2_1():
     # ...
 
 # ==============================================================================
+def test_dspr2_1():
+    from blas import blas_dspr2
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+    y = np.random.random(n)
+
+    # syrketrize a
+    a = symmetrize(a)
+    ap = general_to_packed(a)
+
+    # ...
+    alpha = 1.
+    expected = alpha * np.outer(y.T, x) + alpha * np.outer(x.T, y) + a
+    expected = general_to_packed(expected)
+    blas_dspr2 (alpha, x, y, ap, lower=False)
+    assert(np.allclose(ap, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 #
 #                                  LEVEL 3
 #
@@ -683,6 +706,7 @@ if __name__ == '__main__':
     test_dsyr_1()
     test_dspr_1()
     test_dsyr2_1()
+    test_dspr2_1()
     # ...
 
     # ... LEVEL 3
