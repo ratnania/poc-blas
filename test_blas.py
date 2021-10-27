@@ -494,6 +494,31 @@ def test_dtrsv_1():
     # ...
 
 # ==============================================================================
+def test_dtbsv_1():
+    from blas import blas_dtbsv
+
+    n = 5
+    k = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [12, 22, 23,  0,  0],
+                  [ 0, 32, 33, 34,  0],
+                  [ 0,  0, 34, 44, 45],
+                  [ 0,  0,  0, 45, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(k, k, a).copy(order='F')
+
+    np.random.seed(2021)
+
+    x = np.random.random(n)
+
+    # ...
+    expected = sp_blas.dtbsv (k, ab, x)
+    blas_dtbsv (k, ab, x)
+    assert(np.allclose(x, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dtpsv_1():
     from blas import blas_dtpsv
 
@@ -809,6 +834,7 @@ if __name__ == '__main__':
     test_dtbmv_1()
     test_dtpmv_1()
     test_dtrsv_1()
+    test_dtbsv_1()
     test_dtpsv_1()
     test_dger_1()
     test_dsyr_1()

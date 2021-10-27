@@ -487,6 +487,49 @@ def blas_dtrsv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     dtrsv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
 
 # ==============================================================================
+def blas_dtbsv(k: 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTBSV  solves one of the systems of equations
+
+    A*x = b,   or   A**T*x = b,
+
+    where b and x are n element vectors and A is an n by n unit, or
+    non-unit, upper or lower triangular band matrix, with ( k + 1 )
+    diagonals.
+
+    No test for singularity or near-singularity is included in this
+    routine. Such tests must be performed before calling this routine.
+    """
+
+    from pyccel.stdlib.internal.blas import dtbsv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    dtbsv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
+
+# ==============================================================================
 def blas_dtpsv(a: 'float64[:]', x: 'float64[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
