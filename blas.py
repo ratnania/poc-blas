@@ -18,6 +18,7 @@ def blas_drotg(a: 'float64', b: 'float64',
                s: 'float64' = 0.,
               ):
     """
+    Generate plane rotation
     """
     from pyccel.stdlib.internal.blas import drotg
 
@@ -29,6 +30,7 @@ def blas_drotg(a: 'float64', b: 'float64',
 def blas_drotmg(d1: 'float64', d2: 'float64', x1: 'float64', y1: 'float64',
                 param: 'float64[:]'):
     """
+    Generate modified plane rotation
     """
     from pyccel.stdlib.internal.blas import drotmg
 
@@ -40,6 +42,7 @@ def blas_drot(x: 'float64[:]', y: 'float64[:]', c: 'float64', s: 'float64',
               incy: 'int32' = 1
               ):
     """
+    Apply plane rotation
     """
     from pyccel.stdlib.internal.blas import drot
 
@@ -53,6 +56,7 @@ def blas_drotm(x: 'float64[:]', y: 'float64[:]', param: 'float64[:]',
                incy: 'int32' = 1
               ):
     """
+    Apply modified plane rotation
     """
     from pyccel.stdlib.internal.blas import drotm
 
@@ -66,7 +70,8 @@ def blas_dcopy(x: 'float64[:]', y: 'float64[:]',
                incy: 'int32' = 1
               ):
     """
-    y ← x
+    DCOPY copies a vector, x, to a vector, y.
+    uses unrolled loops for increments equal to 1.
     """
     from pyccel.stdlib.internal.blas import dcopy
 
@@ -80,7 +85,8 @@ def blas_dswap(x: 'float64[:]', y: 'float64[:]',
                incy: 'int32' = 1
               ):
     """
-    x ↔ y
+    DSWAP interchanges two vectors.
+    uses unrolled loops for increments equal to 1.
     """
     from pyccel.stdlib.internal.blas import dswap
 
@@ -93,7 +99,8 @@ def blas_dscal(alpha: 'float64', x: 'float64[:]',
                incx: 'int32' = 1,
               ):
     """
-    x ← αx
+    DSCAL scales a vector by a constant.
+    uses unrolled loops for increment equal to 1.
     """
     from pyccel.stdlib.internal.blas import dscal
 
@@ -107,7 +114,8 @@ def blas_ddot(x: 'float64[:]', y: 'float64[:]',
                incy: 'int32' = 1
               ):
     """
-    y ← x
+    DDOT forms the dot product of two vectors.
+    uses unrolled loops for increments equal to one.
     """
     from pyccel.stdlib.internal.blas import ddot
 
@@ -122,7 +130,8 @@ def blas_daxpy(x: 'float64[:]', y: 'float64[:]',
                incy: 'int32' = 1
               ):
     """
-    y ← αx + y
+    DAXPY constant times a vector plus a vector.
+    uses unrolled loops for increments equal to one.
     """
     from pyccel.stdlib.internal.blas import daxpy
 
@@ -135,7 +144,10 @@ def blas_dnrm2(x: 'float64[:]',
                incx: 'int32' = 1,
               ):
     """
-    ||x||_2
+    DNRM2 returns the euclidean norm of a vector via the function
+    name, so that
+
+    DNRM2 := sqrt( x'*x )
     """
     from pyccel.stdlib.internal.blas import dnrm2
 
@@ -148,6 +160,7 @@ def blas_dasum(x: 'float64[:]',
                incx: 'int32' = 1,
               ):
     """
+    DASUM takes the sum of the absolute values.
     """
     from pyccel.stdlib.internal.blas import dasum
 
@@ -160,6 +173,7 @@ def blas_idamax(x: 'float64[:]',
                incx: 'int32' = 1,
               ):
     """
+    IDAMAX finds the index of the first element having maximum absolute value.
     """
     from pyccel.stdlib.internal.blas import idamax
 
@@ -184,7 +198,12 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
                trans: 'bool' = False
               ):
     """
-    y ← αAx + βy, y ← αA T x + βy, y ← αA H x + βy
+    DGEMV  performs one of the matrix-vector operations
+
+    y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+
+    where alpha and beta are scalars, x and y are vectors and A is an
+    m by n matrix.
     """
     from pyccel.stdlib.internal.blas import dgemv
 
@@ -208,7 +227,12 @@ def blas_dgbmv(kl : 'int32', ku: 'int32', alpha: 'float64',
                trans: 'bool' = False
               ):
     """
-    y ← αAx + βy, y ← αA T x + βy, y ← αA H x + βy
+    DGBMV  performs one of the matrix-vector operations
+
+    y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+
+    where alpha and beta are scalars, x and y are vectors and A is an
+    m by n band matrix, with kl sub-diagonals and ku super-diagonals.
     """
     from pyccel.stdlib.internal.blas import dgbmv
 
@@ -354,12 +378,12 @@ def blas_dtpmv(a: 'float64[:]', x: 'float64[:]',
                diag: 'bool' = False
               ):
     """
-    DTRMV  performs one of the matrix-vector operations
+    DTPMV  performs one of the matrix-vector operations
 
     x := A*x,   or   x := A**T*x,
 
     where x is an n element vector and  A is an n by n unit, or non-unit,
-    upper or lower triangular matrix.
+    upper or lower triangular matrix, supplied in packed form.
     """
     from pyccel.stdlib.internal.blas import dtpmv
 
@@ -470,7 +494,12 @@ def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,
               incy: 'int32' = 1,
               ):
     """
-    A ← αxy^T + A
+    DGER   performs the rank 1 operation
+
+    A := alpha*x*y**T + A,
+
+    where alpha is a scalar, x is an m element vector, y is an n element
+    vector and A is an m by n matrix.
     """
     from pyccel.stdlib.internal.blas import dger
 
@@ -595,10 +624,16 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
                trans_b: 'bool' = False
               ):
     """
-    C ← αAB + βC
-    C ← αAB^T + βC
-    C ← αA^TB + βC
-    C ← αA^TB^T + βC
+    DGEMM  performs one of the matrix-matrix operations
+
+    C := alpha*op( A )*op( B ) + beta*C,
+
+    where  op( X ) is one of
+
+    op( X ) = X   or   op( X ) = X**T,
+
+    alpha and beta are scalars, and A, B and C are matrices, with op( A )
+    an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
     """
     from pyccel.stdlib.internal.blas import dgemm
 
@@ -634,8 +669,16 @@ def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
                lower: 'bool' = False,
               ):
     """
-    C←αAB+βC
-    C←αBA+βC
+    DSYMM  performs one of the matrix-matrix operations
+
+    C := alpha*A*B + beta*C,
+
+    or
+
+    C := alpha*B*A + beta*C,
+
+    where alpha and beta are scalars,  A is a symmetric matrix and  B and
+    C are  m by n matrices.
     """
     from pyccel.stdlib.internal.blas import dsymm
 
@@ -669,8 +712,17 @@ def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](or
                trans: 'bool' = False,
               ):
     """
-    C ← αAA^T+βC
-    C ← αA^TA+βC
+    DSYRK  performs one of the symmetric rank k operations
+
+    C := alpha*A*A**T + beta*C,
+
+    or
+
+    C := alpha*A**T*A + beta*C,
+
+    where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+    and  A  is an  n by k  matrix in the first case and a  k by n  matrix
+    in the second case.
     """
     from pyccel.stdlib.internal.blas import dsyrk
 
@@ -703,8 +755,17 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
                trans: 'bool' = False,
               ):
     """
-    C ← αAB^T+αBA^T+βC
-    C ← αA^TB+αB^TA+βC
+    DSYR2K  performs one of the symmetric rank 2k operations
+
+    C := alpha*A*B**T + alpha*B*A**T + beta*C,
+
+    or
+
+    C := alpha*A**T*B + alpha*B**T*A + beta*C,
+
+    where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+    and  A and B  are  n by k  matrices  in the  first  case  and  k by n
+    matrices in the second case.
     """
     from pyccel.stdlib.internal.blas import dsyr2k
 
