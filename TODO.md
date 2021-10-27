@@ -56,12 +56,12 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
 | xGEMV       | S,D,C,Z      | D           |             |
-| xGBMV       | S,D,C,Z      | D           | NOT WORKING |
+| xGBMV       | S,D,C,Z      | D           |             |
 | xHEMV       | C,Z          |             |             |
 | xHBMV       | C,Z          |             |             |
 | xHPMV       | C,Z          |             |             |
 | xSYMV       | S,D          | D           |             |
-| xSBMV       | S,D          | D           | NOT WORKING |
+| xSBMV       | S,D          | D           |             |
 | xSPMV       | S,D          | D           |             |
 | xTRMV       | S,D,C,Z      | D           |             |
 | xTBMV       | S,D,C,Z      |             |             |

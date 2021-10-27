@@ -37,16 +37,12 @@ def general_to_band(kl, ku, a):
     n = a.shape[1]
     ab = np.zeros((kl+ku+1, n))
 
-    nsub = 1
-    nsuper = 2
-    ndiag = nsub + 1 + nsuper
-    for icol in range(n):
-        i1 = max (1, icol - nsuper)
-        i2 = min (n, icol + nsub)
-        for irow in range(i1, i2+1):
-            # we substruct 1 for Python indexing
-            irowb = irow - icol + ndiag - 1
-            ab[irowb,icol] = a[irow-1,icol]
+    for j in range(n):
+        k = ku - j
+        i1 = max (j - ku, 0)
+        i2 = min (j + kl + 1, n)
+        for i in range(i1, i2):
+            ab[k+i,j] = a[i,j]
 
     return ab
 
@@ -297,28 +293,37 @@ def test_dgemv_1():
     # ...
 
 # ==============================================================================
-# TODO not working yet
 def test_dgbmv_1():
     from blas import blas_dgbmv
 
-    n = 8
-    ag = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
-    ku = kl = np.int32(2)
-    a = general_to_band(kl, ku, ag).copy(order='F')
+#    n = 8
+#    a = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
+#    ku = kl = np.int32(2)
+
+    n = 5
+    kl = np.int32(2)
+    ku = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [21, 22, 23,  0,  0],
+                  [31, 32, 33, 34,  0],
+                  [ 0, 42, 43, 44, 45],
+                  [ 0,  0, 53, 54, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(kl, ku, a).copy(order='F')
 
     np.random.seed(2021)
 
     x = np.random.random(n)
-    y = np.zeros(n)
+    y = np.random.random(n)
 
     # ...
-    alpha = 1.
-    beta = 0.
-    expected = alpha * ag @ x + beta * y
-    blas_dgbmv (kl, ku, alpha, a, x, y, beta=beta)
-#    print('> expected = ', expected)
-#    print('> y        = ', y)
-#    assert(np.allclose(y, expected, 1.e-14))
+    alpha = 2.
+    beta = 0.5
+    expected = y.copy()
+    expected = sp_blas.dgbmv (n, n, kl, ku, alpha, ab, x, beta=beta, y=expected)
+    blas_dgbmv (kl, ku, alpha, ab, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-14))
     # ...
 
 # ==============================================================================
@@ -347,14 +352,19 @@ def test_dsymv_1():
     # ...
 
 # ==============================================================================
-# TODO not working yet
 def test_dsbmv_1():
     from blas import blas_dsbmv
 
-    n = 8
-    ag = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
+    n = 5
     k = np.int32(2)
-    a = general_to_band(k, k, ag)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [12, 22, 23,  0,  0],
+                  [ 0, 32, 33, 34,  0],
+                  [ 0,  0, 34, 44, 45],
+                  [ 0,  0,  0, 45, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(k, k, a).copy(order='F')
 
     np.random.seed(2021)
 
@@ -362,13 +372,12 @@ def test_dsbmv_1():
     y = np.zeros(n)
 
     # ...
-    alpha = 1.
-    beta = 0.
-    expected = alpha * ag @ x
-    blas_dsbmv (k, alpha, a, x, y, beta=beta)
-#    print('> expected = ', expected)
-#    print('> y        = ', y)
-#    assert(np.allclose(y, expected, 1.e-14))
+    alpha = 2.
+    beta = 0.5
+    expected = y.copy()
+    expected = sp_blas.dsbmv (k, alpha, ab, x, beta=beta, y=expected)
+    blas_dsbmv (k, alpha, ab, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-14))
     # ...
 
 # ==============================================================================

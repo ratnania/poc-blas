@@ -200,8 +200,8 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     dgemv (flag_trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dgbmv(kl : 'int32', ku: 'int32',
-               alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
+def blas_dgbmv(kl : 'int32', ku: 'int32', alpha: 'float64',
+               a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
@@ -214,10 +214,9 @@ def blas_dgbmv(kl : 'int32', ku: 'int32',
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
-    # TODO which one?
-    #      shall we put lda as optional kwarg?
+
     lda = m
-#    lda = kl + ku + 1
+#    lda = np.int32(1) + ku + kl
 
     # ...
     flag_trans = 'N'
@@ -255,15 +254,20 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     dsymv (flag_uplo, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dsbmv(k : 'int32',
-               alpha: 'float64', a: 'float64[:,:]', x: 'float64[:]', y: 'float64[:]',
+def blas_dsbmv(k : 'int32', alpha: 'float64',
+               a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
                beta: 'float64' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                lower: 'bool' = False
               ):
     """
-    y ← αAx + βy
+    DSBMV  performs the matrix-vector  operation
+
+    y := alpha*A*x + beta*y,
+
+    where alpha and beta are scalars, x and y are n element vectors and
+    A is an n by n symmetric band matrix, with k super-diagonals.
     """
     from pyccel.stdlib.internal.blas import dsbmv
 
