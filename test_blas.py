@@ -457,6 +457,27 @@ def test_dtrsv_1():
     # ...
 
 # ==============================================================================
+def test_dtpsv_1():
+    from blas import blas_dtpsv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+
+    # make a triangular
+    a = triangulize(a)
+    ap = general_to_packed(a)
+
+    # ...
+    expected = x.copy()
+    x = a @ x
+    blas_dtpsv (ap, x)
+    assert(np.allclose(x, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dger_1():
     from blas import blas_dger
 
@@ -750,6 +771,7 @@ if __name__ == '__main__':
     test_dtrmv_1()
     test_dtpmv_1()
     test_dtrsv_1()
+    test_dtpsv_1()
     test_dger_1()
     test_dsyr_1()
     test_dspr_1()
