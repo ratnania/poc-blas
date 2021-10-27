@@ -426,6 +426,34 @@ def test_dtrmv_1():
     # ...
 
 # ==============================================================================
+def test_dtbmv_1():
+    from blas import blas_dtbmv
+
+    n = 5
+    k = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [12, 22, 23,  0,  0],
+                  [ 0, 32, 33, 34,  0],
+                  [ 0,  0, 34, 44, 45],
+                  [ 0,  0,  0, 45, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(k, k, a).copy(order='F')
+
+    np.random.seed(2021)
+
+    x = np.random.random(n)
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    expected = a @ x
+    blas_dtbmv (k, ab, x)
+    assert(np.allclose(x, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dtpmv_1():
     from blas import blas_dtpmv
 
@@ -778,6 +806,7 @@ if __name__ == '__main__':
     test_dsbmv_1()
     test_dspmv_1()
     test_dtrmv_1()
+    test_dtbmv_1()
     test_dtpmv_1()
     test_dtrsv_1()
     test_dtpsv_1()

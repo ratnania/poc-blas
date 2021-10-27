@@ -371,6 +371,44 @@ def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     dtrmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
 
 # ==============================================================================
+def blas_dtbmv(k : 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTBMV  performs one of the matrix-vector operations
+
+    x := A*x,   or   x := A**T*x,
+
+    where x is an n element vector and  A is an n by n unit, or non-unit,
+    upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+    """
+    from pyccel.stdlib.internal.blas import dtbmv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    dtbmv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
+
+# ==============================================================================
 def blas_dtpmv(a: 'float64[:]', x: 'float64[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
