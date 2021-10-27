@@ -279,6 +279,32 @@ def blas_dsbmv(k : 'int32',
     dsbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
+def blas_dspmv(alpha: 'float64', a: 'float64[:]', x: 'float64[:]', y: 'float64[:]',
+               beta: 'float64' = 0.,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
+               lower: 'bool' = False
+              ):
+    """
+    DSPMV  performs the matrix-vector operation
+
+    y := alpha*A*x + beta*y,
+
+    where alpha and beta are scalars, x and y are n element vectors and
+    A is an n by n symmetric matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import dspmv
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    dspmv (flag_uplo, n, alpha, a, x, incx, beta, y, incy)
+
+# ==============================================================================
 def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,

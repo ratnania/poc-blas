@@ -372,6 +372,32 @@ def test_dsbmv_1():
     # ...
 
 # ==============================================================================
+def test_dspmv_1():
+    from blas import blas_dspmv
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+    y = np.random.random(n)
+
+    # make a symmetric
+    a = symmetrize(a)
+    ap = general_to_packed(a)
+
+    # ...
+    alpha = 1.
+    beta = 0.5
+    expected = alpha * a @ x + beta * y
+
+    # make a triangular
+    a = triangulize(a)
+    blas_dspmv (alpha, ap, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dtrmv_1():
     from blas import blas_dtrmv
 
@@ -700,6 +726,7 @@ if __name__ == '__main__':
     test_dgbmv_1()
     test_dsymv_1()
     test_dsbmv_1()
+    test_dspmv_1()
     test_dtrmv_1()
     test_dtrsv_1()
     test_dger_1()

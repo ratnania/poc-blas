@@ -62,7 +62,7 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 | xHPMV       | C,Z          |             |             |
 | xSYMV       | S,D          | D           |             |
 | xSBMV       | S,D          | D           | NOT WORKING |
-| xSPMV       | S,D          |             |             |
+| xSPMV       | S,D          | D           |             |
 | xTRMV       | S,D,C,Z      | D           |             |
 | xTBMV       | S,D,C,Z      |             |             |
 | xTPMV       | S,D,C,Z      |             |             |
