@@ -193,11 +193,11 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     lda = m
 
     # ...
-    flag = 'N'
-    if trans: flag = 'T'
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
     # ...
 
-    dgemv (flag, m, n, alpha, a, lda, x, incx, beta, y, incy)
+    dgemv (flag_trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
 def blas_dgbmv(kl : 'int32', ku: 'int32',
@@ -220,11 +220,11 @@ def blas_dgbmv(kl : 'int32', ku: 'int32',
 #    lda = kl + ku + 1
 
     # ...
-    flag = 'N'
-    if trans: flag = 'T'
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
     # ...
 
-    dgbmv (flag, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
+    dgbmv (flag_trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
 def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
@@ -248,11 +248,11 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     lda = m
 
     # ...
-    flag = 'U'
-    if lower : flag = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
-    dsymv (flag, n, alpha, a, lda, x, incx, beta, y, incy)
+    dsymv (flag_uplo, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
 def blas_dsbmv(k : 'int32',
@@ -272,11 +272,11 @@ def blas_dsbmv(k : 'int32',
     lda = m
 
     # ...
-    flag = 'U'
-    if lower : flag = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
-    dsbmv (flag, n, k, alpha, a, lda, x, incx, beta, y, incy)
+    dsbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
 def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
@@ -394,11 +394,35 @@ def blas_dsyr(alpha: 'float64', x: 'float64[:]', a: 'float64[:,:](order=F)',
     lda = m
 
     # ...
-    flag = 'U'
-    if lower : flag = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
-    dsyr (flag, n, alpha, x, incx, a, lda)
+    dsyr (flag_uplo, n, alpha, x, incx, a, lda)
+
+# ==============================================================================
+def blas_dspr(alpha: 'float64', x: 'float64[:]', a: 'float64[:]',
+              incx: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    DSPR    performs the symmetric rank 1 operation
+
+    A := alpha*x*x**T + A,
+
+    where alpha is a real scalar, x is an n element vector and A is an
+    n by n symmetric matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import dspr
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    dspr (flag_uplo, n, alpha, x, incx, a)
 
 # ==============================================================================
 def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:](order=F)',
@@ -421,11 +445,11 @@ def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
     lda = m
 
     # ...
-    flag = 'U'
-    if lower : flag = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
-    dsyr2 (flag, n, alpha, x, incx, y, incy, a, lda)
+    dsyr2 (flag_uplo, n, alpha, x, incx, y, incy, a, lda)
 
 # ==============================================================================
 #
@@ -451,11 +475,11 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     n = np.int32(c.shape[1])
 
     # ...
-    flag_a = 'N'
-    if trans_a: flag_a = 'T'
+    flag_trans_a = 'N'
+    if trans_a: flag_trans_a = 'T'
 
-    flag_b = 'N'
-    if trans_b: flag_b = 'T'
+    flag_trans_b = 'N'
+    if trans_b: flag_trans_b = 'T'
     # ...
 
     # ...
@@ -470,7 +494,7 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     ldb = m
     ldc = l
 
-    dgemm (flag_a, flag_b, l, n, m, alpha, a, lda, b, ldb, beta, c, ldc)
+    dgemm (flag_trans_a, flag_trans_b, l, n, m, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
 def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
@@ -498,14 +522,14 @@ def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     # ...
 
     # ...
-    flag_lower = 'U'
-    if lower : flag_lower = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
     ldb = m
     ldc = m
 
-    dsymm (flag_side, flag_lower, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+    dsymm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
 def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
@@ -533,13 +557,13 @@ def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](or
     # ...
 
     # ...
-    flag_lower = 'U'
-    if lower : flag_lower = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
     ldc = n
 
-    dsyrk (flag_lower, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
+    dsyrk (flag_uplo, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
 
 # ==============================================================================
 def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
@@ -570,13 +594,13 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
     # ...
 
     # ...
-    flag_lower = 'U'
-    if lower : flag_lower = 'L'
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
     # ...
 
     ldc = n
 
-    dsyr2k (flag_lower, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+    dsyr2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
 def blas_dtrmm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)',

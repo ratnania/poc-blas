@@ -51,6 +51,25 @@ def general_to_band(kl, ku, a):
     return ab
 
 # ==============================================================================
+def general_to_packed(a, lower=False):
+    n = a.shape[0]
+    ap = np.zeros(n*(n+1)//2)
+    if lower:
+        k = 0
+        for j in range(n):
+            for i in range(j,n):
+                ap[k] = a[i,j]
+                k += 1
+    else:
+        k = 0
+        for j in range(n):
+            for i in range(j+1):
+                ap[k] = a[i,j]
+                k += 1
+
+    return ap
+
+# ==============================================================================
 #
 #                                  LEVEL 1
 #
@@ -432,6 +451,28 @@ def test_dsyr_1():
     # ...
 
 # ==============================================================================
+def test_dspr_1():
+    from blas import blas_dspr
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)).copy(order='F')
+    x = np.random.random(n)
+
+    # syrketrize a
+    a = symmetrize(a)
+    ap = general_to_packed(a)
+
+    # ...
+    alpha = 1.
+    expected = alpha * np.outer(x.T, x) + a
+    expected = general_to_packed(expected)
+    blas_dspr (alpha, x, ap, lower=False)
+    assert(np.allclose(ap, expected, 1.e-14))
+    # ...
+
+# ==============================================================================
 def test_dsyr2_1():
     from blas import blas_dsyr2
 
@@ -640,6 +681,7 @@ if __name__ == '__main__':
     test_dtrsv_1()
     test_dger_1()
     test_dsyr_1()
+    test_dspr_1()
     test_dsyr2_1()
     # ...
 
