@@ -13,59 +13,59 @@ import numpy as np
 # ==============================================================================
 
 # ==============================================================================
-def blas_drotg(a: 'float64', b: 'float64',
-               c: 'float64' = 0.,
-               s: 'float64' = 0.,
+def blas_srotg(a: 'float32', b: 'float32',
+               c: 'float32' = 0.,
+               s: 'float32' = 0.,
               ):
     """
     Generate plane rotation
     """
-    from pyccel.stdlib.internal.blas import drotg
+    from pyccel.stdlib.internal.blas import srotg
 
-    drotg (a, b, c, s)
+    srotg (a, b, c, s)
 
     return c, s
 
 # ==============================================================================
-def blas_drotmg(d1: 'float64', d2: 'float64', x1: 'float64', y1: 'float64',
-                param: 'float64[:]'):
+def blas_srotmg(d1: 'float32', d2: 'float32', x1: 'float32', y1: 'float32',
+                param: 'float32[:]'):
     """
     Generate modified plane rotation
     """
-    from pyccel.stdlib.internal.blas import drotmg
+    from pyccel.stdlib.internal.blas import srotmg
 
-    drotmg (d1, d2, x1, y1, param)
+    srotmg (d1, d2, x1, y1, param)
 
 # ==============================================================================
-def blas_drot(x: 'float64[:]', y: 'float64[:]', c: 'float64', s: 'float64',
+def blas_srot(x: 'float32[:]', y: 'float32[:]', c: 'float32', s: 'float32',
               incx: 'int32' = 1,
               incy: 'int32' = 1
               ):
     """
     Apply plane rotation
     """
-    from pyccel.stdlib.internal.blas import drot
+    from pyccel.stdlib.internal.blas import srot
 
     n = np.int32(x.shape[0])
 
-    drot (n, x, incx, y, incy, c, s)
+    srot (n, x, incx, y, incy, c, s)
 
 # ==============================================================================
-def blas_drotm(x: 'float64[:]', y: 'float64[:]', param: 'float64[:]',
+def blas_srotm(x: 'float32[:]', y: 'float32[:]', param: 'float32[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
     """
     Apply modified plane rotation
     """
-    from pyccel.stdlib.internal.blas import drotm
+    from pyccel.stdlib.internal.blas import srotm
 
     n = np.int32(x.shape[0])
 
-    drotm (n, x, incx, y, incy, param)
+    srotm (n, x, incx, y, incy, param)
 
 # ==============================================================================
-def blas_dcopy(x: 'float64[:]', y: 'float64[:]',
+def blas_scopy(x: 'float32[:]', y: 'float32[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
@@ -73,14 +73,14 @@ def blas_dcopy(x: 'float64[:]', y: 'float64[:]',
     DCOPY copies a vector, x, to a vector, y.
     uses unrolled loops for increments equal to 1.
     """
-    from pyccel.stdlib.internal.blas import dcopy
+    from pyccel.stdlib.internal.blas import scopy
 
     n = np.int32(x.shape[0])
 
-    dcopy (n, x, incx, y, incy)
+    scopy (n, x, incx, y, incy)
 
 # ==============================================================================
-def blas_dswap(x: 'float64[:]', y: 'float64[:]',
+def blas_sswap(x: 'float32[:]', y: 'float32[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
@@ -88,28 +88,28 @@ def blas_dswap(x: 'float64[:]', y: 'float64[:]',
     DSWAP interchanges two vectors.
     uses unrolled loops for increments equal to 1.
     """
-    from pyccel.stdlib.internal.blas import dswap
+    from pyccel.stdlib.internal.blas import sswap
 
     n = np.int32(x.shape[0])
 
-    dswap (n, x, incx, y, incy)
+    sswap (n, x, incx, y, incy)
 
 # ==============================================================================
-def blas_dscal(alpha: 'float64', x: 'float64[:]',
+def blas_sscal(alpha: 'float32', x: 'float32[:]',
                incx: 'int32' = 1,
               ):
     """
     DSCAL scales a vector by a constant.
     uses unrolled loops for increment equal to 1.
     """
-    from pyccel.stdlib.internal.blas import dscal
+    from pyccel.stdlib.internal.blas import sscal
 
     n = np.int32(x.shape[0])
 
-    dscal (n, alpha, x, incx)
+    sscal (n, alpha, x, incx)
 
 # ==============================================================================
-def blas_ddot(x: 'float64[:]', y: 'float64[:]',
+def blas_sdot(x: 'float32[:]', y: 'float32[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
@@ -117,15 +117,15 @@ def blas_ddot(x: 'float64[:]', y: 'float64[:]',
     DDOT forms the dot product of two vectors.
     uses unrolled loops for increments equal to one.
     """
-    from pyccel.stdlib.internal.blas import ddot
+    from pyccel.stdlib.internal.blas import sdot
 
     n = np.int32(x.shape[0])
 
-    return ddot (n, x, incx, y, incy)
+    return sdot (n, x, incx, y, incy)
 
 # ==============================================================================
-def blas_daxpy(x: 'float64[:]', y: 'float64[:]',
-               a: 'float64' = 1.,
+def blas_saxpy(x: 'float32[:]', y: 'float32[:]',
+               a: 'float32' = 1.,
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
@@ -133,14 +133,14 @@ def blas_daxpy(x: 'float64[:]', y: 'float64[:]',
     DAXPY constant times a vector plus a vector.
     uses unrolled loops for increments equal to one.
     """
-    from pyccel.stdlib.internal.blas import daxpy
+    from pyccel.stdlib.internal.blas import saxpy
 
     n = np.int32(x.shape[0])
 
-    daxpy (n, a, x, incx, y, incy)
+    saxpy (n, a, x, incx, y, incy)
 
 # ==============================================================================
-def blas_dnrm2(x: 'float64[:]',
+def blas_snrm2(x: 'float32[:]',
                incx: 'int32' = 1,
               ):
     """
@@ -149,37 +149,37 @@ def blas_dnrm2(x: 'float64[:]',
 
     DNRM2 := sqrt( x'*x )
     """
-    from pyccel.stdlib.internal.blas import dnrm2
+    from pyccel.stdlib.internal.blas import snrm2
 
     n = np.int32(x.shape[0])
 
-    return dnrm2 (n, x, incx)
+    return snrm2 (n, x, incx)
 
 # ==============================================================================
-def blas_dasum(x: 'float64[:]',
+def blas_sasum(x: 'float32[:]',
                incx: 'int32' = 1,
               ):
     """
     DASUM takes the sum of the absolute values.
     """
-    from pyccel.stdlib.internal.blas import dasum
+    from pyccel.stdlib.internal.blas import sasum
 
     n = np.int32(x.shape[0])
 
-    return dasum (n, x, incx)
+    return sasum (n, x, incx)
 
 # ==============================================================================
-def blas_idamax(x: 'float64[:]',
+def blas_idamax(x: 'float32[:]',
                incx: 'int32' = 1,
               ):
     """
     IDAMAX finds the index of the first element having maximum absolute value.
     """
-    from pyccel.stdlib.internal.blas import idamax
+    from pyccel.stdlib.internal.blas import isamax
 
     n = np.int32(x.shape[0])
 
-    i = idamax (n, x, incx)
+    i = isamax (n, x, incx)
     # we must substruct 1 because of the fortran indexing
     i = i-1
     return i
@@ -191,8 +191,8 @@ def blas_idamax(x: 'float64[:]',
 # ==============================================================================
 
 # ==============================================================================
-def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 0.,
+def blas_sgemv(alpha: 'float32', a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
+               beta: 'float32' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                trans: 'bool' = False
@@ -205,7 +205,7 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     where alpha and beta are scalars, x and y are vectors and A is an
     m by n matrix.
     """
-    from pyccel.stdlib.internal.blas import dgemv
+    from pyccel.stdlib.internal.blas import sgemv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -216,12 +216,12 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     if trans: flag_trans = 'T'
     # ...
 
-    dgemv (flag_trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
+    sgemv (flag_trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dgbmv(kl : 'int32', ku: 'int32', alpha: 'float64',
-               a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 0.,
+def blas_sgbmv(kl : 'int32', ku: 'int32', alpha: 'float32',
+               a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
+               beta: 'float32' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                trans: 'bool' = False
@@ -234,7 +234,7 @@ def blas_dgbmv(kl : 'int32', ku: 'int32', alpha: 'float64',
     where alpha and beta are scalars, x and y are vectors and A is an
     m by n band matrix, with kl sub-diagonals and ku super-diagonals.
     """
-    from pyccel.stdlib.internal.blas import dgbmv
+    from pyccel.stdlib.internal.blas import sgbmv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -247,11 +247,11 @@ def blas_dgbmv(kl : 'int32', ku: 'int32', alpha: 'float64',
     if trans: flag_trans = 'T'
     # ...
 
-    dgbmv (flag_trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
+    sgbmv (flag_trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 0.,
+def blas_ssymv(alpha: 'float32', a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
+               beta: 'float32' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                lower: 'bool' = False
@@ -264,7 +264,7 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     where alpha and beta are scalars, x and y are n element vectors and
     A is an n by n symmetric matrix.
     """
-    from pyccel.stdlib.internal.blas import dsymv
+    from pyccel.stdlib.internal.blas import ssymv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -275,12 +275,12 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
     if lower : flag_uplo = 'L'
     # ...
 
-    dsymv (flag_uplo, n, alpha, a, lda, x, incx, beta, y, incy)
+    ssymv (flag_uplo, n, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dsbmv(k : 'int32', alpha: 'float64',
-               a: 'float64[:,:](order=F)', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 0.,
+def blas_ssbmv(k : 'int32', alpha: 'float32',
+               a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
+               beta: 'float32' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                lower: 'bool' = False
@@ -293,7 +293,7 @@ def blas_dsbmv(k : 'int32', alpha: 'float64',
     where alpha and beta are scalars, x and y are n element vectors and
     A is an n by n symmetric band matrix, with k super-diagonals.
     """
-    from pyccel.stdlib.internal.blas import dsbmv
+    from pyccel.stdlib.internal.blas import ssbmv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -304,11 +304,11 @@ def blas_dsbmv(k : 'int32', alpha: 'float64',
     if lower : flag_uplo = 'L'
     # ...
 
-    dsbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
+    ssbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dspmv(alpha: 'float64', a: 'float64[:]', x: 'float64[:]', y: 'float64[:]',
-               beta: 'float64' = 0.,
+def blas_sspmv(alpha: 'float32', a: 'float32[:]', x: 'float32[:]', y: 'float32[:]',
+               beta: 'float32' = 0.,
                incx: 'int32' = 1,
                incy: 'int32' = 1,
                lower: 'bool' = False
@@ -321,7 +321,7 @@ def blas_dspmv(alpha: 'float64', a: 'float64[:]', x: 'float64[:]', y: 'float64[:
     where alpha and beta are scalars, x and y are n element vectors and
     A is an n by n symmetric matrix, supplied in packed form.
     """
-    from pyccel.stdlib.internal.blas import dspmv
+    from pyccel.stdlib.internal.blas import sspmv
 
     n = np.int32(x.shape[0])
 
@@ -330,10 +330,10 @@ def blas_dspmv(alpha: 'float64', a: 'float64[:]', x: 'float64[:]', y: 'float64[:
     if lower : flag_uplo = 'L'
     # ...
 
-    dspmv (flag_uplo, n, alpha, a, x, incx, beta, y, incy)
+    sspmv (flag_uplo, n, alpha, a, x, incx, beta, y, incy)
 
 # ==============================================================================
-def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
+def blas_strmv(a: 'float32[:,:](order=F)', x: 'float32[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
                trans: 'bool' = False,
@@ -347,7 +347,7 @@ def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     where x is an n element vector and  A is an n by n unit, or non-unit,
     upper or lower triangular matrix.
     """
-    from pyccel.stdlib.internal.blas import dtrmv
+    from pyccel.stdlib.internal.blas import strmv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -368,10 +368,10 @@ def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     if diag: flag_diag = 'U'
     # ...
 
-    dtrmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
+    strmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
 
 # ==============================================================================
-def blas_dtbmv(k : 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
+def blas_stbmv(k : 'int32', a: 'float32[:,:](order=F)', x: 'float32[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
                trans: 'bool' = False,
@@ -385,7 +385,7 @@ def blas_dtbmv(k : 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
     where x is an n element vector and  A is an n by n unit, or non-unit,
     upper or lower triangular band matrix, with ( k + 1 ) diagonals.
     """
-    from pyccel.stdlib.internal.blas import dtbmv
+    from pyccel.stdlib.internal.blas import stbmv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -406,10 +406,10 @@ def blas_dtbmv(k : 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
     if diag: flag_diag = 'U'
     # ...
 
-    dtbmv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
+    stbmv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
 
 # ==============================================================================
-def blas_dtpmv(a: 'float64[:]', x: 'float64[:]',
+def blas_stpmv(a: 'float32[:]', x: 'float32[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
                trans: 'bool' = False,
@@ -423,7 +423,7 @@ def blas_dtpmv(a: 'float64[:]', x: 'float64[:]',
     where x is an n element vector and  A is an n by n unit, or non-unit,
     upper or lower triangular matrix, supplied in packed form.
     """
-    from pyccel.stdlib.internal.blas import dtpmv
+    from pyccel.stdlib.internal.blas import stpmv
 
     n = np.int32(x.shape[0])
 
@@ -442,10 +442,10 @@ def blas_dtpmv(a: 'float64[:]', x: 'float64[:]',
     if diag: flag_diag = 'U'
     # ...
 
-    dtpmv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
+    stpmv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
 
 # ==============================================================================
-def blas_dtrsv(a: 'float64[:,:](order=F)', x: 'float64[:]',
+def blas_strsv(a: 'float32[:,:](order=F)', x: 'float32[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
                trans: 'bool' = False,
@@ -463,7 +463,7 @@ def blas_dtrsv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     routine. Such tests must be performed before calling this routine.
     """
 
-    from pyccel.stdlib.internal.blas import dtrsv
+    from pyccel.stdlib.internal.blas import strsv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -484,10 +484,10 @@ def blas_dtrsv(a: 'float64[:,:](order=F)', x: 'float64[:]',
     if diag: flag_diag = 'U'
     # ...
 
-    dtrsv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
+    strsv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
 
 # ==============================================================================
-def blas_dtbsv(k: 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
+def blas_stbsv(k: 'int32', a: 'float32[:,:](order=F)', x: 'float32[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
                trans: 'bool' = False,
@@ -506,7 +506,7 @@ def blas_dtbsv(k: 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
     routine. Such tests must be performed before calling this routine.
     """
 
-    from pyccel.stdlib.internal.blas import dtbsv
+    from pyccel.stdlib.internal.blas import stbsv
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -527,10 +527,10 @@ def blas_dtbsv(k: 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
     if diag: flag_diag = 'U'
     # ...
 
-    dtbsv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
+    stbsv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
 
 # ==============================================================================
-def blas_dtpsv(a: 'float64[:]', x: 'float64[:]',
+def blas_stpsv(a: 'float32[:]', x: 'float32[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
                trans: 'bool' = False,
@@ -548,7 +548,7 @@ def blas_dtpsv(a: 'float64[:]', x: 'float64[:]',
     routine. Such tests must be performed before calling this routine.
     """
 
-    from pyccel.stdlib.internal.blas import dtpsv
+    from pyccel.stdlib.internal.blas import stpsv
 
     n = np.int32(x.shape[0])
 
@@ -567,10 +567,10 @@ def blas_dtpsv(a: 'float64[:]', x: 'float64[:]',
     if diag: flag_diag = 'U'
     # ...
 
-    dtpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
+    stpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
 
 # ==============================================================================
-def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:]',
+def blas_sger(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:,:]',
               incx: 'int32' = 1,
               incy: 'int32' = 1,
               ):
@@ -582,16 +582,16 @@ def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,
     where alpha is a scalar, x is an m element vector, y is an n element
     vector and A is an m by n matrix.
     """
-    from pyccel.stdlib.internal.blas import dger
+    from pyccel.stdlib.internal.blas import sger
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
 
-    dger (m, n, alpha, x, incx, y, incy, a, lda)
+    sger (m, n, alpha, x, incx, y, incy, a, lda)
 
 # ==============================================================================
-def blas_dsyr(alpha: 'float64', x: 'float64[:]', a: 'float64[:,:](order=F)',
+def blas_ssyr(alpha: 'float32', x: 'float32[:]', a: 'float32[:,:](order=F)',
               incx: 'int32' = 1,
               lower: 'bool' = False
               ):
@@ -603,7 +603,7 @@ def blas_dsyr(alpha: 'float64', x: 'float64[:]', a: 'float64[:,:](order=F)',
     where alpha is a real scalar, x is an n element vector and A is an
     n by n symmetric matrix.
     """
-    from pyccel.stdlib.internal.blas import dsyr
+    from pyccel.stdlib.internal.blas import ssyr
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -614,10 +614,10 @@ def blas_dsyr(alpha: 'float64', x: 'float64[:]', a: 'float64[:,:](order=F)',
     if lower : flag_uplo = 'L'
     # ...
 
-    dsyr (flag_uplo, n, alpha, x, incx, a, lda)
+    ssyr (flag_uplo, n, alpha, x, incx, a, lda)
 
 # ==============================================================================
-def blas_dspr(alpha: 'float64', x: 'float64[:]', a: 'float64[:]',
+def blas_sspr(alpha: 'float32', x: 'float32[:]', a: 'float32[:]',
               incx: 'int32' = 1,
               lower: 'bool' = False
               ):
@@ -629,7 +629,7 @@ def blas_dspr(alpha: 'float64', x: 'float64[:]', a: 'float64[:]',
     where alpha is a real scalar, x is an n element vector and A is an
     n by n symmetric matrix, supplied in packed form.
     """
-    from pyccel.stdlib.internal.blas import dspr
+    from pyccel.stdlib.internal.blas import sspr
 
     n = np.int32(x.shape[0])
 
@@ -638,10 +638,10 @@ def blas_dspr(alpha: 'float64', x: 'float64[:]', a: 'float64[:]',
     if lower : flag_uplo = 'L'
     # ...
 
-    dspr (flag_uplo, n, alpha, x, incx, a)
+    sspr (flag_uplo, n, alpha, x, incx, a)
 
 # ==============================================================================
-def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:](order=F)',
+def blas_ssyr2(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:,:](order=F)',
               incx: 'int32' = 1,
               incy: 'int32' = 1,
               lower: 'bool' = False
@@ -654,7 +654,7 @@ def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
     where alpha is a scalar, x and y are n element vectors and A is an n
     by n symmetric matrix.
     """
-    from pyccel.stdlib.internal.blas import dsyr2
+    from pyccel.stdlib.internal.blas import ssyr2
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -665,10 +665,10 @@ def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
     if lower : flag_uplo = 'L'
     # ...
 
-    dsyr2 (flag_uplo, n, alpha, x, incx, y, incy, a, lda)
+    ssyr2 (flag_uplo, n, alpha, x, incx, y, incy, a, lda)
 
 # ==============================================================================
-def blas_dspr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:]',
+def blas_sspr2(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:]',
               incx: 'int32' = 1,
               incy: 'int32' = 1,
               lower: 'bool' = False
@@ -681,7 +681,7 @@ def blas_dspr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
     where alpha is a scalar, x and y are n element vectors and A is an
     n by n symmetric matrix, supplied in packed form.
     """
-    from pyccel.stdlib.internal.blas import dspr2
+    from pyccel.stdlib.internal.blas import sspr2
 
     n = np.int32(x.shape[0])
 
@@ -690,7 +690,7 @@ def blas_dspr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
     if lower : flag_uplo = 'L'
     # ...
 
-    dspr2 (flag_uplo, n, alpha, x, incx, y, incy, a)
+    sspr2 (flag_uplo, n, alpha, x, incx, y, incy, a)
 
 # ==============================================================================
 #
@@ -699,8 +699,8 @@ def blas_dspr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
 # ==============================================================================
 
 # ==============================================================================
-def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
-               beta: 'float64' = 0.,
+def blas_sgemm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
+               beta: 'float32' = 0.,
                trans_a: 'bool' = False,
                trans_b: 'bool' = False
               ):
@@ -716,7 +716,7 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     alpha and beta are scalars, and A, B and C are matrices, with op( A )
     an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
     """
-    from pyccel.stdlib.internal.blas import dgemm
+    from pyccel.stdlib.internal.blas import sgemm
 
     l = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -741,11 +741,11 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     ldb = m
     ldc = l
 
-    dgemm (flag_trans_a, flag_trans_b, l, n, m, alpha, a, lda, b, ldb, beta, c, ldc)
+    sgemm (flag_trans_a, flag_trans_b, l, n, m, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
-def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
-               beta: 'float64' = 0.,
+def blas_ssymm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
+               beta: 'float32' = 0.,
                side: 'bool' = False,
                lower: 'bool' = False,
               ):
@@ -761,7 +761,7 @@ def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     where alpha and beta are scalars,  A is a symmetric matrix and  B and
     C are  m by n matrices.
     """
-    from pyccel.stdlib.internal.blas import dsymm
+    from pyccel.stdlib.internal.blas import ssymm
 
     m = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -784,11 +784,11 @@ def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
     ldb = m
     ldc = m
 
-    dsymm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+    ssymm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
-def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
-               beta: 'float64' = 0.,
+def blas_ssyrk(alpha: 'float32', a: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
+               beta: 'float32' = 0.,
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
@@ -805,7 +805,7 @@ def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](or
     and  A  is an  n by k  matrix in the first case and a  k by n  matrix
     in the second case.
     """
-    from pyccel.stdlib.internal.blas import dsyrk
+    from pyccel.stdlib.internal.blas import ssyrk
 
     n = np.int32(c.shape[0])
     k = np.int32(c.shape[1])
@@ -827,11 +827,11 @@ def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](or
 
     ldc = n
 
-    dsyrk (flag_uplo, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
+    ssyrk (flag_uplo, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
 
 # ==============================================================================
-def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)', c: 'float64[:,:](order=F)',
-               beta: 'float64' = 0.,
+def blas_ssyr2k(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
+               beta: 'float32' = 0.,
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
@@ -848,7 +848,7 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
     and  A and B  are  n by k  matrices  in the  first  case  and  k by n
     matrices in the second case.
     """
-    from pyccel.stdlib.internal.blas import dsyr2k
+    from pyccel.stdlib.internal.blas import ssyr2k
 
     n = np.int32(c.shape[0])
 
@@ -873,10 +873,10 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
 
     ldc = n
 
-    dsyr2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+    ssyr2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
-def blas_dtrmm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)',
+def blas_strmm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)',
                side: 'bool' = False,
                lower: 'bool' = False,
                trans_a: 'bool' = False,
@@ -892,7 +892,7 @@ def blas_dtrmm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
 
     op( A ) = A   or   op( A ) = A**T.
     """
-    from pyccel.stdlib.internal.blas import dtrmm
+    from pyccel.stdlib.internal.blas import strmm
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])
@@ -924,10 +924,10 @@ def blas_dtrmm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
 
     ldb = m
 
-    dtrmm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
+    strmm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
 
 # ==============================================================================
-def blas_dtrsm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](order=F)',
+def blas_strsm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)',
                side: 'bool' = False,
                lower: 'bool' = False,
                trans_a: 'bool' = False,
@@ -945,7 +945,7 @@ def blas_dtrsm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
 
     The matrix X is overwritten on B.
     """
-    from pyccel.stdlib.internal.blas import dtrsm
+    from pyccel.stdlib.internal.blas import strsm
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])
@@ -977,4 +977,4 @@ def blas_dtrsm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
 
     ldb = m
 
-    dtrsm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
+    strsm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
