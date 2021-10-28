@@ -73,7 +73,7 @@ def general_to_packed(a, lower=False):
 
 # ==============================================================================
 def test_drotg_1():
-    from blas import blas_drotg
+    from sblas import blas_drotg
 
     a = b = 1.
     c, s = blas_drotg (a, b)
@@ -83,7 +83,7 @@ def test_drotg_1():
 
 # ==============================================================================
 def test_drotmg_1():
-    from blas import blas_drotmg
+    from sblas import blas_drotmg
 
     d1 = d2 = 1.
     x1 = y1 = .5
@@ -94,7 +94,7 @@ def test_drotmg_1():
 
 # ==============================================================================
 def test_drot_1():
-    from blas import blas_drot
+    from sblas import blas_drot
 
     np.random.seed(2021)
 
@@ -114,7 +114,7 @@ def test_drot_1():
 
 # ==============================================================================
 def test_drotm_1():
-    from blas import blas_drotm
+    from sblas import blas_drotm
 
     np.random.seed(2021)
 
@@ -136,7 +136,7 @@ def test_drotm_1():
 
 # ==============================================================================
 def test_dcopy_1():
-    from blas import blas_dcopy
+    from sblas import blas_dcopy
 
     np.random.seed(2021)
 
@@ -153,7 +153,7 @@ def test_dcopy_1():
 
 # ==============================================================================
 def test_dswap_1():
-    from blas import blas_dswap
+    from sblas import blas_dswap
 
     np.random.seed(2021)
 
@@ -172,7 +172,7 @@ def test_dswap_1():
 
 # ==============================================================================
 def test_dscal_1():
-    from blas import blas_dscal
+    from sblas import blas_dscal
 
     np.random.seed(2021)
 
@@ -189,7 +189,7 @@ def test_dscal_1():
 
 # ==============================================================================
 def test_ddot_1():
-    from blas import blas_ddot
+    from sblas import blas_ddot
 
     np.random.seed(2021)
 
@@ -205,7 +205,7 @@ def test_ddot_1():
 
 # ==============================================================================
 def test_dnrm2_1():
-    from blas import blas_dnrm2
+    from sblas import blas_dnrm2
 
     np.random.seed(2021)
 
@@ -220,7 +220,7 @@ def test_dnrm2_1():
 
 # ==============================================================================
 def test_dasum_1():
-    from blas import blas_dasum
+    from sblas import blas_dasum
 
     np.random.seed(2021)
 
@@ -235,7 +235,7 @@ def test_dasum_1():
 
 # ==============================================================================
 def test_idamax_1():
-    from blas import blas_idamax
+    from sblas import blas_idamax
 
     np.random.seed(2021)
 
@@ -250,7 +250,7 @@ def test_idamax_1():
 
 # ==============================================================================
 def test_daxpy_1():
-    from blas import blas_daxpy
+    from sblas import blas_daxpy
 
     np.random.seed(2021)
 
@@ -274,7 +274,7 @@ def test_daxpy_1():
 
 # ==============================================================================
 def test_dgemv_1():
-    from blas import blas_dgemv
+    from sblas import blas_dgemv
 
     np.random.seed(2021)
 
@@ -294,7 +294,7 @@ def test_dgemv_1():
 
 # ==============================================================================
 def test_dgbmv_1():
-    from blas import blas_dgbmv
+    from sblas import blas_dgbmv
 
 #    n = 8
 #    a = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
@@ -328,7 +328,7 @@ def test_dgbmv_1():
 
 # ==============================================================================
 def test_dsymv_1():
-    from blas import blas_dsymv
+    from sblas import blas_dsymv
 
     np.random.seed(2021)
 
@@ -353,7 +353,7 @@ def test_dsymv_1():
 
 # ==============================================================================
 def test_dsbmv_1():
-    from blas import blas_dsbmv
+    from sblas import blas_dsbmv
 
     n = 5
     k = np.int32(2)
@@ -382,7 +382,7 @@ def test_dsbmv_1():
 
 # ==============================================================================
 def test_dspmv_1():
-    from blas import blas_dspmv
+    from sblas import blas_dspmv
 
     np.random.seed(2021)
 
@@ -408,7 +408,7 @@ def test_dspmv_1():
 
 # ==============================================================================
 def test_dtrmv_1():
-    from blas import blas_dtrmv
+    from sblas import blas_dtrmv
 
     np.random.seed(2021)
 
@@ -427,7 +427,7 @@ def test_dtrmv_1():
 
 # ==============================================================================
 def test_dtbmv_1():
-    from blas import blas_dtbmv
+    from sblas import blas_dtbmv
 
     n = 5
     k = np.int32(2)
@@ -455,7 +455,7 @@ def test_dtbmv_1():
 
 # ==============================================================================
 def test_dtpmv_1():
-    from blas import blas_dtpmv
+    from sblas import blas_dtpmv
 
     np.random.seed(2021)
 
@@ -475,7 +475,7 @@ def test_dtpmv_1():
 
 # ==============================================================================
 def test_dtrsv_1():
-    from blas import blas_dtrsv
+    from sblas import blas_dtrsv
 
     np.random.seed(2021)
 
@@ -495,7 +495,7 @@ def test_dtrsv_1():
 
 # ==============================================================================
 def test_dtbsv_1():
-    from blas import blas_dtbsv
+    from sblas import blas_dtbsv
 
     n = 5
     k = np.int32(2)
@@ -520,7 +520,7 @@ def test_dtbsv_1():
 
 # ==============================================================================
 def test_dtpsv_1():
-    from blas import blas_dtpsv
+    from sblas import blas_dtpsv
 
     np.random.seed(2021)
 
@@ -541,7 +541,7 @@ def test_dtpsv_1():
 
 # ==============================================================================
 def test_dger_1():
-    from blas import blas_dger
+    from sblas import blas_dger
 
     np.random.seed(2021)
 
@@ -560,7 +560,7 @@ def test_dger_1():
 
 # ==============================================================================
 def test_dsyr_1():
-    from blas import blas_dsyr
+    from sblas import blas_dsyr
 
     np.random.seed(2021)
 
@@ -581,7 +581,7 @@ def test_dsyr_1():
 
 # ==============================================================================
 def test_dspr_1():
-    from blas import blas_dspr
+    from sblas import blas_dspr
 
     np.random.seed(2021)
 
@@ -603,7 +603,7 @@ def test_dspr_1():
 
 # ==============================================================================
 def test_dsyr2_1():
-    from blas import blas_dsyr2
+    from sblas import blas_dsyr2
 
     np.random.seed(2021)
 
@@ -625,7 +625,7 @@ def test_dsyr2_1():
 
 # ==============================================================================
 def test_dspr2_1():
-    from blas import blas_dspr2
+    from sblas import blas_dspr2
 
     np.random.seed(2021)
 
@@ -654,7 +654,7 @@ def test_dspr2_1():
 
 # ==============================================================================
 def test_dgemm_1():
-    from blas import blas_dgemm
+    from sblas import blas_dgemm
 
     np.random.seed(2021)
 
@@ -673,7 +673,7 @@ def test_dgemm_1():
 
 # ==============================================================================
 def test_dgemm_2():
-    from blas import blas_dgemm
+    from sblas import blas_dgemm
 
     np.random.seed(2021)
 
@@ -692,7 +692,7 @@ def test_dgemm_2():
 
 # ==============================================================================
 def test_dsymm_1():
-    from blas import blas_dsymm
+    from sblas import blas_dsymm
 
     np.random.seed(2021)
 
@@ -715,7 +715,7 @@ def test_dsymm_1():
 
 # ==============================================================================
 def test_dtrmm_1():
-    from blas import blas_dtrmm
+    from sblas import blas_dtrmm
 
     np.random.seed(2021)
 
@@ -735,7 +735,7 @@ def test_dtrmm_1():
 
 # ==============================================================================
 def test_dtrsm_1():
-    from blas import blas_dtrsm
+    from sblas import blas_dtrsm
 
     np.random.seed(2021)
 
@@ -757,7 +757,7 @@ def test_dtrsm_1():
 
 # ==============================================================================
 def test_dsyrk_1():
-    from blas import blas_dsyrk
+    from sblas import blas_dsyrk
 
     np.random.seed(2021)
 
@@ -781,7 +781,7 @@ def test_dsyrk_1():
 
 # ==============================================================================
 def test_dsyr2k_1():
-    from blas import blas_dsyr2k
+    from sblas import blas_dsyr2k
 
     np.random.seed(2021)
 
