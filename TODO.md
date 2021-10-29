@@ -55,43 +55,43 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 | SUBROUTINE  | PRECISIONS   | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
-| xGEMV       | S,D,C,Z      | D           |             |
-| xGBMV       | S,D,C,Z      | D           |             |
+| xGEMV       | S,D,C,Z      | SD          |             |
+| xGBMV       | S,D,C,Z      | SD          |             |
 | xHEMV       | C,Z          |             |             |
 | xHBMV       | C,Z          |             |             |
 | xHPMV       | C,Z          |             |             |
-| xSYMV       | S,D          | D           |             |
-| xSBMV       | S,D          | D           |             |
-| xSPMV       | S,D          | D           |             |
-| xTRMV       | S,D,C,Z      | D           |             |
-| xTBMV       | S,D,C,Z      | D           |             |
-| xTPMV       | S,D,C,Z      | D           |             |
-| xTRSV       | S,D,C,Z      | D           |             |
-| xTBSV       | S,D,C,Z      | D           |             |
-| xTPSV       | S,D,C,Z      | D           |             |
-| xGER        | S,D          | D           |             |
+| xSYMV       | S,D          | SD          |             |
+| xSBMV       | S,D          | SD          |             |
+| xSPMV       | S,D          | SD          |             |
+| xTRMV       | S,D,C,Z      | SD          |             |
+| xTBMV       | S,D,C,Z      | SD          |             |
+| xTPMV       | S,D,C,Z      | SD          |             |
+| xTRSV       | S,D,C,Z      | SD          |             |
+| xTBSV       | S,D,C,Z      | SD          |             |
+| xTPSV       | S,D,C,Z      | SD          |             |
+| xGER        | S,D          | SD          |             |
 | xGERU       | C,Z          |             |             |
 | xGERC       | C,Z          |             |             |
 | xHER        | C,Z          |             |             |
 | xHPR        | C,Z          |             |             |
 | xHER2       | C,Z          |             |             |
 | xHPR2       | C,Z          |             |             |
-| xSYR        | S,D          | D           |             |
-| xSPR        | S,D          | D           |             |
-| xSYR2       | S,D          | D           |             |
-| xSPR2       | S,D          | D           |             |
+| xSYR        | S,D          | SD          |             |
+| xSPR        | S,D          | SD          |             |
+| xSYR2       | S,D          | SD          |             |
+| xSPR2       | S,D          | SD          |             |
 
 ## Level 3 
 
 | SUBROUTINE  | PRECISIONS   | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
-| xGEMM       | S,D,C,Z      | D           |             |
-| xSYMM       | S,D,C,Z      | D           |             |
+| xGEMM       | S,D,C,Z      | SD          |             |
+| xSYMM       | S,D,C,Z      | SD          |             |
 | xHEMM       | C,Z          |             |             |
-| xSYRK       | S,D,C,Z      | D           |             |
+| xSYRK       | S,D,C,Z      | SD          |             |
 | xHERK       | C,Z          |             |             |
-| xSYR2K      | S,D,C,Z      | D           |             |
+| xSYR2K      | S,D,C,Z      | SD          |             |
 | xHER2K      | C,Z          |             |             |
-| xTRMM       | S,D,C,Z      | D           |             |
-| xTRSM       | S,D,C,Z      | D           |             |
+| xTRMM       | S,D,C,Z      | SD          |             |
+| xTRSM       | S,D,C,Z      | SD          |             |
