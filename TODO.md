@@ -33,21 +33,21 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 | SUBROUTINE  | PRECISIONS  | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE) |    (DONE)   |             |
 | ----------- | ----------- | ----------- | ----------- |
-| xROTG       | S,D         | D           |             |
-| xROTMG      | S,D         | D           |             |
-| xROT        | S,D         | D           |             |
-| xROTM       | S,D         | D           |             |
-| xSWAP       | S,D,C,Z     | D           |             |
-| xSCAL       | S,D,C,Z     | D           |             |
-| xCOPY       | S,D,C,Z     | D           |             |
-| xAXPY       | S,D,C,Z     | D           |             |
-| xDOT        | S,D-DS      | D           |             |
+| xROTG       | S,D         | SD          |             |
+| xROTMG      | S,D         | SD          |             |
+| xROT        | S,D         | SD          |             |
+| xROTM       | S,D         | SD          |             |
+| xSWAP       | S,D,C,Z     | SD          |             |
+| xSCAL       | S,D,C,Z     | SD          |             |
+| xCOPY       | S,D,C,Z     | SD          |             |
+| xAXPY       | S,D,C,Z     | SD          |             |
+| xDOT        | S,D-DS      | SD          |             |
 | xDOTU       | C,Z         |             |             |
 | xDOTC       | C,Z         |             |             |
 | xxDOT       | SDS         |             |             |
-| xNRM2       | S,D,SC,DZ   | D           |             |
-| xASUM       | S,D,SC,DZ   | D           |             |
-| IxAMAX      | S,D,C,Z     | D           |             |
+| xNRM2       | S,D,SC,DZ   | SD          |             |
+| xASUM       | S,D,SC,DZ   | SD          | KO -> S     |
+| IxAMAX      | S,D,C,Z     | SD          |             |
 
 
 ## Level 2 

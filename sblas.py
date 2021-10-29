@@ -169,7 +169,7 @@ def blas_sasum(x: 'float32[:]',
     return sasum (n, x, incx)
 
 # ==============================================================================
-def blas_idamax(x: 'float32[:]',
+def blas_isamax(x: 'float32[:]',
                incx: 'int32' = 1,
               ):
     """

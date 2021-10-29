@@ -253,8 +253,8 @@ def test_sasum_1():
     # ...
 
 # ==============================================================================
-def test_idamax_1():
-    from sblas import blas_idamax
+def test_isamax_1():
+    from sblas import blas_isamax
 
     np.random.seed(2021)
 
@@ -263,8 +263,8 @@ def test_idamax_1():
     x = np.array(x, dtype=np.float32)
 
     # ...
-    expected = sp_blas.idamax(x)
-    result   = blas_idamax (x)
+    expected = sp_blas.isamax(x)
+    result   = blas_isamax (x)
     assert(result == expected)
     # ...
 
@@ -842,11 +842,11 @@ if __name__ == '__main__':
     test_sdot_1()
     test_snrm2_1()
 #    test_sasum_1() # TODO not working
-    test_idamax_1()
+    test_isamax_1()
     test_saxpy_1()
-#    # ...
-#
-#    # ... LEVEL 2
+    # ...
+
+    # ... LEVEL 2
 #    test_sgemv_1()
 #    test_sgbmv_1()
 #    test_ssymv_1()
