@@ -419,289 +419,289 @@ def blas_ctpsv(a: 'complex64[:]', x: 'complex64[:]',
 
     ctpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
 
-## ==============================================================================
-##
-##                                  LEVEL 3
-##
-## ==============================================================================
-#
-## ==============================================================================
-#def blas_cgemm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
-#               beta: 'float32' = 0.,
-#               trans_a: 'bool' = False,
-#               trans_b: 'bool' = False
-#              ):
-#    """
-#    DGEMM  performs one of the matrix-matrix operations
-#
-#    C := alpha*op( A )*op( B ) + beta*C,
-#
-#    where  op( X ) is one of
-#
-#    op( X ) = X   or   op( X ) = X**T,
-#
-#    alpha and beta are scalars, and A, B and C are matrices, with op( A )
-#    an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import cgemm
-#
-#    l = np.int32(c.shape[0])
-#    n = np.int32(c.shape[1])
-#
-#    # ...
-#    flag_trans_a = 'N'
-#    if trans_a: flag_trans_a = 'T'
-#
-#    flag_trans_b = 'N'
-#    if trans_b: flag_trans_b = 'T'
-#    # ...
-#
-#    # ...
-#    if trans_a:
-#        m = np.int32(a.shape[0])
-#    else:
-#        m = np.int32(a.shape[1])
-#    # ...
-#
-#    # TODO to be checked
-#    lda = m
-#    ldb = m
-#    ldc = l
-#
-#    sgemm (flag_trans_a, flag_trans_b, l, n, m, alpha, a, lda, b, ldb, beta, c, ldc)
-#
-## ==============================================================================
-#def blas_csymm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
-#               beta: 'float32' = 0.,
-#               side: 'bool' = False,
-#               lower: 'bool' = False,
-#              ):
-#    """
-#    DSYMM  performs one of the matrix-matrix operations
-#
-#    C := alpha*A*B + beta*C,
-#
-#    or
-#
-#    C := alpha*B*A + beta*C,
-#
-#    where alpha and beta are scalars,  A is a symmetric matrix and  B and
-#    C are  m by n matrices.
-#    """
-#    from pyccel.stdlib.internal.blas import csymm
-#
-#    m = np.int32(c.shape[0])
-#    n = np.int32(c.shape[1])
-#
-#    # ...
-#    # equation 1
-#    flag_side = 'L'
-#    lda = m
-#    # equation 2
-#    if side:
-#        flag_side = 'R'
-#        lda = n
-#    # ...
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ldb = m
-#    ldc = m
-#
-#    ssymm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
-#
-## ==============================================================================
-#def blas_csyrk(alpha: 'float32', a: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
-#               beta: 'float32' = 0.,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#              ):
-#    """
-#    DSYRK  performs one of the symmetric rank k operations
-#
-#    C := alpha*A*A**T + beta*C,
-#
-#    or
-#
-#    C := alpha*A**T*A + beta*C,
-#
-#    where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
-#    and  A  is an  n by k  matrix in the first case and a  k by n  matrix
-#    in the second case.
-#    """
-#    from pyccel.stdlib.internal.blas import csyrk
-#
-#    n = np.int32(c.shape[0])
-#    k = np.int32(c.shape[1])
-#
-#    # ...
-#    # equation 1
-#    flag_trans = 'N'
-#    lda = n
-#    # equation 2
-#    if trans:
-#        flag_trans = 'T'
-#        lda = k
-#    # ...
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ldc = n
-#
-#    ssyrk (flag_uplo, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
-#
-## ==============================================================================
-#def blas_csyr2k(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)', c: 'float32[:,:](order=F)',
-#               beta: 'float32' = 0.,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#              ):
-#    """
-#    DSYR2K  performs one of the symmetric rank 2k operations
-#
-#    C := alpha*A*B**T + alpha*B*A**T + beta*C,
-#
-#    or
-#
-#    C := alpha*A**T*B + alpha*B**T*A + beta*C,
-#
-#    where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
-#    and  A and B  are  n by k  matrices  in the  first  case  and  k by n
-#    matrices in the second case.
-#    """
-#    from pyccel.stdlib.internal.blas import csyr2k
-#
-#    n = np.int32(c.shape[0])
-#
-#    # ...
-#    # equation 1
-#    flag_trans = 'N'
-#    k = np.int32(a.shape[1])
-#    lda = n
-#    ldb = n
-#    # equation 2
-#    if trans:
-#        flag_trans = 'T'
-#        k = np.int32(a.shape[0])
-#        lda = k
-#        ldb = k
-#    # ...
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ldc = n
-#
-#    ssyr2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
-#
-## ==============================================================================
-#def blas_ctrmm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)',
-#               side: 'bool' = False,
-#               lower: 'bool' = False,
-#               trans_a: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTRMM  performs one of the matrix-matrix operations
-#
-#    B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
-#
-#    where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
-#    non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-#
-#    op( A ) = A   or   op( A ) = A**T.
-#    """
-#    from pyccel.stdlib.internal.blas import ctrmm
-#
-#    m = np.int32(b.shape[0])
-#    n = np.int32(b.shape[1])
-#
-#    # ...
-#    # equation 1
-#    flag_side = 'L'
-#    lda = m
-#    # equation 2
-#    if side:
-#        flag_side = 'R'
-#        lda = n
-#    # ...
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans_a = 'N'
-#    if trans_a: flag_trans_a = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    ldb = m
-#
-#    strmm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
-#
-## ==============================================================================
-#def blas_ctrsm(alpha: 'float32', a: 'float32[:,:](order=F)', b: 'float32[:,:](order=F)',
-#               side: 'bool' = False,
-#               lower: 'bool' = False,
-#               trans_a: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTRSM  solves one of the matrix equations
-#
-#    op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
-#
-#    where alpha is a scalar, X and B are m by n matrices, A is a unit, or
-#    non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-#
-#    op( A ) = A   or   op( A ) = A**T.
-#
-#    The matrix X is overwritten on B.
-#    """
-#    from pyccel.stdlib.internal.blas import ctrsm
-#
-#    m = np.int32(b.shape[0])
-#    n = np.int32(b.shape[1])
-#
-#    # ...
-#    # equation 1
-#    flag_side = 'L'
-#    lda = m
-#    # equation 2
-#    if side:
-#        flag_side = 'R'
-#        lda = n
-#    # ...
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans_a = 'N'
-#    if trans_a: flag_trans_a = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    ldb = m
-#
-#    strsm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
+# ==============================================================================
+#
+#                                  LEVEL 3
+#
+# ==============================================================================
+
+# ==============================================================================
+def blas_cgemm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               trans_a: 'bool' = False,
+               trans_b: 'bool' = False
+              ):
+    """
+    DGEMM  performs one of the matrix-matrix operations
+
+    C := alpha*op( A )*op( B ) + beta*C,
+
+    where  op( X ) is one of
+
+    op( X ) = X   or   op( X ) = X**T,
+
+    alpha and beta are scalars, and A, B and C are matrices, with op( A )
+    an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+    """
+    from pyccel.stdlib.internal.blas import cgemm
+
+    l = np.int32(c.shape[0])
+    n = np.int32(c.shape[1])
+
+    # ...
+    flag_trans_a = 'N'
+    if trans_a: flag_trans_a = 'T'
+
+    flag_trans_b = 'N'
+    if trans_b: flag_trans_b = 'T'
+    # ...
+
+    # ...
+    if trans_a:
+        m = np.int32(a.shape[0])
+    else:
+        m = np.int32(a.shape[1])
+    # ...
+
+    # TODO to be checked
+    lda = m
+    ldb = m
+    ldc = l
+
+    cgemm (flag_trans_a, flag_trans_b, l, n, m, alpha, a, lda, b, ldb, beta, c, ldc)
+
+# ==============================================================================
+def blas_csymm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               side: 'bool' = False,
+               lower: 'bool' = False,
+              ):
+    """
+    DSYMM  performs one of the matrix-matrix operations
+
+    C := alpha*A*B + beta*C,
+
+    or
+
+    C := alpha*B*A + beta*C,
+
+    where alpha and beta are scalars,  A is a symmetric matrix and  B and
+    C are  m by n matrices.
+    """
+    from pyccel.stdlib.internal.blas import csymm
+
+    m = np.int32(c.shape[0])
+    n = np.int32(c.shape[1])
+
+    # ...
+    # equation 1
+    flag_side = 'L'
+    lda = m
+    # equation 2
+    if side:
+        flag_side = 'R'
+        lda = n
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    ldb = m
+    ldc = m
+
+    csymm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+
+# ==============================================================================
+def blas_csyrk(alpha: 'complex64', a: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+              ):
+    """
+    DSYRK  performs one of the symmetric rank k operations
+
+    C := alpha*A*A**T + beta*C,
+
+    or
+
+    C := alpha*A**T*A + beta*C,
+
+    where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+    and  A  is an  n by k  matrix in the first case and a  k by n  matrix
+    in the second case.
+    """
+    from pyccel.stdlib.internal.blas import csyrk
+
+    n = np.int32(c.shape[0])
+    k = np.int32(c.shape[1])
+
+    # ...
+    # equation 1
+    flag_trans = 'N'
+    lda = n
+    # equation 2
+    if trans:
+        flag_trans = 'T'
+        lda = k
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    ldc = n
+
+    csyrk (flag_uplo, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
+
+# ==============================================================================
+def blas_csyr2k(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+              ):
+    """
+    DSYR2K  performs one of the symmetric rank 2k operations
+
+    C := alpha*A*B**T + alpha*B*A**T + beta*C,
+
+    or
+
+    C := alpha*A**T*B + alpha*B**T*A + beta*C,
+
+    where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+    and  A and B  are  n by k  matrices  in the  first  case  and  k by n
+    matrices in the second case.
+    """
+    from pyccel.stdlib.internal.blas import csyr2k
+
+    n = np.int32(c.shape[0])
+
+    # ...
+    # equation 1
+    flag_trans = 'N'
+    k = np.int32(a.shape[1])
+    lda = n
+    ldb = n
+    # equation 2
+    if trans:
+        flag_trans = 'T'
+        k = np.int32(a.shape[0])
+        lda = k
+        ldb = k
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    ldc = n
+
+    csyr2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+
+# ==============================================================================
+def blas_ctrmm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)',
+               side: 'bool' = False,
+               lower: 'bool' = False,
+               trans_a: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRMM  performs one of the matrix-matrix operations
+
+    B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
+
+    where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
+    non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+
+    op( A ) = A   or   op( A ) = A**T.
+    """
+    from pyccel.stdlib.internal.blas import ctrmm
+
+    m = np.int32(b.shape[0])
+    n = np.int32(b.shape[1])
+
+    # ...
+    # equation 1
+    flag_side = 'L'
+    lda = m
+    # equation 2
+    if side:
+        flag_side = 'R'
+        lda = n
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans_a = 'N'
+    if trans_a: flag_trans_a = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ldb = m
+
+    ctrmm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)
+
+# ==============================================================================
+def blas_ctrsm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)',
+               side: 'bool' = False,
+               lower: 'bool' = False,
+               trans_a: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRSM  solves one of the matrix equations
+
+    op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
+
+    where alpha is a scalar, X and B are m by n matrices, A is a unit, or
+    non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+
+    op( A ) = A   or   op( A ) = A**T.
+
+    The matrix X is overwritten on B.
+    """
+    from pyccel.stdlib.internal.blas import ctrsm
+
+    m = np.int32(b.shape[0])
+    n = np.int32(b.shape[1])
+
+    # ...
+    # equation 1
+    flag_side = 'L'
+    lda = m
+    # equation 2
+    if side:
+        flag_side = 'R'
+        lda = n
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans_a = 'N'
+    if trans_a: flag_trans_a = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ldb = m
+
+    ctrsm (flag_side, flag_uplo, flag_trans_a, flag_diag, m, n, alpha, a, lda, b, ldb)

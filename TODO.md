@@ -70,12 +70,12 @@ pyccel:
 | SUBROUTINE  | PRECISIONS   | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
-| xGEMM       | S,D,C,Z      | SD          |             |
-| xSYMM       | S,D,C,Z      | SD          |             |
+| xGEMM       | S,D,C,Z      | SDC         |             |
+| xSYMM       | S,D,C,Z      | SDC         |             |
 | xHEMM       | C,Z          |             |             |
-| xSYRK       | S,D,C,Z      | SD          |             |
+| xSYRK       | S,D,C,Z      | SDC         |             |
 | xHERK       | C,Z          |             |             |
-| xSYR2K      | S,D,C,Z      | SD          |             |
+| xSYR2K      | S,D,C,Z      | SDC         |             |
 | xHER2K      | C,Z          |             |             |
-| xTRMM       | S,D,C,Z      | SD          |             |
-| xTRSM       | S,D,C,Z      | SD          |             |
+| xTRMM       | S,D,C,Z      | SDC         |             |
+| xTRSM       | S,D,C,Z      | SDC         |             |
