@@ -9,22 +9,6 @@ pyccel:
  |fatal [semantic]: utilities.py [14,4]| Undefined function (core_dgemv)
 ```
 
-* **dnrm2** is not available, although it is declared in our header file
-```shell
-   51 |     r = dnrm2(n, x, incx)
-      |        1
-Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
-```
-
-* BLAS functions are not recognized, we are missing something like
-```fortran
-    real(f64), external :: ddot
-```
-
-# TODO
-
-* band matrices
-* other precisions than D
 
 # Summary
 
@@ -37,17 +21,17 @@ Error: Function ‘dnrm2’ at (1) has no IMPLICIT type;
 | xROTMG      | S,D         | SD          |             |
 | xROT        | S,D         | SD          |             |
 | xROTM       | S,D         | SD          |             |
-| xSWAP       | S,D,C,Z     | SD          |             |
-| xSCAL       | S,D,C,Z     | SD          |             |
-| xCOPY       | S,D,C,Z     | SD          |             |
-| xAXPY       | S,D,C,Z     | SD          |             |
+| xSWAP       | S,D,C,Z     | SDC         |             |
+| xSCAL       | S,D,C,Z     | SDC         |             |
+| xCOPY       | S,D,C,Z     | SDC         |             |
+| xAXPY       | S,D,C,Z     | SDC         |             |
 | xDOT        | S,D-DS      | SD          |             |
 | xDOTU       | C,Z         |             |             |
 | xDOTC       | C,Z         |             |             |
 | xxDOT       | SDS         |             |             |
-| xNRM2       | S,D,SC,DZ   | SD          |             |
-| xASUM       | S,D,SC,DZ   | SD          | KO -> S     |
-| IxAMAX      | S,D,C,Z     | SD          |             |
+| xNRM2       | S,D,SC,DZ   | SDC         |             |
+| xASUM       | S,D,SC,DZ   | SDC         | KO -> S,C   |
+| IxAMAX      | S,D,C,Z     | SDc         |             |
 
 
 ## Level 2 
