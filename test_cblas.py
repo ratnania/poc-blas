@@ -202,6 +202,44 @@ def test_caxpy_1():
     # ...
 
 # ==============================================================================
+# TODO not working
+def test_cdotc_1():
+    from cblas import blas_cdotc
+
+    np.random.seed(2021)
+
+    n = 3
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    expected = sp_blas.cdotc(x, y)
+    result   = blas_cdotc (x, y)
+#    assert(np.linalg.norm(result-expected) < 1.e-6)
+    # ...
+
+# ==============================================================================
+# TODO not working
+def test_cdotu_1():
+    from cblas import blas_cdotu
+
+    np.random.seed(2021)
+
+    n = 10
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    expected = sp_blas.cdotu(x, y)
+    result   = blas_cdotu (x, y)
+#    assert(np.linalg.norm(result-expected) < 1.e-6)
+    # ...
+
+# ==============================================================================
 #
 #                                  LEVEL 2
 #
@@ -263,6 +301,64 @@ def test_cgbmv_1():
     expected = y.copy()
     expected = sp_blas.cgbmv (n, n, kl, ku, alpha, ab, x, beta=beta, y=expected)
     blas_cgbmv (kl, ku, alpha, ab, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_chemv_1():
+    from cblas import blas_chemv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.0)
+    beta = np.complex64(0.5)
+    expected = y.copy()
+    expected = sp_blas.chemv (alpha, a, x, beta=beta, y=expected)
+    blas_chemv (alpha, a, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_chbmv_1():
+    from cblas import blas_chbmv
+
+    n = 5
+    k = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [21, 22, 23,  0,  0],
+                  [31, 32, 33, 34,  0],
+                  [ 0, 42, 43, 44, 45],
+                  [ 0,  0, 53, 54, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(k, k, a).copy(order='F')
+
+    np.random.seed(2021)
+
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    ab = np.array(ab, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.0)
+    beta = np.complex64(0.5)
+    expected = y.copy()
+    expected = sp_blas.chbmv (k, alpha, ab, x, beta=beta, y=expected)
+    blas_chbmv (k, alpha, ab, x, y, beta=beta)
     assert(np.allclose(y, expected, 1.e-7))
     # ...
 
@@ -608,11 +704,15 @@ if __name__ == '__main__':
     test_scasum_1()
     test_icamax_1()
     test_caxpy_1()
+    test_cdotc_1()
+    test_cdotu_1()
     # ...
 
     # ... LEVEL 2
     test_cgemv_1()
     test_cgbmv_1()
+    test_chemv_1()
+    test_chbmv_1()
     test_ctrmv_1()
     test_ctbmv_1()
     test_ctpmv_1()

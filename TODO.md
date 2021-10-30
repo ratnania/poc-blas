@@ -26,8 +26,8 @@ pyccel:
 | xCOPY       | S,D,C,Z     | SDC         |             |
 | xAXPY       | S,D,C,Z     | SDC         |             |
 | xDOT        | S,D-DS      | SD          |             |
-| xDOTU       | C,Z         |             |             |
-| xDOTC       | C,Z         |             |             |
+| xDOTU       | C,Z         | C           | KO -> C     |
+| xDOTC       | C,Z         | C           | KO -> C     |
 | xxDOT       | SDS         |             |             |
 | xNRM2       | S,D,SC,DZ   | SDC         |             |
 | xASUM       | S,D,SC,DZ   | SDC         | KO -> S,C   |
@@ -41,8 +41,8 @@ pyccel:
 | ----------- | -----------  | ----------- | ----------- |
 | xGEMV       | S,D,C,Z      | SDC         |             |
 | xGBMV       | S,D,C,Z      | SDC         |             |
-| xHEMV       | C,Z          |             |             |
-| xHBMV       | C,Z          |             |             |
+| xHEMV       | C,Z          | C           |             |
+| xHBMV       | C,Z          | C           |             |
 | xHPMV       | C,Z          |             |             |
 | xSYMV       | S,D          | SD          |             |
 | xSBMV       | S,D          | SD          |             |

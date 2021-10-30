@@ -57,6 +57,36 @@ def blas_cscal(alpha: 'complex64', x: 'complex64[:]',
     cscal (n, alpha, x, incx)
 
 # ==============================================================================
+def blas_cdotc(x: 'complex64[:]', y: 'complex64[:]',
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
+              ):
+    """
+    CDOTC forms the dot product of two complex vectors
+      CDOTC = X^H * Y
+    """
+    from pyccel.stdlib.internal.blas import cdotc
+
+    n = np.int32(x.shape[0])
+
+    return cdotc (n, x, incx, y, incy)
+
+# ==============================================================================
+def blas_cdotu(x: 'complex64[:]', y: 'complex64[:]',
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
+              ):
+    """
+    CDOTU forms the dot product of two complex vectors
+      CDOTU = X^T * Y
+    """
+    from pyccel.stdlib.internal.blas import cdotu
+
+    n = np.int32(x.shape[0])
+
+    return cdotu (n, x, incx, y, incy)
+
+# ==============================================================================
 def blas_caxpy(x: 'complex64[:]', y: 'complex64[:]',
                a: 'complex64' = 1.,
                incx: 'int32' = 1,
@@ -181,6 +211,61 @@ def blas_cgbmv(kl : 'int32', ku: 'int32', alpha: 'complex64',
     # ...
 
     cgbmv (flag_trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
+
+# ==============================================================================
+def blas_chemv(alpha: 'complex64', a: 'complex64[:,:](order=F)', x: 'complex64[:]', y: 'complex64[:]',
+               beta: 'complex64' = 0.,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
+               lower: 'bool' = False
+              ):
+    """
+    CHEMV  performs the matrix-vector  operation
+
+    y := alpha*A*x + beta*y,
+
+    where alpha and beta are scalars, x and y are n element vectors and
+    A is an n by n hermitian matrix.
+    """
+    from pyccel.stdlib.internal.blas import chemv
+
+    n = np.int32(a.shape[0])
+    lda = n
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    chemv (flag_uplo, n, alpha, a, lda, x, incx, beta, y, incy)
+
+# ==============================================================================
+def blas_chbmv(k : 'int32', alpha: 'complex64',
+               a: 'complex64[:,:](order=F)', x: 'complex64[:]', y: 'complex64[:]',
+               beta: 'complex64' = 0.,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
+               lower: 'bool' = False
+              ):
+    """
+    CHBMV  performs the matrix-vector  operation
+
+    y := alpha*A*x + beta*y,
+
+    where alpha and beta are scalars, x and y are n element vectors and
+    A is an n by n hermitian band matrix, with k super-diagonals.
+    """
+    from pyccel.stdlib.internal.blas import chbmv
+
+    n = np.int32(a.shape[0])
+    lda = n
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    chbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
 def blas_ctrmv(a: 'complex64[:,:](order=F)', x: 'complex64[:]',
