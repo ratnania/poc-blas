@@ -39,20 +39,20 @@ pyccel:
 | SUBROUTINE  | PRECISIONS   | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
-| xGEMV       | S,D,C,Z      | SD          |             |
-| xGBMV       | S,D,C,Z      | SD          |             |
+| xGEMV       | S,D,C,Z      | SDC         |             |
+| xGBMV       | S,D,C,Z      | SDC         |             |
 | xHEMV       | C,Z          |             |             |
 | xHBMV       | C,Z          |             |             |
 | xHPMV       | C,Z          |             |             |
 | xSYMV       | S,D          | SD          |             |
 | xSBMV       | S,D          | SD          |             |
 | xSPMV       | S,D          | SD          |             |
-| xTRMV       | S,D,C,Z      | SD          |             |
-| xTBMV       | S,D,C,Z      | SD          |             |
-| xTPMV       | S,D,C,Z      | SD          |             |
-| xTRSV       | S,D,C,Z      | SD          |             |
-| xTBSV       | S,D,C,Z      | SD          |             |
-| xTPSV       | S,D,C,Z      | SD          |             |
+| xTRMV       | S,D,C,Z      | SDC         |             |
+| xTBMV       | S,D,C,Z      | SDC         |             |
+| xTPMV       | S,D,C,Z      | SDC         |             |
+| xTRSV       | S,D,C,Z      | SDC         |             |
+| xTBSV       | S,D,C,Z      | SDC         |             |
+| xTPSV       | S,D,C,Z      | SDC         |             |
 | xGER        | S,D          | SD          |             |
 | xGERU       | C,Z          |             |             |
 | xGERC       | C,Z          |             |             |

@@ -35,7 +35,7 @@ def triangulize(a, lower=False):
 # ==============================================================================
 def general_to_band(kl, ku, a):
     n = a.shape[1]
-    ab = np.zeros((kl+ku+1, n))
+    ab = np.zeros((kl+ku+1, n), dtype=a.dtype)
 
     for j in range(n):
         k = ku - j
@@ -49,7 +49,7 @@ def general_to_band(kl, ku, a):
 # ==============================================================================
 def general_to_packed(a, lower=False):
     n = a.shape[0]
-    ap = np.zeros(n*(n+1)//2)
+    ap = np.zeros(n*(n+1)//2, dtype=a.dtype)
     if lower:
         k = 0
         for j in range(n):
@@ -201,279 +201,229 @@ def test_caxpy_1():
     assert(np.allclose(y, expected, 1.e-7))
     # ...
 
-## ==============================================================================
-##
-##                                  LEVEL 2
-##
-## ==============================================================================
+# ==============================================================================
 #
-## ==============================================================================
-#def test_cgemv_1():
-#    from cblas import blas_cgemv
+#                                  LEVEL 2
 #
-#    np.random.seed(2021)
-#
-#    n = 10
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#    y = np.ones(n)
-#
-#    # ...
-#    alpha = 1.
-#    beta = 0.5
-#    expected = y.copy()
-#    expected = sp_blas.cgemv (alpha, a, x, beta=beta, y=expected)
-#    blas_cgemv (alpha, a, x, y, beta=beta)
-#    assert(np.allclose(y, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_cgbmv_1():
-#    from cblas import blas_cgbmv
-#
-##    n = 8
-##    a = diags([1, -2, 1], [-1, 0, 1], shape=(n, n)).toarray()
-##    ku = kl = np.int32(2)
-#
-#    n = 5
-#    kl = np.int32(2)
-#    ku = np.int32(2)
-#    a = np.array([[11, 12,  0,  0,  0],
-#                  [21, 22, 23,  0,  0],
-#                  [31, 32, 33, 34,  0],
-#                  [ 0, 42, 43, 44, 45],
-#                  [ 0,  0, 53, 54, 55]
-#                 ], dtype=np.float64)
-#
-#    ab = general_to_band(kl, ku, a).copy(order='F')
-#
-#    np.random.seed(2021)
-#
-#    x = np.random.random(n)
-#    y = np.random.random(n)
-#
-#    # ...
-#    alpha = 2.
-#    beta = 0.5
-#    expected = y.copy()
-#    expected = sp_blas.cgbmv (n, n, kl, ku, alpha, ab, x, beta=beta, y=expected)
-#    blas_cgbmv (kl, ku, alpha, ab, x, y, beta=beta)
-#    assert(np.allclose(y, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_csymv_1():
-#    from cblas import blas_csymv
-#
-#    np.random.seed(2021)
-#
-#    n = 4
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#    y = np.random.random(n)
-#
-#    # make a symmetric
-#    a = symmetrize(a)
-#
-#    # ...
-#    alpha = 1.
-#    beta = 0.5
-#    expected = alpha * a @ x + beta * y
-#
-#    # make a triangular
-#    a = triangulize(a)
-#    blas_csymv (alpha, a, x, y, beta=beta)
-#    assert(np.allclose(y, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_csbmv_1():
-#    from cblas import blas_csbmv
-#
-#    n = 5
-#    k = np.int32(2)
-#    a = np.array([[11, 12,  0,  0,  0],
-#                  [12, 22, 23,  0,  0],
-#                  [ 0, 32, 33, 34,  0],
-#                  [ 0,  0, 34, 44, 45],
-#                  [ 0,  0,  0, 45, 55]
-#                 ], dtype=np.float64)
-#
-#    ab = general_to_band(k, k, a).copy(order='F')
-#
-#    np.random.seed(2021)
-#
-#    x = np.random.random(n)
-#    y = np.zeros(n)
-#
-#    # ...
-#    alpha = 2.
-#    beta = 0.5
-#    expected = y.copy()
-#    expected = sp_blas.csbmv (k, alpha, ab, x, beta=beta, y=expected)
-#    blas_csbmv (k, alpha, ab, x, y, beta=beta)
-#    assert(np.allclose(y, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_cspmv_1():
-#    from cblas import blas_cspmv
-#
-#    np.random.seed(2021)
-#
-#    n = 4
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#    y = np.random.random(n)
-#
-#    # make a symmetric
-#    a = symmetrize(a)
-#    ap = general_to_packed(a)
-#
-#    # ...
-#    alpha = 1.
-#    beta = 0.5
-#    expected = alpha * a @ x + beta * y
-#
-#    # make a triangular
-#    a = triangulize(a)
-#    blas_cspmv (alpha, ap, x, y, beta=beta)
-#    assert(np.allclose(y, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_ctrmv_1():
-#    from cblas import blas_ctrmv
-#
-#    np.random.seed(2021)
-#
-#    n = 10
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#
-#    # make a triangular
-#    a = triangulize(a)
-#
-#    # ...
-#    expected = a @ x
-#    blas_ctrmv (a, x)
-#    assert(np.allclose(x, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_ctbmv_1():
-#    from cblas import blas_ctbmv
-#
-#    n = 5
-#    k = np.int32(2)
-#    a = np.array([[11, 12,  0,  0,  0],
-#                  [12, 22, 23,  0,  0],
-#                  [ 0, 32, 33, 34,  0],
-#                  [ 0,  0, 34, 44, 45],
-#                  [ 0,  0,  0, 45, 55]
-#                 ], dtype=np.float64)
-#
-#    ab = general_to_band(k, k, a).copy(order='F')
-#
-#    np.random.seed(2021)
-#
-#    x = np.random.random(n)
-#
-#    # make a triangular
-#    a = triangulize(a)
-#
-#    # ...
-#    expected = a @ x
-#    blas_ctbmv (k, ab, x)
-#    assert(np.allclose(x, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_ctpmv_1():
-#    from cblas import blas_ctpmv
-#
-#    np.random.seed(2021)
-#
-#    n = 10
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#
-#    # make a triangular
-#    a = triangulize(a)
-#    ap = general_to_packed(a)
-#
-#    # ...
-#    expected = a @ x
-#    blas_ctpmv (ap, x)
-#    assert(np.allclose(x, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_ctrsv_1():
-#    from cblas import blas_ctrsv
-#
-#    np.random.seed(2021)
-#
-#    n = 10
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#
-#    # make a triangular
-#    a = triangulize(a)
-#
-#    # ...
-#    expected = x.copy()
-#    x = a @ x
-#    blas_ctrsv (a, x)
-#    assert(np.allclose(x, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_ctbsv_1():
-#    from cblas import blas_ctbsv
-#
-#    n = 5
-#    k = np.int32(2)
-#    a = np.array([[11, 12,  0,  0,  0],
-#                  [12, 22, 23,  0,  0],
-#                  [ 0, 32, 33, 34,  0],
-#                  [ 0,  0, 34, 44, 45],
-#                  [ 0,  0,  0, 45, 55]
-#                 ], dtype=np.float64)
-#
-#    ab = general_to_band(k, k, a).copy(order='F')
-#
-#    np.random.seed(2021)
-#
-#    x = np.random.random(n)
-#
-#    # ...
-#    expected = sp_blas.ctbsv (k, ab, x)
-#    blas_ctbsv (k, ab, x)
-#    assert(np.allclose(x, expected, 1.e-7))
-#    # ...
-#
-## ==============================================================================
-#def test_ctpsv_1():
-#    from cblas import blas_ctpsv
-#
-#    np.random.seed(2021)
-#
-#    n = 10
-#    a = np.random.random((n,n)).copy(order='F')
-#    x = np.random.random(n)
-#
-#    # make a triangular
-#    a = triangulize(a)
-#    ap = general_to_packed(a)
-#
-#    # ...
-#    expected = x.copy()
-#    x = a @ x
-#    blas_ctpsv (ap, x)
-#    assert(np.allclose(x, expected, 1.e-7))
-#    # ...
-#
+# ==============================================================================
+
+# ==============================================================================
+def test_cgemv_1():
+    from cblas import blas_cgemv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.0)
+    beta = np.complex64(0.5)
+    expected = y.copy()
+    expected = sp_blas.cgemv (alpha, a, x, beta=beta, y=expected)
+    blas_cgemv (alpha, a, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_cgbmv_1():
+    from cblas import blas_cgbmv
+
+    n = 5
+    kl = np.int32(2)
+    ku = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [21, 22, 23,  0,  0],
+                  [31, 32, 33, 34,  0],
+                  [ 0, 42, 43, 44, 45],
+                  [ 0,  0, 53, 54, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(kl, ku, a).copy(order='F')
+
+    np.random.seed(2021)
+
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    ab = np.array(ab, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.0)
+    beta = np.complex64(0.5)
+    expected = y.copy()
+    expected = sp_blas.cgbmv (n, n, kl, ku, alpha, ab, x, beta=beta, y=expected)
+    blas_cgbmv (kl, ku, alpha, ab, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_ctrmv_1():
+    from cblas import blas_ctrmv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # make a triangular
+    a = triangulize(a)
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    expected = a @ x
+    blas_ctrmv (a, x)
+    assert(np.allclose(x, expected, 1.e-6))
+    # ...
+
+# ==============================================================================
+def test_ctbmv_1():
+    from cblas import blas_ctbmv
+
+    n = 5
+    k = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [12, 22, 23,  0,  0],
+                  [ 0, 32, 33, 34,  0],
+                  [ 0,  0, 34, 44, 45],
+                  [ 0,  0,  0, 45, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(k, k, a).copy(order='F')
+
+    np.random.seed(2021)
+
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # make a triangular
+    a = triangulize(a)
+
+    ab = np.array(ab, dtype=np.complex64)
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    expected = a @ x
+    blas_ctbmv (k, ab, x)
+    assert(np.allclose(x, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_ctpmv_1():
+    from cblas import blas_ctpmv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # make a triangular
+    a = triangulize(a)
+    ap = general_to_packed(a)
+
+    ap = np.array(ap, dtype=np.complex64)
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    expected = a @ x
+    blas_ctpmv (ap, x)
+    assert(np.allclose(x, expected, 1.e-6))
+    # ...
+
+# ==============================================================================
+def test_ctrsv_1():
+    from cblas import blas_ctrsv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # make a triangular
+    a = triangulize(a)
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    expected = x.copy()
+    x = a @ x
+    blas_ctrsv (a, x)
+    assert(np.linalg.norm(x-expected) < 1.e-6)
+    # ...
+
+# ==============================================================================
+def test_ctbsv_1():
+    from cblas import blas_ctbsv
+
+    n = 5
+    k = np.int32(2)
+    a = np.array([[11, 12,  0,  0,  0],
+                  [12, 22, 23,  0,  0],
+                  [ 0, 32, 33, 34,  0],
+                  [ 0,  0, 34, 44, 45],
+                  [ 0,  0,  0, 45, 55]
+                 ], dtype=np.float64)
+
+    ab = general_to_band(k, k, a).copy(order='F')
+
+    np.random.seed(2021)
+
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    ab = np.array(ab, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    expected = sp_blas.ctbsv (k, ab, x)
+    blas_ctbsv (k, ab, x)
+    assert(np.allclose(x, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_ctpsv_1():
+    from cblas import blas_ctpsv
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # make a triangular
+    a = triangulize(a)
+    ap = general_to_packed(a)
+
+    ap = np.array(ap, dtype=np.complex64)
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    expected = x.copy()
+    x = a @ x
+    blas_ctpsv (ap, x)
+    assert(np.linalg.norm(x-expected) < 1.e-6)
+    # ...
+
 ## ==============================================================================
 #def test_cger_1():
 #    from cblas import blas_cger
@@ -754,25 +704,17 @@ if __name__ == '__main__':
     test_caxpy_1()
     # ...
 
-#    # ... LEVEL 2
-#    test_cgemv_1()
-#    test_cgbmv_1()
-#    test_csymv_1()
-#    test_csbmv_1()
-#    test_cspmv_1()
-#    test_ctrmv_1()
-#    test_ctbmv_1()
-#    test_ctpmv_1()
-#    test_ctrsv_1()
-#    test_ctbsv_1()
-#    test_ctpsv_1()
-#    test_cger_1()
-#    test_csyr_1()
-#    test_cspr_1()
-#    test_csyr2_1()
-#    test_cspr2_1()
-#    # ...
-#
+    # ... LEVEL 2
+    test_cgemv_1()
+    test_cgbmv_1()
+    test_ctrmv_1()
+    test_ctbmv_1()
+    test_ctpmv_1()
+    test_ctrsv_1()
+    test_ctbsv_1()
+    test_ctpsv_1()
+    # ...
+
 #    # ... LEVEL 3
 #    test_cgemm_1()
 #    test_cgemm_2()

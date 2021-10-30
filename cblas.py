@@ -117,514 +117,308 @@ def blas_icamax(x: 'complex64[:]',
     i = i-1
     return i
 
-## ==============================================================================
-##
-##                                  LEVEL 2
-##
-## ==============================================================================
-#
-## ==============================================================================
-#def blas_cgemv(alpha: 'float32', a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
-#               beta: 'float32' = 0.,
-#               incx: 'int32' = 1,
-#               incy: 'int32' = 1,
-#               trans: 'bool' = False
-#              ):
-#    """
-#    DGEMV  performs one of the matrix-vector operations
-#
-#    y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
-#
-#    where alpha and beta are scalars, x and y are vectors and A is an
-#    m by n matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import cgemv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    sgemv (flag_trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
-#
-## ==============================================================================
-#def blas_cgbmv(kl : 'int32', ku: 'int32', alpha: 'float32',
-#               a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
-#               beta: 'float32' = 0.,
-#               incx: 'int32' = 1,
-#               incy: 'int32' = 1,
-#               trans: 'bool' = False
-#              ):
-#    """
-#    DGBMV  performs one of the matrix-vector operations
-#
-#    y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
-#
-#    where alpha and beta are scalars, x and y are vectors and A is an
-#    m by n band matrix, with kl sub-diagonals and ku super-diagonals.
-#    """
-#    from pyccel.stdlib.internal.blas import cgbmv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#
-#    lda = m
-##    lda = np.int32(1) + ku + kl
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    sgbmv (flag_trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
-#
-## ==============================================================================
-#def blas_csymv(alpha: 'float32', a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
-#               beta: 'float32' = 0.,
-#               incx: 'int32' = 1,
-#               incy: 'int32' = 1,
-#               lower: 'bool' = False
-#              ):
-#    """
-#    DSYMV  performs the matrix-vector  operation
-#
-#    y := alpha*A*x + beta*y,
-#
-#    where alpha and beta are scalars, x and y are n element vectors and
-#    A is an n by n symmetric matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import csymv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ssymv (flag_uplo, n, alpha, a, lda, x, incx, beta, y, incy)
-#
-## ==============================================================================
-#def blas_csbmv(k : 'int32', alpha: 'float32',
-#               a: 'float32[:,:](order=F)', x: 'float32[:]', y: 'float32[:]',
-#               beta: 'float32' = 0.,
-#               incx: 'int32' = 1,
-#               incy: 'int32' = 1,
-#               lower: 'bool' = False
-#              ):
-#    """
-#    DSBMV  performs the matrix-vector  operation
-#
-#    y := alpha*A*x + beta*y,
-#
-#    where alpha and beta are scalars, x and y are n element vectors and
-#    A is an n by n symmetric band matrix, with k super-diagonals.
-#    """
-#    from pyccel.stdlib.internal.blas import csbmv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ssbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
-#
-## ==============================================================================
-#def blas_cspmv(alpha: 'float32', a: 'float32[:]', x: 'float32[:]', y: 'float32[:]',
-#               beta: 'float32' = 0.,
-#               incx: 'int32' = 1,
-#               incy: 'int32' = 1,
-#               lower: 'bool' = False
-#              ):
-#    """
-#    DSPMV  performs the matrix-vector operation
-#
-#    y := alpha*A*x + beta*y,
-#
-#    where alpha and beta are scalars, x and y are n element vectors and
-#    A is an n by n symmetric matrix, supplied in packed form.
-#    """
-#    from pyccel.stdlib.internal.blas import cspmv
-#
-#    n = np.int32(x.shape[0])
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    sspmv (flag_uplo, n, alpha, a, x, incx, beta, y, incy)
-#
-## ==============================================================================
-#def blas_ctrmv(a: 'float32[:,:](order=F)', x: 'float32[:]',
-#               incx: 'int32' = 1,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTRMV  performs one of the matrix-vector operations
-#
-#    x := A*x,   or   x := A**T*x,
-#
-#    where x is an n element vector and  A is an n by n unit, or non-unit,
-#    upper or lower triangular matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import ctrmv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    strmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
-#
-## ==============================================================================
-#def blas_ctbmv(k : 'int32', a: 'float32[:,:](order=F)', x: 'float32[:]',
-#               incx: 'int32' = 1,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTBMV  performs one of the matrix-vector operations
-#
-#    x := A*x,   or   x := A**T*x,
-#
-#    where x is an n element vector and  A is an n by n unit, or non-unit,
-#    upper or lower triangular band matrix, with ( k + 1 ) diagonals.
-#    """
-#    from pyccel.stdlib.internal.blas import ctbmv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    stbmv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
-#
-## ==============================================================================
-#def blas_ctpmv(a: 'float32[:]', x: 'float32[:]',
-#               incx: 'int32' = 1,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTPMV  performs one of the matrix-vector operations
-#
-#    x := A*x,   or   x := A**T*x,
-#
-#    where x is an n element vector and  A is an n by n unit, or non-unit,
-#    upper or lower triangular matrix, supplied in packed form.
-#    """
-#    from pyccel.stdlib.internal.blas import ctpmv
-#
-#    n = np.int32(x.shape[0])
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    stpmv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
-#
-## ==============================================================================
-#def blas_ctrsv(a: 'float32[:,:](order=F)', x: 'float32[:]',
-#               incx: 'int32' = 1,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTRSV  solves one of the systems of equations
-#
-#    A*x = b,   or   A**T*x = b,
-#
-#    where b and x are n element vectors and A is an n by n unit, or
-#    non-unit, upper or lower triangular matrix.
-#
-#    No test for singularity or near-singularity is included in this
-#    routine. Such tests must be performed before calling this routine.
-#    """
-#
-#    from pyccel.stdlib.internal.blas import ctrsv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    strsv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
-#
-## ==============================================================================
-#def blas_ctbsv(k: 'int32', a: 'float32[:,:](order=F)', x: 'float32[:]',
-#               incx: 'int32' = 1,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTBSV  solves one of the systems of equations
-#
-#    A*x = b,   or   A**T*x = b,
-#
-#    where b and x are n element vectors and A is an n by n unit, or
-#    non-unit, upper or lower triangular band matrix, with ( k + 1 )
-#    diagonals.
-#
-#    No test for singularity or near-singularity is included in this
-#    routine. Such tests must be performed before calling this routine.
-#    """
-#
-#    from pyccel.stdlib.internal.blas import ctbsv
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    stbsv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
-#
-## ==============================================================================
-#def blas_ctpsv(a: 'float32[:]', x: 'float32[:]',
-#               incx: 'int32' = 1,
-#               lower: 'bool' = False,
-#               trans: 'bool' = False,
-#               diag: 'bool' = False
-#              ):
-#    """
-#    DTPSV  solves one of the systems of equations
-#
-#    A*x = b,   or   A**T*x = b,
-#
-#    where b and x are n element vectors and A is an n by n unit, or
-#    non-unit, upper or lower triangular matrix, supplied in packed form.
-#
-#    No test for singularity or near-singularity is included in this
-#    routine. Such tests must be performed before calling this routine.
-#    """
-#
-#    from pyccel.stdlib.internal.blas import ctpsv
-#
-#    n = np.int32(x.shape[0])
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    # ...
-#    flag_trans = 'N'
-#    if trans: flag_trans = 'T'
-#    # ...
-#
-#    # ...
-#    flag_diag = 'N'
-#    if diag: flag_diag = 'U'
-#    # ...
-#
-#    stpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
-#
-## ==============================================================================
-#def blas_cger(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:,:]',
-#              incx: 'int32' = 1,
-#              incy: 'int32' = 1,
-#              ):
-#    """
-#    DGER   performs the rank 1 operation
-#
-#    A := alpha*x*y**T + A,
-#
-#    where alpha is a scalar, x is an m element vector, y is an n element
-#    vector and A is an m by n matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import cger
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    sger (m, n, alpha, x, incx, y, incy, a, lda)
-#
-## ==============================================================================
-#def blas_csyr(alpha: 'float32', x: 'float32[:]', a: 'float32[:,:](order=F)',
-#              incx: 'int32' = 1,
-#              lower: 'bool' = False
-#              ):
-#    """
-#    DSYR   performs the symmetric rank 1 operation
-#
-#    A := alpha*x*x**T + A,
-#
-#    where alpha is a real scalar, x is an n element vector and A is an
-#    n by n symmetric matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import csyr
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ssyr (flag_uplo, n, alpha, x, incx, a, lda)
-#
-## ==============================================================================
-#def blas_cspr(alpha: 'float32', x: 'float32[:]', a: 'float32[:]',
-#              incx: 'int32' = 1,
-#              lower: 'bool' = False
-#              ):
-#    """
-#    DSPR    performs the symmetric rank 1 operation
-#
-#    A := alpha*x*x**T + A,
-#
-#    where alpha is a real scalar, x is an n element vector and A is an
-#    n by n symmetric matrix, supplied in packed form.
-#    """
-#    from pyccel.stdlib.internal.blas import cspr
-#
-#    n = np.int32(x.shape[0])
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    sspr (flag_uplo, n, alpha, x, incx, a)
-#
-## ==============================================================================
-#def blas_csyr2(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:,:](order=F)',
-#              incx: 'int32' = 1,
-#              incy: 'int32' = 1,
-#              lower: 'bool' = False
-#              ):
-#    """
-#    DSYR2  performs the symmetric rank 2 operation
-#
-#    A := alpha*x*y**T + alpha*y*x**T + A,
-#
-#    where alpha is a scalar, x and y are n element vectors and A is an n
-#    by n symmetric matrix.
-#    """
-#    from pyccel.stdlib.internal.blas import csyr2
-#
-#    m = np.int32(a.shape[0])
-#    n = np.int32(a.shape[1])
-#    lda = m
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    ssyr2 (flag_uplo, n, alpha, x, incx, y, incy, a, lda)
-#
-## ==============================================================================
-#def blas_cspr2(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:]',
-#              incx: 'int32' = 1,
-#              incy: 'int32' = 1,
-#              lower: 'bool' = False
-#              ):
-#    """
-#    DSPR2  performs the symmetric rank 2 operation
-#
-#    A := alpha*x*y**T + alpha*y*x**T + A,
-#
-#    where alpha is a scalar, x and y are n element vectors and A is an
-#    n by n symmetric matrix, supplied in packed form.
-#    """
-#    from pyccel.stdlib.internal.blas import cspr2
-#
-#    n = np.int32(x.shape[0])
-#
-#    # ...
-#    flag_uplo = 'U'
-#    if lower : flag_uplo = 'L'
-#    # ...
-#
-#    sspr2 (flag_uplo, n, alpha, x, incx, y, incy, a)
-#
+# ==============================================================================
+#
+#                                  LEVEL 2
+#
+# ==============================================================================
+
+# ==============================================================================
+def blas_cgemv(alpha: 'complex64', a: 'complex64[:,:](order=F)', x: 'complex64[:]', y: 'complex64[:]',
+               beta: 'complex64' = 0.,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
+               trans: 'bool' = False
+              ):
+    """
+    DGEMV  performs one of the matrix-vector operations
+
+    y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+
+    where alpha and beta are scalars, x and y are vectors and A is an
+    m by n matrix.
+    """
+    from pyccel.stdlib.internal.blas import cgemv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    cgemv (flag_trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
+
+# ==============================================================================
+def blas_cgbmv(kl : 'int32', ku: 'int32', alpha: 'complex64',
+               a: 'complex64[:,:](order=F)', x: 'complex64[:]', y: 'complex64[:]',
+               beta: 'complex64' = 0.,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
+               trans: 'bool' = False
+              ):
+    """
+    DGBMV  performs one of the matrix-vector operations
+
+    y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+
+    where alpha and beta are scalars, x and y are vectors and A is an
+    m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+    """
+    from pyccel.stdlib.internal.blas import cgbmv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+
+    lda = m
+#    lda = np.int32(1) + ku + kl
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    cgbmv (flag_trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
+
+# ==============================================================================
+def blas_ctrmv(a: 'complex64[:,:](order=F)', x: 'complex64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRMV  performs one of the matrix-vector operations
+
+    x := A*x,   or   x := A**T*x,
+
+    where x is an n element vector and  A is an n by n unit, or non-unit,
+    upper or lower triangular matrix.
+    """
+    from pyccel.stdlib.internal.blas import ctrmv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ctrmv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
+
+# ==============================================================================
+def blas_ctbmv(k : 'int32', a: 'complex64[:,:](order=F)', x: 'complex64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTBMV  performs one of the matrix-vector operations
+
+    x := A*x,   or   x := A**T*x,
+
+    where x is an n element vector and  A is an n by n unit, or non-unit,
+    upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+    """
+    from pyccel.stdlib.internal.blas import ctbmv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ctbmv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
+
+# ==============================================================================
+def blas_ctpmv(a: 'complex64[:]', x: 'complex64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTPMV  performs one of the matrix-vector operations
+
+    x := A*x,   or   x := A**T*x,
+
+    where x is an n element vector and  A is an n by n unit, or non-unit,
+    upper or lower triangular matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import ctpmv
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ctpmv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
+
+# ==============================================================================
+def blas_ctrsv(a: 'complex64[:,:](order=F)', x: 'complex64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTRSV  solves one of the systems of equations
+
+    A*x = b,   or   A**T*x = b,
+
+    where b and x are n element vectors and A is an n by n unit, or
+    non-unit, upper or lower triangular matrix.
+
+    No test for singularity or near-singularity is included in this
+    routine. Such tests must be performed before calling this routine.
+    """
+
+    from pyccel.stdlib.internal.blas import ctrsv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ctrsv (flag_uplo, flag_trans, flag_diag, n, a, lda, x, incx)
+
+# ==============================================================================
+def blas_ctbsv(k: 'int32', a: 'complex64[:,:](order=F)', x: 'complex64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTBSV  solves one of the systems of equations
+
+    A*x = b,   or   A**T*x = b,
+
+    where b and x are n element vectors and A is an n by n unit, or
+    non-unit, upper or lower triangular band matrix, with ( k + 1 )
+    diagonals.
+
+    No test for singularity or near-singularity is included in this
+    routine. Such tests must be performed before calling this routine.
+    """
+
+    from pyccel.stdlib.internal.blas import ctbsv
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ctbsv (flag_uplo, flag_trans, flag_diag, n, k, a, lda, x, incx)
+
+# ==============================================================================
+def blas_ctpsv(a: 'complex64[:]', x: 'complex64[:]',
+               incx: 'int32' = 1,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+               diag: 'bool' = False
+              ):
+    """
+    DTPSV  solves one of the systems of equations
+
+    A*x = b,   or   A**T*x = b,
+
+    where b and x are n element vectors and A is an n by n unit, or
+    non-unit, upper or lower triangular matrix, supplied in packed form.
+
+    No test for singularity or near-singularity is included in this
+    routine. Such tests must be performed before calling this routine.
+    """
+
+    from pyccel.stdlib.internal.blas import ctpsv
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    # ...
+    flag_trans = 'N'
+    if trans: flag_trans = 'T'
+    # ...
+
+    # ...
+    flag_diag = 'N'
+    if diag: flag_diag = 'U'
+    # ...
+
+    ctpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
+
 ## ==============================================================================
 ##
 ##                                  LEVEL 3
