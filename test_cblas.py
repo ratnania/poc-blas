@@ -363,6 +363,35 @@ def test_chbmv_1():
     # ...
 
 # ==============================================================================
+def test_chpmv_1():
+    from cblas import blas_chpmv
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    # make a symmetric
+    a = symmetrize(a)
+    ap = general_to_packed(a)
+
+    a = np.array(a, dtype=np.complex64)
+    ap = np.array(ap, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.)
+    beta = np.complex64(0.5)
+    expected = sp_blas.chpmv (n, alpha, ap, x, y=y, beta=beta)
+    blas_chpmv (alpha, ap, x, y, beta=beta)
+    assert(np.allclose(y, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
 def test_ctrmv_1():
     from cblas import blas_ctrmv
 
@@ -521,6 +550,156 @@ def test_ctpsv_1():
     # ...
 
 # ==============================================================================
+def test_cgeru_1():
+    from cblas import blas_cgeru
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.)
+    expected = sp_blas.cgeru (alpha, x, y, a=a)
+    blas_cgeru (alpha, x, y, a)
+    assert(np.allclose(a, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_cgerc_1():
+    from cblas import blas_cgerc
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.)
+    expected = sp_blas.cgerc (alpha, x, y, a=a)
+    blas_cgerc (alpha, x, y, a)
+    assert(np.allclose(a, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_cher_1():
+    from cblas import blas_cher
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # syrketrize a
+    a = symmetrize(a)
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    alpha = np.float32(1.)
+    expected = sp_blas.cher (alpha, x, a=a)
+    blas_cher (alpha, x, a)
+    assert(np.allclose(a, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_chpr_1():
+    from cblas import blas_chpr
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+
+    # syrketrize a
+    a = symmetrize(a)
+    ap = general_to_packed(a)
+
+    ap = np.array(ap, dtype=np.complex64)
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+
+    # ...
+    alpha = np.float32(1.)
+    expected = sp_blas.chpr (n, alpha, x, ap)
+    blas_chpr (alpha, x, ap)
+    assert(np.allclose(ap, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_cher2_1():
+    from cblas import blas_cher2
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    # syrketrize a
+    a = symmetrize(a)
+
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(y, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.)
+    expected = sp_blas.cher2 (alpha, x, y, a=a)
+    blas_cher2 (alpha, x, y, a)
+    assert(np.allclose(a, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_chpr2_1():
+    from cblas import blas_chpr2
+
+    np.random.seed(2021)
+
+    n = 10
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    x = np.random.random(n) + np.random.random(n) * 1j
+    y = np.random.random(n) + np.random.random(n) * 1j
+
+    # syrketrize a
+    a = symmetrize(a)
+    ap = general_to_packed(a)
+
+    ap = np.array(ap, dtype=np.complex64)
+    a = np.array(a, dtype=np.complex64)
+    x = np.array(x, dtype=np.complex64)
+    y = np.array(x, dtype=np.complex64)
+
+    # ...
+    alpha = np.complex64(1.)
+    expected = sp_blas.chpr2 (n, alpha, x, y, ap)
+    blas_chpr2 (alpha, x, y, ap)
+    assert(np.allclose(ap, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
 #
 #                                  LEVEL 3
 #
@@ -583,55 +762,33 @@ def test_csymm_1():
     # ...
 
 # ==============================================================================
-def test_ctrmm_1():
-    from cblas import blas_ctrmm
+def test_chemm_1():
+    from cblas import blas_chemm
 
     np.random.seed(2021)
 
     n = 4
     a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
     b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
     a = a.copy(order='F')
     b = b.copy(order='F')
+    c = c.copy(order='F')
 
     a = np.array(a, dtype=np.complex64)
     b = np.array(b, dtype=np.complex64)
+    c = np.array(c, dtype=np.complex64)
 
-    # make a triangular
-    a = triangulize(a)
-
-    # ...
-    alpha = np.complex64(1.)
-    expected = alpha * a @ b
-    blas_ctrmm (alpha, a, b)
-    assert(np.allclose(b, expected, 1.e-7))
-    # ...
-
-# ==============================================================================
-def test_ctrsm_1():
-    from cblas import blas_ctrsm
-
-    np.random.seed(2021)
-
-    n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
-
-    # make a triangular
-    a = triangulize(a)
+    # symmetrize a & b
+    a = symmetrize(a)
+    b = symmetrize(b)
 
     # ...
     alpha = np.complex64(1.)
-    expected = b.copy()
-    b = alpha * a @ b
-    b = b.copy(order='F')
-    blas_ctrsm (alpha, a, b)
-    assert(np.linalg.norm(b- expected) < 1.e-5)
+    beta = np.complex64(.5)
+    expected = sp_blas.chemm (alpha, a, b, beta=beta, c=c)
+    blas_chemm (alpha, a, b, c, beta=beta)
+    assert(np.allclose(c, expected, 1.e-7))
     # ...
 
 # ==============================================================================
@@ -693,6 +850,117 @@ def test_csyr2k_1():
     assert(np.allclose(c, expected, 1.e-7))
     # ...
 
+# ==============================================================================
+def test_cherk_1():
+    from cblas import blas_cherk
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    c = c.copy(order='F')
+
+    a = np.array(a, dtype=np.complex64)
+    c = np.array(c, dtype=np.complex64)
+
+    # syrketrize a
+    a = symmetrize(a)
+    a_T = a.T.copy(order='F')
+
+    # ...
+    alpha = np.complex64(1.)
+    beta = np.complex64(.5)
+    expected = sp_blas.cherk (alpha, a, beta=beta, c=c)
+    blas_cherk (alpha, a, c, beta=beta)
+    assert(np.linalg.norm(c- expected) < 1.e-7)
+    # ...
+
+# ==============================================================================
+def test_cher2k_1():
+    from cblas import blas_cher2k
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    b = b.copy(order='F')
+    c = c.copy(order='F')
+
+    a = np.array(a, dtype=np.complex64)
+    b = np.array(b, dtype=np.complex64)
+    c = np.array(c, dtype=np.complex64)
+
+    # syr2ketrize a & b
+    a = symmetrize(a)
+    b = symmetrize(b)
+    a_T = a.T.copy(order='F')
+    b_T = b.T.copy(order='F')
+
+    # ...
+    alpha = np.complex64(1.)
+    beta = np.complex64(.5)
+    expected = sp_blas.cher2k (alpha, a, b, beta=beta, c=c)
+    blas_cher2k (alpha, a, b, c, beta=beta)
+    assert(np.allclose(c, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_ctrmm_1():
+    from cblas import blas_ctrmm
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    b = b.copy(order='F')
+
+    a = np.array(a, dtype=np.complex64)
+    b = np.array(b, dtype=np.complex64)
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    alpha = np.complex64(1.)
+    expected = alpha * a @ b
+    blas_ctrmm (alpha, a, b)
+    assert(np.allclose(b, expected, 1.e-7))
+    # ...
+
+# ==============================================================================
+def test_ctrsm_1():
+    from cblas import blas_ctrsm
+
+    np.random.seed(2021)
+
+    n = 4
+    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
+    a = a.copy(order='F')
+    b = b.copy(order='F')
+
+    a = np.array(a, dtype=np.complex64)
+    b = np.array(b, dtype=np.complex64)
+
+    # make a triangular
+    a = triangulize(a)
+
+    # ...
+    alpha = np.complex64(1.)
+    expected = b.copy()
+    b = alpha * a @ b
+    b = b.copy(order='F')
+    blas_ctrsm (alpha, a, b)
+    assert(np.linalg.norm(b- expected) < 1.e-5)
+    # ...
+
 # ******************************************************************************
 if __name__ == '__main__':
 
@@ -713,19 +981,29 @@ if __name__ == '__main__':
     test_cgbmv_1()
     test_chemv_1()
     test_chbmv_1()
+    test_chpmv_1()
     test_ctrmv_1()
     test_ctbmv_1()
     test_ctpmv_1()
     test_ctrsv_1()
     test_ctbsv_1()
     test_ctpsv_1()
+    test_cgeru_1()
+    test_cgerc_1()
+    test_cher_1()
+    test_chpr_1()
+    test_cher2_1()
+    test_chpr2_1()
     # ...
 
     # ... LEVEL 3
     test_cgemm_1()
     test_csymm_1()
-    test_ctrmm_1()
-    test_ctrsm_1()
+    test_chemm_1()
     test_csyrk_1()
     test_csyr2k_1()
+    test_cherk_1()
+    test_cher2k_1()
+    test_ctrmm_1()
+    test_ctrsm_1()
     # ...

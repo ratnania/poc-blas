@@ -9,6 +9,9 @@ pyccel:
  |fatal [semantic]: utilities.py [14,4]| Undefined function (core_dgemv)
 ```
 
+# TODO
+
+* Must check all **alpha** in the complex case; sometimes there must be float
 
 # Summary
 
@@ -43,7 +46,7 @@ pyccel:
 | xGBMV       | S,D,C,Z      | SDC         |             |
 | xHEMV       | C,Z          | C           |             |
 | xHBMV       | C,Z          | C           |             |
-| xHPMV       | C,Z          |             |             |
+| xHPMV       | C,Z          | C           |             |
 | xSYMV       | S,D          | SD          |             |
 | xSBMV       | S,D          | SD          |             |
 | xSPMV       | S,D          | SD          |             |
@@ -54,12 +57,12 @@ pyccel:
 | xTBSV       | S,D,C,Z      | SDC         |             |
 | xTPSV       | S,D,C,Z      | SDC         |             |
 | xGER        | S,D          | SD          |             |
-| xGERU       | C,Z          |             |             |
-| xGERC       | C,Z          |             |             |
-| xHER        | C,Z          |             |             |
-| xHPR        | C,Z          |             |             |
-| xHER2       | C,Z          |             |             |
-| xHPR2       | C,Z          |             |             |
+| xGERU       | C,Z          | C           |             |
+| xGERC       | C,Z          | C           |             |
+| xHER        | C,Z          | C           |             |
+| xHPR        | C,Z          | C           |             |
+| xHER2       | C,Z          | C           |             |
+| xHPR2       | C,Z          | C           |             |
 | xSYR        | S,D          | SD          |             |
 | xSPR        | S,D          | SD          |             |
 | xSYR2       | S,D          | SD          |             |
@@ -72,10 +75,10 @@ pyccel:
 | ----------- | -----------  | ----------- | ----------- |
 | xGEMM       | S,D,C,Z      | SDC         |             |
 | xSYMM       | S,D,C,Z      | SDC         |             |
-| xHEMM       | C,Z          |             |             |
+| xHEMM       | C,Z          | C           |             |
 | xSYRK       | S,D,C,Z      | SDC         |             |
-| xHERK       | C,Z          |             |             |
+| xHERK       | C,Z          | C           |             |
 | xSYR2K      | S,D,C,Z      | SDC         |             |
-| xHER2K      | C,Z          |             |             |
+| xHER2K      | C,Z          | C           |             |
 | xTRMM       | S,D,C,Z      | SDC         |             |
 | xTRSM       | S,D,C,Z      | SDC         |             |

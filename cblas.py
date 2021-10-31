@@ -268,6 +268,32 @@ def blas_chbmv(k : 'int32', alpha: 'complex64',
     chbmv (flag_uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 
 # ==============================================================================
+def blas_chpmv(alpha: 'complex64', a: 'complex64[:]', x: 'complex64[:]', y: 'complex64[:]',
+               beta: 'complex64' = 0.,
+               incx: 'int32' = 1,
+               incy: 'int32' = 1,
+               lower: 'bool' = False
+              ):
+    """
+    CHPMV  performs the matrix-vector operation
+
+    y := alpha*A*x + beta*y,
+
+    where alpha and beta are scalars, x and y are n element vectors and
+    A is an n by n hermitian matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import chpmv
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    chpmv (flag_uplo, n, alpha, a, x, incx, beta, y, incy)
+
+# ==============================================================================
 def blas_ctrmv(a: 'complex64[:,:](order=F)', x: 'complex64[:]',
                incx: 'int32' = 1,
                lower: 'bool' = False,
@@ -505,6 +531,150 @@ def blas_ctpsv(a: 'complex64[:]', x: 'complex64[:]',
     ctpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
 
 # ==============================================================================
+def blas_cgeru(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'complex64[:,:](order=F)',
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
+              ):
+    """
+    CGERU  performs the rank 1 operation
+
+    A := alpha*x*y**T + A,
+
+    where alpha is a scalar, x is an m element vector, y is an n element
+    vector and A is an m by n matrix.
+    """
+    from pyccel.stdlib.internal.blas import cgeru
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    cgeru (m, n, alpha, x, incx, y, incy, a, lda)
+
+# ==============================================================================
+def blas_cgerc(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'complex64[:,:](order=F)',
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
+              ):
+    """
+    CGERC  performs the rank 1 operation
+
+    A := alpha*x*y**H + A,
+
+    where alpha is a scalar, x is an m element vector, y is an n element
+    vector and A is an m by n matrix.
+    """
+    from pyccel.stdlib.internal.blas import cgerc
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    cgerc (m, n, alpha, x, incx, y, incy, a, lda)
+
+# ==============================================================================
+def blas_cher(alpha: 'float32', x: 'complex64[:]', a: 'complex64[:,:](order=F)',
+              incx: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    CHER   performs the hermitian rank 1 operation
+
+    A := alpha*x*x**H + A,
+
+    where alpha is a real scalar, x is an n element vector and A is an
+    n by n hermitian matrix.
+    """
+    from pyccel.stdlib.internal.blas import cher
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    cher (flag_uplo, n, alpha, x, incx, a, lda)
+
+# ==============================================================================
+def blas_chpr(alpha: 'float32', x: 'complex64[:]', a: 'complex64[:]',
+              incx: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    CHPR    performs the hermitian rank 1 operation
+
+    A := alpha*x*x**H + A,
+
+    where alpha is a real scalar, x is an n element vector and A is an
+    n by n hermitian matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import chpr
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    chpr (flag_uplo, n, alpha, x, incx, a)
+
+# ==============================================================================
+def blas_cher2(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'complex64[:,:](order=F)',
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    CHER2  performs the hermitian rank 2 operation
+
+    A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
+
+    where alpha is a scalar, x and y are n element vectors and A is an n
+    by n hermitian matrix.
+    """
+    from pyccel.stdlib.internal.blas import cher2
+
+    m = np.int32(a.shape[0])
+    n = np.int32(a.shape[1])
+    lda = m
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    cher2 (flag_uplo, n, alpha, x, incx, y, incy, a, lda)
+
+# ==============================================================================
+def blas_chpr2(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'complex64[:]',
+              incx: 'int32' = 1,
+              incy: 'int32' = 1,
+              lower: 'bool' = False
+              ):
+    """
+    CHPR2  performs the hermitian rank 2 operation
+
+    A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
+
+    where alpha is a scalar, x and y are n element vectors and A is an
+    n by n hermitian matrix, supplied in packed form.
+    """
+    from pyccel.stdlib.internal.blas import chpr2
+
+    n = np.int32(x.shape[0])
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    chpr2 (flag_uplo, n, alpha, x, incx, y, incy, a)
+
+# ==============================================================================
 #
 #                                  LEVEL 3
 #
@@ -599,6 +769,49 @@ def blas_csymm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:
     csymm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
+def blas_chemm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               side: 'bool' = False,
+               lower: 'bool' = False,
+              ):
+    """
+    CHEMM  performs one of the matrix-matrix operations
+
+    C := alpha*A*B + beta*C,
+
+    or
+
+    C := alpha*B*A + beta*C,
+
+    where alpha and beta are scalars, A is an hermitian matrix and  B and
+    C are m by n matrices.
+    """
+    from pyccel.stdlib.internal.blas import chemm
+
+    m = np.int32(c.shape[0])
+    n = np.int32(c.shape[1])
+
+    # ...
+    # equation 1
+    flag_side = 'L'
+    lda = m
+    # equation 2
+    if side:
+        flag_side = 'R'
+        lda = n
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    ldb = m
+    ldc = m
+
+    chemm (flag_side, flag_uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+
+# ==============================================================================
 def blas_csyrk(alpha: 'complex64', a: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
                beta: 'complex64' = 0.,
                lower: 'bool' = False,
@@ -686,6 +899,95 @@ def blas_csyr2k(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[
     ldc = n
 
     csyr2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+
+# ==============================================================================
+def blas_cherk(alpha: 'complex64', a: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+              ):
+    """
+    CHERK  performs one of the hermitian rank k operations
+
+    C := alpha*A*A**H + beta*C,
+
+    or
+
+    C := alpha*A**H*A + beta*C,
+
+    where  alpha and beta  are  real scalars,  C is an  n by n  hermitian
+    matrix and  A  is an  n by k  matrix in the  first case and a  k by n
+    matrix in the second case.
+    """
+    from pyccel.stdlib.internal.blas import cherk
+
+    n = np.int32(c.shape[0])
+    k = np.int32(c.shape[1])
+
+    # ...
+    # equation 1
+    flag_trans = 'N'
+    lda = n
+    # equation 2
+    if trans:
+        flag_trans = 'T'
+        lda = k
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    ldc = n
+
+    cherk (flag_uplo, flag_trans, n, k, alpha, a, lda, beta, c, ldc)
+
+# ==============================================================================
+def blas_cher2k(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)', c: 'complex64[:,:](order=F)',
+               beta: 'complex64' = 0.,
+               lower: 'bool' = False,
+               trans: 'bool' = False,
+              ):
+    """
+    CHER2K  performs one of the hermitian rank 2k operations
+
+    C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
+
+    or
+
+    C := alpha*A**H*B + conjg( alpha )*B**H*A + beta*C,
+
+    where  alpha and beta  are scalars with  beta  real,  C is an  n by n
+    hermitian matrix and  A and B  are  n by k matrices in the first case
+    and  k by n  matrices in the second case.
+    """
+    from pyccel.stdlib.internal.blas import cher2k
+
+    n = np.int32(c.shape[0])
+
+    # ...
+    # equation 1
+    flag_trans = 'N'
+    k = np.int32(a.shape[1])
+    lda = n
+    ldb = n
+    # equation 2
+    if trans:
+        flag_trans = 'T'
+        k = np.int32(a.shape[0])
+        lda = k
+        ldb = k
+    # ...
+
+    # ...
+    flag_uplo = 'U'
+    if lower : flag_uplo = 'L'
+    # ...
+
+    ldc = n
+
+    cher2k (flag_uplo, flag_trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 
 # ==============================================================================
 def blas_ctrmm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:,:](order=F)',
