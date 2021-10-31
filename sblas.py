@@ -570,7 +570,7 @@ def blas_stpsv(a: 'float32[:]', x: 'float32[:]',
     stpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
 
 # ==============================================================================
-def blas_sger(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:,:]',
+def blas_sger(alpha: 'float32', x: 'float32[:]', y: 'float32[:]', a: 'float32[:,:](order=F)',
               incx: 'int32' = 1,
               incy: 'int32' = 1,
               ):

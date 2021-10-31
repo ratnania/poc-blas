@@ -570,7 +570,7 @@ def blas_dtpsv(a: 'float64[:]', x: 'float64[:]',
     dtpsv (flag_uplo, flag_trans, flag_diag, n, a, x, incx)
 
 # ==============================================================================
-def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:]',
+def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,:](order=F)',
               incx: 'int32' = 1,
               incy: 'int32' = 1,
               ):
