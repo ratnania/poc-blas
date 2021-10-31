@@ -24,17 +24,17 @@ pyccel:
 | xROTMG      | S,D         | SD          |             |
 | xROT        | S,D         | SD          |             |
 | xROTM       | S,D         | SD          |             |
-| xSWAP       | S,D,C,Z     | SDC         |             |
-| xSCAL       | S,D,C,Z     | SDC         |             |
-| xCOPY       | S,D,C,Z     | SDC         |             |
-| xAXPY       | S,D,C,Z     | SDC         |             |
+| xSWAP       | S,D,C,Z     | SDCZ        |             |
+| xSCAL       | S,D,C,Z     | SDCZ        |             |
+| xCOPY       | S,D,C,Z     | SDCZ        |             |
+| xAXPY       | S,D,C,Z     | SDCZ        |             |
 | xDOT        | S,D-DS      | SD          |             |
-| xDOTU       | C,Z         | C           | KO -> C     |
-| xDOTC       | C,Z         | C           | KO -> C     |
+| xDOTU       | C,Z         | CZ          | KO -> C     |
+| xDOTC       | C,Z         | CZ          | KO -> C     |
 | xxDOT       | SDS         |             |             |
-| xNRM2       | S,D,SC,DZ   | SDC         |             |
-| xASUM       | S,D,SC,DZ   | SDC         | KO -> S,C   |
-| IxAMAX      | S,D,C,Z     | SDc         |             |
+| xNRM2       | S,D,SC,DZ   | SDCZ        |             |
+| xASUM       | S,D,SC,DZ   | SDCZ        | KO -> S,C   |
+| IxAMAX      | S,D,C,Z     | SDCZ        |             |
 
 
 ## Level 2 
@@ -42,27 +42,27 @@ pyccel:
 | SUBROUTINE  | PRECISIONS   | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
-| xGEMV       | S,D,C,Z      | SDC         |             |
-| xGBMV       | S,D,C,Z      | SDC         |             |
-| xHEMV       | C,Z          | C           |             |
-| xHBMV       | C,Z          | C           |             |
-| xHPMV       | C,Z          | C           |             |
+| xGEMV       | S,D,C,Z      | SDCZ        |             |
+| xGBMV       | S,D,C,Z      | SDCZ        |             |
+| xHEMV       | C,Z          | CZ          |             |
+| xHBMV       | C,Z          | CZ          |             |
+| xHPMV       | C,Z          | CZ          |             |
 | xSYMV       | S,D          | SD          |             |
 | xSBMV       | S,D          | SD          |             |
 | xSPMV       | S,D          | SD          |             |
-| xTRMV       | S,D,C,Z      | SDC         |             |
-| xTBMV       | S,D,C,Z      | SDC         |             |
-| xTPMV       | S,D,C,Z      | SDC         |             |
-| xTRSV       | S,D,C,Z      | SDC         |             |
-| xTBSV       | S,D,C,Z      | SDC         |             |
-| xTPSV       | S,D,C,Z      | SDC         |             |
+| xTRMV       | S,D,C,Z      | SDCZ        |             |
+| xTBMV       | S,D,C,Z      | SDCZ        |             |
+| xTPMV       | S,D,C,Z      | SDCZ        |             |
+| xTRSV       | S,D,C,Z      | SDCZ        |             |
+| xTBSV       | S,D,C,Z      | SDCZ        |             |
+| xTPSV       | S,D,C,Z      | SDCZ        |             |
 | xGER        | S,D          | SD          |             |
-| xGERU       | C,Z          | C           |             |
-| xGERC       | C,Z          | C           |             |
-| xHER        | C,Z          | C           |             |
-| xHPR        | C,Z          | C           |             |
-| xHER2       | C,Z          | C           |             |
-| xHPR2       | C,Z          | C           |             |
+| xGERU       | C,Z          | CZ          |             |
+| xGERC       | C,Z          | CZ          |             |
+| xHER        | C,Z          | CZ          |             |
+| xHPR        | C,Z          | CZ          |             |
+| xHER2       | C,Z          | CZ          |             |
+| xHPR2       | C,Z          | CZ          |             |
 | xSYR        | S,D          | SD          |             |
 | xSPR        | S,D          | SD          |             |
 | xSYR2       | S,D          | SD          |             |
@@ -73,12 +73,12 @@ pyccel:
 | SUBROUTINE  | PRECISIONS   | PRECISIONS  | EXAMPLE     |
 |             | (AVAILABLE)  |   (DONE)    |             |
 | ----------- | -----------  | ----------- | ----------- |
-| xGEMM       | S,D,C,Z      | SDC         |             |
-| xSYMM       | S,D,C,Z      | SDC         |             |
-| xHEMM       | C,Z          | C           |             |
-| xSYRK       | S,D,C,Z      | SDC         |             |
-| xHERK       | C,Z          | C           |             |
-| xSYR2K      | S,D,C,Z      | SDC         |             |
-| xHER2K      | C,Z          | C           |             |
-| xTRMM       | S,D,C,Z      | SDC         |             |
-| xTRSM       | S,D,C,Z      | SDC         |             |
+| xGEMM       | S,D,C,Z      | SDCZ        |             |
+| xSYMM       | S,D,C,Z      | SDCZ        |             |
+| xHEMM       | C,Z          | CZ          |             |
+| xSYRK       | S,D,C,Z      | SDCZ        |             |
+| xHERK       | C,Z          | CZ          |             |
+| xSYR2K      | S,D,C,Z      | SDCZ        |             |
+| xHER2K      | C,Z          | CZ          |             |
+| xTRMM       | S,D,C,Z      | SDCZ        |             |
+| xTRSM       | S,D,C,Z      | SDCZ        |             |
