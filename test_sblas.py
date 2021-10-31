@@ -234,7 +234,6 @@ def test_snrm2_1():
     # ...
 
 # ==============================================================================
-# TODO not working
 def test_sasum_1():
     from sblas import blas_sasum
 
@@ -247,9 +246,7 @@ def test_sasum_1():
     # ...
     expected = sp_blas.sasum(x)
     result   = blas_sasum (x)
-#    print(expected)
-#    print(result)
-#    assert(np.allclose(result, expected, 1.e-7))
+    assert(np.allclose(result, expected, 1.e-7))
     # ...
 
 # ==============================================================================
@@ -605,7 +602,7 @@ def test_sger_1():
     np.random.seed(2021)
 
     n = 10
-    a = np.random.random((n,n))
+    a = np.random.random((n,n)).copy(order='F')
 
     x = np.ones(n)
     y = np.zeros(n)
@@ -923,7 +920,7 @@ if __name__ == '__main__':
     test_sscal_1()
     test_sdot_1()
     test_snrm2_1()
-#    test_sasum_1() # TODO not working
+    test_sasum_1()
     test_isamax_1()
     test_saxpy_1()
     # ...

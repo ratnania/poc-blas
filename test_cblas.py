@@ -149,7 +149,6 @@ def test_scnrm2_1():
     # ...
 
 # ==============================================================================
-# TODO not working
 def test_scasum_1():
     from cblas import blas_scasum
 
@@ -162,7 +161,7 @@ def test_scasum_1():
     # ...
     expected = sp_blas.scasum(x)
     result   = blas_scasum (x)
-#    assert(np.allclose(result, expected, 1.e-6))
+    assert(np.allclose(result, expected, 1.e-6))
     # ...
 
 # ==============================================================================
@@ -202,7 +201,6 @@ def test_caxpy_1():
     # ...
 
 # ==============================================================================
-# TODO not working
 def test_cdotc_1():
     from cblas import blas_cdotc
 
@@ -217,11 +215,10 @@ def test_cdotc_1():
     # ...
     expected = sp_blas.cdotc(x, y)
     result   = blas_cdotc (x, y)
-#    assert(np.linalg.norm(result-expected) < 1.e-6)
+    assert(np.linalg.norm(result-expected) < 1.e-6)
     # ...
 
 # ==============================================================================
-# TODO not working
 def test_cdotu_1():
     from cblas import blas_cdotu
 
@@ -236,7 +233,7 @@ def test_cdotu_1():
     # ...
     expected = sp_blas.cdotu(x, y)
     result   = blas_cdotu (x, y)
-#    assert(np.linalg.norm(result-expected) < 1.e-6)
+    assert(np.linalg.norm(result-expected) < 1.e-6)
     # ...
 
 # ==============================================================================

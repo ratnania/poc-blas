@@ -546,7 +546,7 @@ def test_dger_1():
     np.random.seed(2021)
 
     n = 10
-    a = np.random.random((n,n))
+    a = np.random.random((n,n)).copy(order='F')
 
     x = np.ones(n)
     y = np.zeros(n)

@@ -29,11 +29,11 @@ pyccel:
 | xCOPY       | S,D,C,Z     | SDCZ        |             |
 | xAXPY       | S,D,C,Z     | SDCZ        |             |
 | xDOT        | S,D-DS      | SD          |             |
-| xDOTU       | C,Z         | CZ          | KO -> C     |
-| xDOTC       | C,Z         | CZ          | KO -> C     |
+| xDOTU       | C,Z         | CZ          |             |
+| xDOTC       | C,Z         | CZ          |             |
 | xxDOT       | SDS         |             |             |
 | xNRM2       | S,D,SC,DZ   | SDCZ        |             |
-| xASUM       | S,D,SC,DZ   | SDCZ        | KO -> S,C   |
+| xASUM       | S,D,SC,DZ   | SDCZ        |             |
 | IxAMAX      | S,D,C,Z     | SDCZ        |             |
 
 
