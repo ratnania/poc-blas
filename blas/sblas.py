@@ -124,6 +124,46 @@ def blas_sdot(x: 'float32[:]', y: 'float32[:]',
     return sdot (n, x, incx, y, incy)
 
 # ==============================================================================
+def blas_sdsdot(sb: 'float32', x: 'float32[:]', y: 'float32[:]',
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
+              ):
+    """
+    Compute the inner product of two vectors with extended
+    precision accumulation.
+
+    Returns S.P. result with dot product accumulated in D.P.
+    SDSDOT = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
+    where LX = 1 if INCX .GE. 0, else LX = 1+(1-N)*INCX, and LY is
+    defined in a similar way using INCY.
+    """
+    from pyccel.stdlib.internal.blas import sdsdot
+
+    n = np.int32(x.shape[0])
+
+    return sdsdot (n, sb, x, incx, y, incy)
+
+# ==============================================================================
+def blas_dsdot(x: 'float32[:]', y: 'float32[:]',
+               incx: 'int32' = 1,
+               incy: 'int32' = 1
+              ):
+    """
+    Compute the inner product of two vectors with extended
+    precision accumulation and result.
+
+    Returns D.P. dot product accumulated in D.P., for S.P. SX and SY
+    DSDOT = sum for I = 0 to N-1 of  SX(LX+I*INCX) * SY(LY+I*INCY),
+    where LX = 1 if INCX .GE. 0, else LX = 1+(1-N)*INCX, and LY is
+    defined in a similar way using INCY.
+    """
+    from pyccel.stdlib.internal.blas import dsdot
+
+    n = np.int32(x.shape[0])
+
+    return dsdot (n, x, incx, y, incy)
+
+# ==============================================================================
 def blas_saxpy(x: 'float32[:]', y: 'float32[:]',
                a: 'float32' = 1.,
                incx: 'int32' = 1,

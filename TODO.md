@@ -31,7 +31,7 @@ pyccel:
 | xDOT        | S,D-DS      | SD          |             |
 | xDOTU       | C,Z         | CZ          |             |
 | xDOTC       | C,Z         | CZ          |             |
-| xxDOT       | SDS         |             |             |
+| xxDOT       | SDS         | SDS         |             |
 | xNRM2       | S,D,SC,DZ   | SDCZ        |             |
 | xASUM       | S,D,SC,DZ   | SDCZ        |             |
 | IxAMAX      | S,D,C,Z     | SDCZ        |             |

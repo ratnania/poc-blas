@@ -4,8 +4,6 @@ import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
 from utilities import random_array
 
-#TODO dsdot
-
 TOL = 1.e-7
 DTYPE = np.float32
 
@@ -137,7 +135,38 @@ def test_sdot_1():
     # ...
     expected = sp_blas.sdot(x, y)
     result   = blas_sdot (x, y)
-    assert(np.allclose(result, expected, 1.e-6))
+    assert(np.allclose(result, expected, TOL))
+    # ...
+
+# ==============================================================================
+def test_sdsdot_1():
+    from sblas import blas_sdsdot
+
+    n = 10
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
+
+    # ...
+    sb = np.float32(3.)
+    # NOTE sdsdot is not implemented in scipy
+    expected = sb + sp_blas.sdot(x, y)
+    result   = blas_sdsdot (sb, x, y)
+    assert(np.allclose(result, expected, TOL))
+    # ...
+
+# ==============================================================================
+def test_dsdot_1():
+    from sblas import blas_dsdot
+
+    n = 10
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
+
+    # ...
+    # NOTE dsdot is not implemented in scipy
+    expected = sp_blas.sdot(x, y)
+    result   = blas_dsdot (x, y)
+    assert(np.allclose(result, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -150,7 +179,7 @@ def test_snrm2_1():
     # ...
     expected = sp_blas.snrm2(x)
     result   = blas_snrm2 (x)
-    assert(np.allclose(result, expected, 1.e-6))
+    assert(np.allclose(result, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -660,6 +689,8 @@ if __name__ == '__main__':
     test_sswap_1()
     test_sscal_1()
     test_sdot_1()
+    test_sdsdot_1()
+    test_dsdot_1()
     test_snrm2_1()
     test_sasum_1()
     test_isamax_1()

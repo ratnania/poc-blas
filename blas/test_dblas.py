@@ -4,8 +4,6 @@ import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
 from utilities import random_array
 
-#TODO dsdot
-
 TOL = 1.e-13
 DTYPE = np.float64
 
