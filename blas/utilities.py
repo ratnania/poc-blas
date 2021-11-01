@@ -60,3 +60,17 @@ def general_to_packed(a, lower=False):
                 k += 1
 
     return ap
+
+# ==============================================================================
+def random_array(n, dtype):
+    np.random.seed(2021)
+
+    if dtype in [np.complex64, np.complex128]:
+        x = np.random.random(n) + np.random.random(n) * 1j
+    else:
+        x = np.random.random(n)
+
+    if len(x.shape) > 1:
+        x = x.copy(order='F')
+
+    return np.array(x, dtype=dtype)

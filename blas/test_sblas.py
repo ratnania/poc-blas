@@ -2,10 +2,12 @@ import numpy as np
 from scipy.sparse import diags
 import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
+from utilities import random_array
 
 #TODO dsdot
 
 TOL = 1.e-7
+DTYPE = np.float32
 
 # ==============================================================================
 #
@@ -38,13 +40,9 @@ def test_srotmg_1():
 def test_srot_1():
     from sblas import blas_srot
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
     expected_x = x.copy()
     expected_y = y.copy()
 
@@ -63,13 +61,9 @@ def test_srot_1():
 def test_srotm_1():
     from sblas import blas_srotm
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
     expected_x = x.copy()
     expected_y = y.copy()
 
@@ -88,12 +82,9 @@ def test_srotm_1():
 def test_scopy_1():
     from sblas import blas_scopy
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
-    y = np.zeros(n, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected  = np.zeros(n, dtype=np.float32)
@@ -106,13 +97,9 @@ def test_scopy_1():
 def test_sswap_1():
     from sblas import blas_sswap
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
-    y = 2* np.random.random(n) + 1.
-    y = np.array(y, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ... we swap two times to get back to the original arrays
     expected_x = x.copy()
@@ -127,11 +114,8 @@ def test_sswap_1():
 def test_sscal_1():
     from sblas import blas_sscal
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
 
     # ... we scale two times to get back to the original arrays
     expected = x.copy()
@@ -145,13 +129,9 @@ def test_sscal_1():
 def test_sdot_1():
     from sblas import blas_sdot
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.sdot(x, y)
@@ -163,11 +143,8 @@ def test_sdot_1():
 def test_snrm2_1():
     from sblas import blas_snrm2
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.snrm2(x)
@@ -179,11 +156,8 @@ def test_snrm2_1():
 def test_sasum_1():
     from sblas import blas_sasum
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.sasum(x)
@@ -195,11 +169,8 @@ def test_sasum_1():
 def test_isamax_1():
     from sblas import blas_isamax
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.isamax(x)
@@ -211,13 +182,9 @@ def test_isamax_1():
 def test_saxpy_1():
     from sblas import blas_saxpy
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float32(2.5)
@@ -240,13 +207,9 @@ def test_sgemv_1():
     np.random.seed(2021)
 
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.ones(n)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float32(1.)
@@ -269,18 +232,12 @@ def test_sgbmv_1():
                   [31, 32, 33, 34,  0],
                   [ 0, 42, 43, 44, 45],
                   [ 0,  0, 53, 54, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.float32)
 
     ab = general_to_band(kl, ku, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-    y = np.random.random(n)
-
-    ab = np.array(ab, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float32(1.)
@@ -295,16 +252,10 @@ def test_sgbmv_1():
 def test_ssymv_1():
     from sblas import blas_ssymv
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a symmetric
     a = symmetrize(a)
@@ -330,17 +281,12 @@ def test_ssbmv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.float32)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-    y = np.zeros(n, dtype=np.float32)
-
-    ab = np.array(ab, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float32(1.)
@@ -355,20 +301,14 @@ def test_ssbmv_1():
 def test_sspmv_1():
     from sblas import blas_sspmv
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a symmetric
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -382,14 +322,9 @@ def test_sspmv_1():
 def test_strmv_1():
     from sblas import blas_strmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
@@ -411,16 +346,11 @@ def test_stbmv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.float32)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-
-    ab = np.array(ab, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.stbmv (k, ab, x)
@@ -432,18 +362,13 @@ def test_stbmv_1():
 def test_stpmv_1():
     from sblas import blas_stpmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
 
     # ...
     expected = sp_blas.stpmv (n, ap, x)
@@ -455,17 +380,12 @@ def test_stpmv_1():
 def test_strsv_1():
     from sblas import blas_strsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
 
     # ...
     b = x.copy()
@@ -485,16 +405,11 @@ def test_stbsv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.float32)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-
-    ab = np.array(ab, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.stbsv (k, ab, x)
@@ -506,19 +421,14 @@ def test_stbsv_1():
 def test_stpsv_1():
     from sblas import blas_stpsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float32)
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
 
     # ...
     b = x.copy()
@@ -531,17 +441,10 @@ def test_stpsv_1():
 def test_sger_1():
     from sblas import blas_sger
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-
-    x = np.ones(n)
-    y = np.zeros(n)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float32(1.)
@@ -554,17 +457,12 @@ def test_sger_1():
 def test_ssyr_1():
     from sblas import blas_ssyr
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -577,19 +475,13 @@ def test_ssyr_1():
 def test_sspr_1():
     from sblas import blas_sspr
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float32)
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -602,19 +494,13 @@ def test_sspr_1():
 def test_ssyr2_1():
     from sblas import blas_ssyr2
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -627,21 +513,14 @@ def test_ssyr2_1():
 def test_sspr2_1():
     from sblas import blas_sspr2
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float32)
-    a = np.array(a, dtype=np.float32)
-    x = np.array(x, dtype=np.float32)
-    y = np.array(y, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -660,16 +539,10 @@ def test_sspr2_1():
 def test_sgemm_1():
     from sblas import blas_sgemm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
-
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
-    c = np.array(c, dtype=np.float32)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # ...
     alpha = np.float32(1.)
@@ -683,20 +556,14 @@ def test_sgemm_1():
 def test_ssymm_1():
     from sblas import blas_ssymm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # symmetrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
-    c = np.array(c, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -710,17 +577,12 @@ def test_ssymm_1():
 def test_strmm_1():
     from sblas import blas_strmm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -733,17 +595,12 @@ def test_strmm_1():
 def test_strsm_1():
     from sblas import blas_strsm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -756,18 +613,12 @@ def test_strsm_1():
 def test_ssyrk_1():
     from sblas import blas_ssyrk
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-    a_T = a.T.copy(order='F')
-
-    a = np.array(a, dtype=np.float32)
-    c = np.array(c, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
@@ -781,22 +632,14 @@ def test_ssyrk_1():
 def test_ssyr2k_1():
     from sblas import blas_ssyr2k
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syr2ketrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-    a_T = a.T.copy(order='F')
-    b_T = b.T.copy(order='F')
-
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
-    c = np.array(c, dtype=np.float32)
 
     # ...
     alpha = np.float32(1.)
