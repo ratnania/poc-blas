@@ -43,6 +43,7 @@ def test_srot_1():
     n = 10
     x = random_array(n, dtype=DTYPE)
     y = random_array(n, dtype=DTYPE)
+
     expected_x = x.copy()
     expected_y = y.copy()
 
@@ -203,8 +204,6 @@ def test_saxpy_1():
 # ==============================================================================
 def test_sgemv_1():
     from sblas import blas_sgemv
-
-    np.random.seed(2021)
 
     n = 10
     a = random_array((n,n), dtype=DTYPE)

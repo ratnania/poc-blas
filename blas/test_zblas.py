@@ -2,8 +2,10 @@ import numpy as np
 from scipy.sparse import diags
 import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
+from utilities import random_array
 
 TOL = 1.e-12
+DTYPE = np.complex128
 
 # ==============================================================================
 #
@@ -15,14 +17,9 @@ TOL = 1.e-12
 def test_zcopy_1():
     from zblas import blas_zcopy
 
-    np.random.seed(20)
-
     n = 3
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.zeros(n) + 0. * 1j
-
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = y.copy()
@@ -35,14 +32,9 @@ def test_zcopy_1():
 def test_zswap_1():
     from zblas import blas_zswap
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = 2* np.random.random(n) + 1.*1j
-
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ... we swap two times to get back to the original arrays
     expected_x = x.copy()
@@ -57,11 +49,8 @@ def test_zswap_1():
 def test_zscal_1():
     from zblas import blas_zscal
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
 
     # ... we scale two times to get back to the original arrays
     expected = x.copy()
@@ -76,11 +65,8 @@ def test_zscal_1():
 def test_dznrm2_1():
     from zblas import blas_dznrm2
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.dznrm2(x)
@@ -92,11 +78,8 @@ def test_dznrm2_1():
 def test_dzasum_1():
     from zblas import blas_dzasum
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.dzasum(x)
@@ -108,11 +91,8 @@ def test_dzasum_1():
 def test_izamax_1():
     from zblas import blas_izamax
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.izamax(x)
@@ -124,13 +104,9 @@ def test_izamax_1():
 def test_zaxpy_1():
     from zblas import blas_zaxpy
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(2.5)
@@ -144,13 +120,9 @@ def test_zaxpy_1():
 def test_zdotc_1():
     from zblas import blas_zdotc
 
-    np.random.seed(2021)
-
     n = 3
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.zdotc(x, y)
@@ -162,13 +134,9 @@ def test_zdotc_1():
 def test_zdotu_1():
     from zblas import blas_zdotu
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.zdotu(x, y)
@@ -186,17 +154,10 @@ def test_zdotu_1():
 def test_zgemv_1():
     from zblas import blas_zgemv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.0)
@@ -219,18 +180,12 @@ def test_zgbmv_1():
                   [31, 32, 33, 34,  0],
                   [ 0, 42, 43, 44, 45],
                   [ 0,  0, 53, 54, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex128)
 
     ab = general_to_band(kl, ku, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    ab = np.array(ab, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.0)
@@ -245,17 +200,10 @@ def test_zgbmv_1():
 def test_zhemv_1():
     from zblas import blas_zhemv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.0)
@@ -277,18 +225,12 @@ def test_zhbmv_1():
                   [31, 32, 33, 34,  0],
                   [ 0, 42, 43, 44, 45],
                   [ 0,  0, 53, 54, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex128)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    ab = np.array(ab, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.0)
@@ -303,22 +245,14 @@ def test_zhbmv_1():
 def test_zhpmv_1():
     from zblas import blas_zhpmv
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a symmetric
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    a = np.array(a, dtype=np.complex128)
-    ap = np.array(ap, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
 
     # ...
     alpha = np.complex128(1.)
@@ -332,18 +266,12 @@ def test_zhpmv_1():
 def test_ztrmv_1():
     from zblas import blas_ztrmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     expected = sp_blas.ztrmv (a, x)
@@ -362,20 +290,14 @@ def test_ztbmv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex128)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    ab = np.array(ab, dtype=np.complex128)
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     expected = sp_blas.ztbmv (k, ab, x)
@@ -387,20 +309,13 @@ def test_ztbmv_1():
 def test_ztpmv_1():
     from zblas import blas_ztpmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex128)
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     expected = sp_blas.ztpmv (n, ap, x)
@@ -412,18 +327,12 @@ def test_ztpmv_1():
 def test_ztrsv_1():
     from zblas import blas_ztrsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     b = x.copy()
@@ -443,16 +352,11 @@ def test_ztbsv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex128)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
-
-    ab = np.array(ab, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.ztbsv (k, ab, x)
@@ -464,20 +368,13 @@ def test_ztbsv_1():
 def test_ztpsv_1():
     from zblas import blas_ztpsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex128)
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     x.copy()
@@ -490,17 +387,10 @@ def test_ztpsv_1():
 def test_zgeru_1():
     from zblas import blas_zgeru
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.)
@@ -513,17 +403,10 @@ def test_zgeru_1():
 def test_zgerc_1():
     from zblas import blas_zgerc
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.)
@@ -536,18 +419,12 @@ def test_zgerc_1():
 def test_zher_1():
     from zblas import blas_zher
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     alpha = np.float64(1.)
@@ -560,20 +437,13 @@ def test_zher_1():
 def test_zhpr_1():
     from zblas import blas_zhpr
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex128)
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
 
     # ...
     alpha = np.float64(1.)
@@ -586,20 +456,13 @@ def test_zhpr_1():
 def test_zher2_1():
     from zblas import blas_zher2
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(y, dtype=np.complex128)
 
     # ...
     alpha = np.complex128(1.)
@@ -612,22 +475,14 @@ def test_zher2_1():
 def test_zhpr2_1():
     from zblas import blas_zhpr2
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex128)
-    a = np.array(a, dtype=np.complex128)
-    x = np.array(x, dtype=np.complex128)
-    y = np.array(x, dtype=np.complex128)
 
     # ...
     alpha = np.complex128(1.)
@@ -646,19 +501,10 @@ def test_zhpr2_1():
 def test_zgemm_1():
     from zblas import blas_zgemm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # ...
     alpha = np.complex128(1.)
@@ -672,19 +518,10 @@ def test_zgemm_1():
 def test_zsymm_1():
     from zblas import blas_zsymm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # symmetrize a & b
     a = symmetrize(a)
@@ -702,19 +539,10 @@ def test_zsymm_1():
 def test_zhemm_1():
     from zblas import blas_zhemm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # symmetrize a & b
     a = symmetrize(a)
@@ -732,20 +560,12 @@ def test_zhemm_1():
 def test_zsyrk_1():
     from zblas import blas_zsyrk
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-    a_T = a.T.copy(order='F')
 
     # ...
     alpha = np.complex128(1.)
@@ -759,25 +579,14 @@ def test_zsyrk_1():
 def test_zsyr2k_1():
     from zblas import blas_zsyr2k
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syr2ketrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-    a_T = a.T.copy(order='F')
-    b_T = b.T.copy(order='F')
 
     # ...
     alpha = np.complex128(1.)
@@ -791,20 +600,12 @@ def test_zsyr2k_1():
 def test_zherk_1():
     from zblas import blas_zherk
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-    a_T = a.T.copy(order='F')
 
     # ...
     alpha = np.complex128(1.)
@@ -818,19 +619,10 @@ def test_zherk_1():
 def test_zher2k_1():
     from zblas import blas_zher2k
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
-    c = np.array(c, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syr2ketrize a & b
     a = symmetrize(a)
@@ -848,16 +640,9 @@ def test_zher2k_1():
 def test_ztrmm_1():
     from zblas import blas_ztrmm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
@@ -873,16 +658,9 @@ def test_ztrmm_1():
 def test_ztrsm_1():
     from zblas import blas_ztrsm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-
-    a = np.array(a, dtype=np.complex128)
-    b = np.array(b, dtype=np.complex128)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)

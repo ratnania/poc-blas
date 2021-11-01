@@ -2,8 +2,10 @@ import numpy as np
 from scipy.sparse import diags
 import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
+from utilities import random_array
 
 TOL = 1.e-7
+DTYPE = np.complex64
 
 # ==============================================================================
 #
@@ -15,14 +17,9 @@ TOL = 1.e-7
 def test_ccopy_1():
     from cblas import blas_ccopy
 
-    np.random.seed(20)
-
     n = 3
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.zeros(n) + 0. * 1j
-
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = y.copy()
@@ -35,14 +32,9 @@ def test_ccopy_1():
 def test_cswap_1():
     from cblas import blas_cswap
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = 2* np.random.random(n) + 1.*1j
-
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ... we swap two times to get back to the original arrays
     expected_x = x.copy()
@@ -57,11 +49,8 @@ def test_cswap_1():
 def test_cscal_1():
     from cblas import blas_cscal
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
 
     # ... we scale two times to get back to the original arrays
     expected = x.copy()
@@ -76,11 +65,8 @@ def test_cscal_1():
 def test_scnrm2_1():
     from cblas import blas_scnrm2
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.scnrm2(x)
@@ -92,11 +78,8 @@ def test_scnrm2_1():
 def test_scasum_1():
     from cblas import blas_scasum
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.scasum(x)
@@ -108,11 +91,8 @@ def test_scasum_1():
 def test_icamax_1():
     from cblas import blas_icamax
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.icamax(x)
@@ -124,13 +104,9 @@ def test_icamax_1():
 def test_caxpy_1():
     from cblas import blas_caxpy
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(2.5)
@@ -144,13 +120,9 @@ def test_caxpy_1():
 def test_cdotc_1():
     from cblas import blas_cdotc
 
-    np.random.seed(2021)
-
     n = 3
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.cdotc(x, y)
@@ -162,13 +134,9 @@ def test_cdotc_1():
 def test_cdotu_1():
     from cblas import blas_cdotu
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.cdotu(x, y)
@@ -186,17 +154,10 @@ def test_cdotu_1():
 def test_cgemv_1():
     from cblas import blas_cgemv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.0)
@@ -219,18 +180,12 @@ def test_cgbmv_1():
                   [31, 32, 33, 34,  0],
                   [ 0, 42, 43, 44, 45],
                   [ 0,  0, 53, 54, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex64)
 
     ab = general_to_band(kl, ku, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    ab = np.array(ab, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.0)
@@ -245,17 +200,10 @@ def test_cgbmv_1():
 def test_chemv_1():
     from cblas import blas_chemv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.0)
@@ -277,18 +225,12 @@ def test_chbmv_1():
                   [31, 32, 33, 34,  0],
                   [ 0, 42, 43, 44, 45],
                   [ 0,  0, 53, 54, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex64)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    ab = np.array(ab, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.0)
@@ -303,22 +245,14 @@ def test_chbmv_1():
 def test_chpmv_1():
     from cblas import blas_chpmv
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a symmetric
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    a = np.array(a, dtype=np.complex64)
-    ap = np.array(ap, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
 
     # ...
     alpha = np.complex64(1.)
@@ -332,18 +266,12 @@ def test_chpmv_1():
 def test_ctrmv_1():
     from cblas import blas_ctrmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     expected = sp_blas.ctrmv (a, x)
@@ -362,20 +290,14 @@ def test_ctbmv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex64)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    ab = np.array(ab, dtype=np.complex64)
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     expected = sp_blas.ctbmv (k, ab, x)
@@ -387,20 +309,13 @@ def test_ctbmv_1():
 def test_ctpmv_1():
     from cblas import blas_ctpmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex64)
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     expected = sp_blas.ctpmv (n, ap, x)
@@ -412,18 +327,12 @@ def test_ctpmv_1():
 def test_ctrsv_1():
     from cblas import blas_ctrsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     b = x.copy()
@@ -443,16 +352,11 @@ def test_ctbsv_1():
                   [ 0, 32, 33, 34,  0],
                   [ 0,  0, 34, 44, 45],
                   [ 0,  0,  0, 45, 55]
-                 ], dtype=np.float64)
+                 ], dtype=np.complex64)
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n) + np.random.random(n) * 1j
-
-    ab = np.array(ab, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.ctbsv (k, ab, x)
@@ -464,20 +368,13 @@ def test_ctbsv_1():
 def test_ctpsv_1():
     from cblas import blas_ctpsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex64)
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     b = x.copy()
@@ -490,17 +387,10 @@ def test_ctpsv_1():
 def test_cgeru_1():
     from cblas import blas_cgeru
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.)
@@ -513,17 +403,10 @@ def test_cgeru_1():
 def test_cgerc_1():
     from cblas import blas_cgerc
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.)
@@ -536,18 +419,12 @@ def test_cgerc_1():
 def test_cher_1():
     from cblas import blas_cher
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     alpha = np.float32(1.)
@@ -560,20 +437,13 @@ def test_cher_1():
 def test_chpr_1():
     from cblas import blas_chpr
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex64)
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
 
     # ...
     alpha = np.float32(1.)
@@ -586,20 +456,13 @@ def test_chpr_1():
 def test_cher2_1():
     from cblas import blas_cher2
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(y, dtype=np.complex64)
 
     # ...
     alpha = np.complex64(1.)
@@ -612,22 +475,14 @@ def test_cher2_1():
 def test_chpr2_1():
     from cblas import blas_chpr2
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    x = np.random.random(n) + np.random.random(n) * 1j
-    y = np.random.random(n) + np.random.random(n) * 1j
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.complex64)
-    a = np.array(a, dtype=np.complex64)
-    x = np.array(x, dtype=np.complex64)
-    y = np.array(x, dtype=np.complex64)
 
     # ...
     alpha = np.complex64(1.)
@@ -646,19 +501,10 @@ def test_chpr2_1():
 def test_cgemm_1():
     from cblas import blas_cgemm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # ...
     alpha = np.complex64(1.)
@@ -672,19 +518,10 @@ def test_cgemm_1():
 def test_csymm_1():
     from cblas import blas_csymm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # symmetrize a & b
     a = symmetrize(a)
@@ -702,19 +539,10 @@ def test_csymm_1():
 def test_chemm_1():
     from cblas import blas_chemm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # symmetrize a & b
     a = symmetrize(a)
@@ -732,20 +560,12 @@ def test_chemm_1():
 def test_csyrk_1():
     from cblas import blas_csyrk
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-    a_T = a.T.copy(order='F')
 
     # ...
     alpha = np.complex64(1.)
@@ -759,25 +579,14 @@ def test_csyrk_1():
 def test_csyr2k_1():
     from cblas import blas_csyr2k
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syr2ketrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-    a_T = a.T.copy(order='F')
-    b_T = b.T.copy(order='F')
 
     # ...
     alpha = np.complex64(1.)
@@ -791,16 +600,9 @@ def test_csyr2k_1():
 def test_cherk_1():
     from cblas import blas_cherk
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
@@ -817,25 +619,14 @@ def test_cherk_1():
 def test_cher2k_1():
     from cblas import blas_cher2k
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    c = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-    c = c.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
-    c = np.array(c, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syr2ketrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-    a_T = a.T.copy(order='F')
-    b_T = b.T.copy(order='F')
 
     # ...
     alpha = np.complex64(1.)
@@ -849,16 +640,9 @@ def test_cher2k_1():
 def test_ctrmm_1():
     from cblas import blas_ctrmm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
@@ -874,16 +658,9 @@ def test_ctrmm_1():
 def test_ctrsm_1():
     from cblas import blas_ctrsm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    b = np.random.random((n,n)) + np.random.random((n,n)) * 1j
-    a = a.copy(order='F')
-    b = b.copy(order='F')
-
-    a = np.array(a, dtype=np.complex64)
-    b = np.array(b, dtype=np.complex64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)

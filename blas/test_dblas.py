@@ -2,10 +2,12 @@ import numpy as np
 from scipy.sparse import diags
 import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
+from utilities import random_array
 
 #TODO dsdot
 
 TOL = 1.e-13
+DTYPE = np.float64
 
 # ==============================================================================
 #
@@ -38,13 +40,10 @@ def test_drotmg_1():
 def test_drot_1():
     from dblas import blas_drot
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
+
     expected_x = x.copy()
     expected_y = y.copy()
 
@@ -63,13 +62,10 @@ def test_drot_1():
 def test_drotm_1():
     from dblas import blas_drotm
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
+
     expected_x = x.copy()
     expected_y = y.copy()
 
@@ -88,12 +84,9 @@ def test_drotm_1():
 def test_dcopy_1():
     from dblas import blas_dcopy
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
-    y = np.zeros(n, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected  = np.zeros(n, dtype=np.float64)
@@ -106,13 +99,9 @@ def test_dcopy_1():
 def test_dswap_1():
     from dblas import blas_dswap
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
-    y = 2* np.random.random(n) + 1.
-    y = np.array(y, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ... we swap two times to get back to the original arrays
     expected_x = x.copy()
@@ -127,11 +116,8 @@ def test_dswap_1():
 def test_dscal_1():
     from dblas import blas_dscal
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
 
     # ... we scale two times to get back to the original arrays
     expected = x.copy()
@@ -145,13 +131,9 @@ def test_dscal_1():
 def test_ddot_1():
     from dblas import blas_ddot
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.ddot(x, y)
@@ -163,11 +145,8 @@ def test_ddot_1():
 def test_dnrm2_1():
     from dblas import blas_dnrm2
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.dnrm2(x)
@@ -179,11 +158,8 @@ def test_dnrm2_1():
 def test_dasum_1():
     from dblas import blas_dasum
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.dasum(x)
@@ -195,11 +171,8 @@ def test_dasum_1():
 def test_idamax_1():
     from dblas import blas_idamax
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.idamax(x)
@@ -211,13 +184,9 @@ def test_idamax_1():
 def test_daxpy_1():
     from dblas import blas_daxpy
 
-    np.random.seed(2021)
-
     n = 10
-    x = np.random.random(n)
-    y = np.random.random(n)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float64(2.5)
@@ -237,16 +206,10 @@ def test_daxpy_1():
 def test_dgemv_1():
     from dblas import blas_dgemv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.ones(n)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float64(1.)
@@ -273,14 +236,8 @@ def test_dgbmv_1():
 
     ab = general_to_band(kl, ku, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-    y = np.random.random(n)
-
-    ab = np.array(ab, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float64(1.)
@@ -295,16 +252,10 @@ def test_dgbmv_1():
 def test_dsymv_1():
     from dblas import blas_dsymv
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a symmetric
     a = symmetrize(a)
@@ -334,13 +285,8 @@ def test_dsbmv_1():
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-    y = np.zeros(n, dtype=np.float64)
-
-    ab = np.array(ab, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float64(1.)
@@ -355,20 +301,14 @@ def test_dsbmv_1():
 def test_dspmv_1():
     from dblas import blas_dspmv
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # make a symmetric
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -382,14 +322,9 @@ def test_dspmv_1():
 def test_dtrmv_1():
     from dblas import blas_dtrmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
@@ -415,12 +350,7 @@ def test_dtbmv_1():
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-
-    ab = np.array(ab, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.dtbmv (k, ab, x)
@@ -432,18 +362,13 @@ def test_dtbmv_1():
 def test_dtpmv_1():
     from dblas import blas_dtpmv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
 
     # ...
     expected = sp_blas.dtpmv (n, ap, x)
@@ -455,17 +380,12 @@ def test_dtpmv_1():
 def test_dtrsv_1():
     from dblas import blas_dtrsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
 
     # ...
     b = x.copy()
@@ -489,12 +409,7 @@ def test_dtbsv_1():
 
     ab = general_to_band(k, k, a).copy(order='F')
 
-    np.random.seed(2021)
-
-    x = np.random.random(n)
-
-    ab = np.array(ab, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
+    x = random_array(n, dtype=DTYPE)
 
     # ...
     expected = sp_blas.dtbsv (k, ab, x)
@@ -506,19 +421,13 @@ def test_dtbsv_1():
 def test_dtpsv_1():
     from dblas import blas_dtpsv
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float64)
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
 
     # ...
     b = x.copy()
@@ -531,17 +440,10 @@ def test_dtpsv_1():
 def test_dger_1():
     from dblas import blas_dger
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-
-    x = np.ones(n)
-    y = np.zeros(n)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # ...
     alpha = np.float64(1.)
@@ -554,17 +456,12 @@ def test_dger_1():
 def test_dsyr_1():
     from dblas import blas_dsyr
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -577,19 +474,13 @@ def test_dsyr_1():
 def test_dspr_1():
     from dblas import blas_dspr
 
-    np.random.seed(2021)
-
     n = 10
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float64)
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -602,19 +493,13 @@ def test_dspr_1():
 def test_dsyr2_1():
     from dblas import blas_dsyr2
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -627,21 +512,14 @@ def test_dsyr2_1():
 def test_dspr2_1():
     from dblas import blas_dspr2
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    x = np.random.random(n)
-    y = np.random.random(n)
+    a = random_array((n,n), dtype=DTYPE)
+    x = random_array(n, dtype=DTYPE)
+    y = random_array(n, dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
     ap = general_to_packed(a)
-
-    ap = np.array(ap, dtype=np.float64)
-    a = np.array(a, dtype=np.float64)
-    x = np.array(x, dtype=np.float64)
-    y = np.array(y, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -660,16 +538,10 @@ def test_dspr2_1():
 def test_dgemm_1():
     from dblas import blas_dgemm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
-
-    a = np.array(a, dtype=np.float64)
-    b = np.array(b, dtype=np.float64)
-    c = np.array(c, dtype=np.float64)
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # ...
     alpha = np.float64(1.)
@@ -683,20 +555,14 @@ def test_dgemm_1():
 def test_dsymm_1():
     from dblas import blas_dsymm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # symmetrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-
-    a = np.array(a, dtype=np.float64)
-    b = np.array(b, dtype=np.float64)
-    c = np.array(c, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -710,17 +576,12 @@ def test_dsymm_1():
 def test_dtrmm_1():
     from dblas import blas_dtrmm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.float64)
-    b = np.array(b, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -733,17 +594,12 @@ def test_dtrmm_1():
 def test_dtrsm_1():
     from dblas import blas_dtrsm
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
 
     # make a triangular
     a = triangulize(a)
-
-    a = np.array(a, dtype=np.float64)
-    b = np.array(b, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -756,18 +612,12 @@ def test_dtrsm_1():
 def test_dsyrk_1():
     from dblas import blas_dsyrk
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syrketrize a
     a = symmetrize(a)
-    a_T = a.T.copy(order='F')
-
-    a = np.array(a, dtype=np.float64)
-    c = np.array(c, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
@@ -781,22 +631,14 @@ def test_dsyrk_1():
 def test_dsyr2k_1():
     from dblas import blas_dsyr2k
 
-    np.random.seed(2021)
-
     n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.zeros((n,n), order='F')
+    a = random_array((n,n), dtype=DTYPE)
+    b = random_array((n,n), dtype=DTYPE)
+    c = random_array((n,n), dtype=DTYPE)
 
     # syr2ketrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-    a_T = a.T.copy(order='F')
-    b_T = b.T.copy(order='F')
-
-    a = np.array(a, dtype=np.float64)
-    b = np.array(b, dtype=np.float64)
-    c = np.array(c, dtype=np.float64)
 
     # ...
     alpha = np.float64(1.)
