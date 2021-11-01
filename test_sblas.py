@@ -5,6 +5,8 @@ from utilities import symmetrize, triangulize, general_to_band, general_to_packe
 
 #TODO dsdot
 
+TOL = 1.e-7
+
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -30,7 +32,7 @@ def test_srotmg_1():
     result = np.zeros(5, dtype=np.float32)
     blas_srotmg (d1, d2, x1, y1, result)
     expected = sp_blas.srotmg (d1, d2, x1, y1)
-    assert(np.allclose(result, expected, 1.e-7))
+    assert(np.allclose(result, expected, TOL))
 
 # ==============================================================================
 def test_srot_1():
@@ -53,8 +55,8 @@ def test_srot_1():
     s = np.float32(s)
     expected_x, expected_y = sp_blas.srot(x, y, c, s)
     blas_srot (x, y, c, s)
-    assert(np.allclose(x, expected_x, 1.e-7))
-    assert(np.allclose(y, expected_y, 1.e-7))
+    assert(np.allclose(x, expected_x, TOL))
+    assert(np.allclose(y, expected_y, TOL))
     # ...
 
 # ==============================================================================
@@ -78,8 +80,8 @@ def test_srotm_1():
     param = np.array(param, dtype=np.float32)
     expected_x, expected_y = sp_blas.srotm(x, y, param)
     blas_srotm (x, y, param)
-    assert(np.allclose(x, expected_x, 1.e-7))
-    assert(np.allclose(y, expected_y, 1.e-7))
+    assert(np.allclose(x, expected_x, TOL))
+    assert(np.allclose(y, expected_y, TOL))
     # ...
 
 # ==============================================================================
@@ -97,7 +99,7 @@ def test_scopy_1():
     expected  = np.zeros(n, dtype=np.float32)
     sp_blas.scopy(x, expected)
     blas_scopy (x, y)
-    assert(np.allclose(y, expected, 1.e-7))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -117,8 +119,8 @@ def test_sswap_1():
     expected_y = y.copy()
     sp_blas.sswap (x, y)
     blas_sswap (x, y)
-    assert(np.allclose(x, expected_x, 1.e-7))
-    assert(np.allclose(y, expected_y, 1.e-7))
+    assert(np.allclose(x, expected_x, TOL))
+    assert(np.allclose(y, expected_y, TOL))
     # ...
 
 # ==============================================================================
@@ -136,7 +138,7 @@ def test_sscal_1():
     alpha = np.float32(2.5)
     sp_blas.sscal (alpha, x)
     blas_sscal (np.float32(1./alpha), x)
-    assert(np.allclose(x, expected, 1.e-7))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -186,7 +188,7 @@ def test_sasum_1():
     # ...
     expected = sp_blas.sasum(x)
     result   = blas_sasum (x)
-    assert(np.allclose(result, expected, 1.e-7))
+    assert(np.allclose(result, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -222,7 +224,7 @@ def test_saxpy_1():
     expected = y.copy()
     sp_blas.saxpy (x, expected, a=alpha)
     blas_saxpy (x, y, a=alpha )
-    assert(np.allclose(y, expected, 1.e-7))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -252,7 +254,7 @@ def test_sgemv_1():
     expected = y.copy()
     expected = sp_blas.sgemv (alpha, a, x, beta=beta, y=expected)
     blas_sgemv (alpha, a, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-7))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -286,7 +288,7 @@ def test_sgbmv_1():
     expected = y.copy()
     expected = sp_blas.sgbmv (n, n, kl, ku, alpha, ab, x, beta=beta, y=expected)
     blas_sgbmv (kl, ku, alpha, ab, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-7))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -306,16 +308,15 @@ def test_ssymv_1():
 
     # make a symmetric
     a = symmetrize(a)
+    # make a triangular
+    a = triangulize(a)
 
     # ...
     alpha = np.float32(1.)
     beta = np.float32(0.5)
-    expected = alpha * a @ x + beta * y
-
-    # make a triangular
-    a = triangulize(a)
+    expected = sp_blas.ssymv (alpha, a, x, y=y, beta=beta)
     blas_ssymv (alpha, a, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-6))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -347,7 +348,7 @@ def test_ssbmv_1():
     expected = y.copy()
     expected = sp_blas.ssbmv (k, alpha, ab, x, beta=beta, y=expected)
     blas_ssbmv (k, alpha, ab, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-7))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -365,7 +366,6 @@ def test_sspmv_1():
     a = symmetrize(a)
     ap = general_to_packed(a)
 
-    a = np.array(a, dtype=np.float32)
     ap = np.array(ap, dtype=np.float32)
     x = np.array(x, dtype=np.float32)
     y = np.array(y, dtype=np.float32)
@@ -373,12 +373,9 @@ def test_sspmv_1():
     # ...
     alpha = np.float32(1.)
     beta = np.float32(0.5)
-    expected = alpha * a @ x + beta * y
-
-    # make a triangular
-    a = triangulize(a)
+    expected = sp_blas.sspmv (n, alpha, ap, x, y=y, beta=beta)
     blas_sspmv (alpha, ap, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-6))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -398,9 +395,9 @@ def test_strmv_1():
     a = triangulize(a)
 
     # ...
-    expected = a @ x
+    expected = sp_blas.strmv (a, x)
     blas_strmv (a, x)
-    assert(np.allclose(x, expected, 1.e-6))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -423,16 +420,12 @@ def test_stbmv_1():
     x = np.random.random(n)
 
     ab = np.array(ab, dtype=np.float32)
-    a = np.array(a, dtype=np.float32)
     x = np.array(x, dtype=np.float32)
 
-    # make a triangular
-    a = triangulize(a)
-
     # ...
-    expected = a @ x
+    expected = sp_blas.stbmv (k, ab, x)
     blas_stbmv (k, ab, x)
-    assert(np.allclose(x, expected, 1.e-6))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -450,13 +443,12 @@ def test_stpmv_1():
     ap = general_to_packed(a)
 
     ap = np.array(ap, dtype=np.float32)
-    a = np.array(a, dtype=np.float32)
     x = np.array(x, dtype=np.float32)
 
     # ...
-    expected = a @ x
+    expected = sp_blas.stpmv (n, ap, x)
     blas_stpmv (ap, x)
-    assert(np.allclose(x, expected, 1.e-6))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -476,10 +468,10 @@ def test_strsv_1():
     x = np.array(x, dtype=np.float32)
 
     # ...
-    expected = x.copy()
-    x = a @ x
+    b = x.copy()
+    expected = sp_blas.strsv (a, b)
     blas_strsv (a, x)
-    assert(np.allclose(x, expected, 1.e-5))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -507,7 +499,7 @@ def test_stbsv_1():
     # ...
     expected = sp_blas.stbsv (k, ab, x)
     blas_stbsv (k, ab, x)
-    assert(np.allclose(x, expected, 1.e-7))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -529,10 +521,10 @@ def test_stpsv_1():
     x = np.array(x, dtype=np.float32)
 
     # ...
-    expected = x.copy()
-    x = a @ x
+    b = x.copy()
+    expected = sp_blas.stpsv (n, ap, b)
     blas_stpsv (ap, x)
-    assert(np.allclose(x, expected, 1.e-5))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -553,9 +545,9 @@ def test_sger_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = alpha * np.outer(x,y) + a
+    expected = sp_blas.sger (alpha, x, y, a=a)
     blas_sger (alpha, x, y, a)
-    assert(np.allclose(a, expected, 1.e-7))
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -576,10 +568,9 @@ def test_ssyr_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = alpha * np.outer(x.T, x) + a
-    blas_ssyr (alpha, x, a, lower=False)
-    a = symmetrize(a, lower=False)
-    assert(np.allclose(a, expected, 1.e-7))
+    expected = sp_blas.ssyr (alpha, x, a=a)
+    blas_ssyr (alpha, x, a)
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -602,10 +593,9 @@ def test_sspr_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = alpha * np.outer(x.T, x) + a
-    expected = general_to_packed(expected)
-    blas_sspr (alpha, x, ap, lower=False)
-    assert(np.allclose(ap, expected, 1.e-7))
+    expected = sp_blas.sspr (n, alpha, x, ap)
+    blas_sspr (alpha, x, ap)
+    assert(np.allclose(ap, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -628,10 +618,9 @@ def test_ssyr2_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = alpha * np.outer(y.T, x) + alpha * np.outer(x.T, y) + a
-    blas_ssyr2 (alpha, x, y, a, lower=False)
-    a = symmetrize(a, lower=False)
-    assert(np.allclose(a, expected, 1.e-7))
+    expected = sp_blas.ssyr2 (alpha, x, y, a=a)
+    blas_ssyr2 (alpha, x, y, a=a)
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -656,10 +645,9 @@ def test_sspr2_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = alpha * np.outer(y.T, x) + alpha * np.outer(x.T, y) + a
-    expected = general_to_packed(expected)
-    blas_sspr2 (alpha, x, y, ap, lower=False)
-    assert(np.allclose(ap, expected, 1.e-7))
+    expected = sp_blas.sspr2 (n, alpha, x, y, ap)
+    blas_sspr2 (alpha, x, y, ap)
+    assert(np.allclose(ap, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -685,33 +673,10 @@ def test_sgemm_1():
 
     # ...
     alpha = np.float32(1.)
-    beta = np.float32(0.)
-    expected = alpha * a @ b + beta * c
+    beta = np.float32(0.5)
+    expected = sp_blas.sgemm (alpha, a, b, c=c, beta=beta)
     blas_sgemm (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-7))
-    # ...
-
-# ==============================================================================
-def test_sgemm_2():
-    from sblas import blas_sgemm
-
-    np.random.seed(2021)
-
-    n = 4
-    a = np.random.random((n,n)).copy(order='F')
-    b = np.random.random((n,n)).copy(order='F')
-    c = np.random.random((n,n)).copy(order='F')
-
-    a = np.array(a, dtype=np.float32)
-    b = np.array(b, dtype=np.float32)
-    c = np.array(c, dtype=np.float32)
-
-    # ...
-    alpha = np.float32(2.)
-    beta = np.float32(1.)
-    expected = alpha * a @ b + beta * c
-    blas_sgemm (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-7))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -735,10 +700,10 @@ def test_ssymm_1():
 
     # ...
     alpha = np.float32(1.)
-    beta = np.float32(0.)
-    expected = alpha * a @ b + beta * c
+    beta = np.float32(0.5)
+    expected = sp_blas.ssymm (alpha, a, b, c=c, beta=beta)
     blas_ssymm (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-7))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -759,9 +724,9 @@ def test_strmm_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = alpha * a @ b
+    expected = sp_blas.strmm (alpha, a, b)
     blas_strmm (alpha, a, b)
-    assert(np.allclose(b, expected, 1.e-7))
+    assert(np.allclose(b, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -782,11 +747,9 @@ def test_strsm_1():
 
     # ...
     alpha = np.float32(1.)
-    expected = b.copy()
-    b = alpha * a @ b
-    b = b.copy(order='F')
+    expected = sp_blas.strsm (alpha, a, b)
     blas_strsm (alpha, a, b)
-    assert(np.allclose(b, expected, 1.e-6))
+    assert(np.allclose(b, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -809,11 +772,9 @@ def test_ssyrk_1():
     # ...
     alpha = np.float32(1.)
     beta = np.float32(0.)
-    expected = alpha * a @ a_T + beta * c
+    expected = sp_blas.ssyrk (alpha, a, c=c, beta=beta)
     blas_ssyrk (alpha, a, c, beta=beta)
-    # we need to symmetrize the matrix
-    c = symmetrize(c)
-    assert(np.allclose(c, expected, 1.e-7))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -840,11 +801,9 @@ def test_ssyr2k_1():
     # ...
     alpha = np.float32(1.)
     beta = np.float32(0.)
-    expected = alpha * a @ b_T + alpha * b @ a_T + beta * c
+    expected = sp_blas.ssyr2k (alpha, a, b, c=c, beta=beta)
     blas_ssyr2k (alpha, a, b, c, beta=beta)
-    # we need to symmetrize the matrix
-    c = symmetrize(c)
-    assert(np.allclose(c, expected, 1.e-7))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ******************************************************************************
@@ -886,7 +845,6 @@ if __name__ == '__main__':
 
     # ... LEVEL 3
     test_sgemm_1()
-    test_sgemm_2()
     test_ssymm_1()
     test_strmm_1()
     test_strsm_1()
