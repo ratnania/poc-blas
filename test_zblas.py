@@ -3,6 +3,8 @@ from scipy.sparse import diags
 import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
 
+TOL = 1.e-12
+
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -26,7 +28,7 @@ def test_zcopy_1():
     expected = y.copy()
     sp_blas.zcopy(x, expected)
     blas_zcopy (x, y)
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -47,8 +49,8 @@ def test_zswap_1():
     expected_y = y.copy()
     sp_blas.zswap (x, y)
     blas_zswap (x, y)
-    assert(np.allclose(x, expected_x, 1.e-12))
-    assert(np.allclose(y, expected_y, 1.e-12))
+    assert(np.allclose(x, expected_x, TOL))
+    assert(np.allclose(y, expected_y, TOL))
     # ...
 
 # ==============================================================================
@@ -67,7 +69,7 @@ def test_zscal_1():
     inv_alpha = np.complex128(1./alpha)
     sp_blas.zscal (alpha, x)
     blas_zscal (inv_alpha, x)
-    assert(np.allclose(x, expected, 1.e-12))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -83,7 +85,7 @@ def test_dznrm2_1():
     # ...
     expected = sp_blas.dznrm2(x)
     result   = blas_dznrm2 (x)
-    assert(np.allclose(result, expected, 1.e-12))
+    assert(np.allclose(result, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -99,7 +101,7 @@ def test_dzasum_1():
     # ...
     expected = sp_blas.dzasum(x)
     result   = blas_dzasum (x)
-    assert(np.allclose(result, expected, 1.e-12))
+    assert(np.allclose(result, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -135,7 +137,7 @@ def test_zaxpy_1():
     expected = y.copy()
     sp_blas.zaxpy (x, expected, a=alpha)
     blas_zaxpy (x, y, a=alpha )
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -153,7 +155,7 @@ def test_zdotc_1():
     # ...
     expected = sp_blas.zdotc(x, y)
     result   = blas_zdotc (x, y)
-    assert(np.linalg.norm(result-expected) < 1.e-12)
+    assert(np.linalg.norm(result-expected) < TOL)
     # ...
 
 # ==============================================================================
@@ -171,7 +173,7 @@ def test_zdotu_1():
     # ...
     expected = sp_blas.zdotu(x, y)
     result   = blas_zdotu (x, y)
-    assert(np.linalg.norm(result-expected) < 1.e-12)
+    assert(np.linalg.norm(result-expected) < TOL)
     # ...
 
 # ==============================================================================
@@ -202,7 +204,7 @@ def test_zgemv_1():
     expected = y.copy()
     expected = sp_blas.zgemv (alpha, a, x, beta=beta, y=expected)
     blas_zgemv (alpha, a, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -236,7 +238,7 @@ def test_zgbmv_1():
     expected = y.copy()
     expected = sp_blas.zgbmv (n, n, kl, ku, alpha, ab, x, beta=beta, y=expected)
     blas_zgbmv (kl, ku, alpha, ab, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -261,7 +263,7 @@ def test_zhemv_1():
     expected = y.copy()
     expected = sp_blas.zhemv (alpha, a, x, beta=beta, y=expected)
     blas_zhemv (alpha, a, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -294,7 +296,7 @@ def test_zhbmv_1():
     expected = y.copy()
     expected = sp_blas.zhbmv (k, alpha, ab, x, beta=beta, y=expected)
     blas_zhbmv (k, alpha, ab, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -323,7 +325,7 @@ def test_zhpmv_1():
     beta = np.complex128(0.5)
     expected = sp_blas.zhpmv (n, alpha, ap, x, y=y, beta=beta)
     blas_zhpmv (alpha, ap, x, y, beta=beta)
-    assert(np.allclose(y, expected, 1.e-12))
+    assert(np.allclose(y, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -344,9 +346,9 @@ def test_ztrmv_1():
     x = np.array(x, dtype=np.complex128)
 
     # ...
-    expected = a @ x
+    expected = sp_blas.ztrmv (a, x)
     blas_ztrmv (a, x)
-    assert(np.allclose(x, expected, 1.e-12))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -376,9 +378,9 @@ def test_ztbmv_1():
     x = np.array(x, dtype=np.complex128)
 
     # ...
-    expected = a @ x
+    expected = sp_blas.ztbmv (k, ab, x)
     blas_ztbmv (k, ab, x)
-    assert(np.allclose(x, expected, 1.e-12))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -401,9 +403,9 @@ def test_ztpmv_1():
     x = np.array(x, dtype=np.complex128)
 
     # ...
-    expected = a @ x
+    expected = sp_blas.ztpmv (n, ap, x)
     blas_ztpmv (ap, x)
-    assert(np.allclose(x, expected, 1.e-12))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -424,10 +426,10 @@ def test_ztrsv_1():
     x = np.array(x, dtype=np.complex128)
 
     # ...
-    expected = x.copy()
-    x = a @ x
+    b = x.copy()
+    expected = sp_blas.ztrsv (a, b)
     blas_ztrsv (a, x)
-    assert(np.linalg.norm(x-expected) < 1.e-12)
+    assert(np.linalg.norm(x-expected) < TOL)
     # ...
 
 # ==============================================================================
@@ -455,7 +457,7 @@ def test_ztbsv_1():
     # ...
     expected = sp_blas.ztbsv (k, ab, x)
     blas_ztbsv (k, ab, x)
-    assert(np.allclose(x, expected, 1.e-12))
+    assert(np.allclose(x, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -478,10 +480,10 @@ def test_ztpsv_1():
     x = np.array(x, dtype=np.complex128)
 
     # ...
-    expected = x.copy()
-    x = a @ x
+    x.copy()
+    expected = sp_blas.ztpsv (n, ap, x)
     blas_ztpsv (ap, x)
-    assert(np.linalg.norm(x-expected) < 1.e-12)
+    assert(np.linalg.norm(x-expected) < TOL)
     # ...
 
 # ==============================================================================
@@ -504,7 +506,7 @@ def test_zgeru_1():
     alpha = np.complex128(1.)
     expected = sp_blas.zgeru (alpha, x, y, a=a)
     blas_zgeru (alpha, x, y, a)
-    assert(np.allclose(a, expected, 1.e-12))
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -527,7 +529,7 @@ def test_zgerc_1():
     alpha = np.complex128(1.)
     expected = sp_blas.zgerc (alpha, x, y, a=a)
     blas_zgerc (alpha, x, y, a)
-    assert(np.allclose(a, expected, 1.e-12))
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -551,7 +553,7 @@ def test_zher_1():
     alpha = np.float64(1.)
     expected = sp_blas.zher (alpha, x, a=a)
     blas_zher (alpha, x, a)
-    assert(np.allclose(a, expected, 1.e-12))
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -577,7 +579,7 @@ def test_zhpr_1():
     alpha = np.float64(1.)
     expected = sp_blas.zhpr (n, alpha, x, ap)
     blas_zhpr (alpha, x, ap)
-    assert(np.allclose(ap, expected, 1.e-12))
+    assert(np.allclose(ap, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -603,7 +605,7 @@ def test_zher2_1():
     alpha = np.complex128(1.)
     expected = sp_blas.zher2 (alpha, x, y, a=a)
     blas_zher2 (alpha, x, y, a)
-    assert(np.allclose(a, expected, 1.e-12))
+    assert(np.allclose(a, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -631,7 +633,7 @@ def test_zhpr2_1():
     alpha = np.complex128(1.)
     expected = sp_blas.zhpr2 (n, alpha, x, y, ap)
     blas_zhpr2 (alpha, x, y, ap)
-    assert(np.allclose(ap, expected, 1.e-12))
+    assert(np.allclose(ap, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -661,9 +663,9 @@ def test_zgemm_1():
     # ...
     alpha = np.complex128(1.)
     beta = np.complex128(.5)
-    expected = alpha * a @ b + beta * c
+    expected = sp_blas.zgemm (alpha, a, b, c=c, beta=beta)
     blas_zgemm (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-12))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -691,9 +693,9 @@ def test_zsymm_1():
     # ...
     alpha = np.complex128(1.)
     beta = np.complex128(.5)
-    expected = alpha * a @ b + beta * c
+    expected = sp_blas.zsymm (alpha, a, b, c=c, beta=beta)
     blas_zsymm (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-12))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -723,7 +725,7 @@ def test_zhemm_1():
     beta = np.complex128(.5)
     expected = sp_blas.zhemm (alpha, a, b, beta=beta, c=c)
     blas_zhemm (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-12))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -750,7 +752,7 @@ def test_zsyrk_1():
     beta = np.complex128(.5)
     expected = sp_blas.zsyrk (alpha, a, beta=beta, c=c)
     blas_zsyrk (alpha, a, c, beta=beta)
-    assert(np.linalg.norm(c- expected) < 1.e-12)
+    assert(np.linalg.norm(c- expected) < TOL)
     # ...
 
 # ==============================================================================
@@ -782,7 +784,7 @@ def test_zsyr2k_1():
     beta = np.complex128(.5)
     expected = sp_blas.zsyr2k (alpha, a, b, beta=beta, c=c)
     blas_zsyr2k (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-12))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -809,7 +811,7 @@ def test_zherk_1():
     beta = np.complex128(.5)
     expected = sp_blas.zherk (alpha, a, beta=beta, c=c)
     blas_zherk (alpha, a, c, beta=beta)
-    assert(np.linalg.norm(c- expected) < 1.e-12)
+    assert(np.linalg.norm(c- expected) < TOL)
     # ...
 
 # ==============================================================================
@@ -833,15 +835,13 @@ def test_zher2k_1():
     # syr2ketrize a & b
     a = symmetrize(a)
     b = symmetrize(b)
-    a_T = a.T.copy(order='F')
-    b_T = b.T.copy(order='F')
 
     # ...
     alpha = np.complex128(1.)
     beta = np.complex128(.5)
     expected = sp_blas.zher2k (alpha, a, b, beta=beta, c=c)
     blas_zher2k (alpha, a, b, c, beta=beta)
-    assert(np.allclose(c, expected, 1.e-12))
+    assert(np.allclose(c, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -864,9 +864,9 @@ def test_ztrmm_1():
 
     # ...
     alpha = np.complex128(1.)
-    expected = alpha * a @ b
+    expected = sp_blas.ztrmm (alpha, a, b)
     blas_ztrmm (alpha, a, b)
-    assert(np.allclose(b, expected, 1.e-12))
+    assert(np.allclose(b, expected, TOL))
     # ...
 
 # ==============================================================================
@@ -889,11 +889,9 @@ def test_ztrsm_1():
 
     # ...
     alpha = np.complex128(1.)
-    expected = b.copy()
-    b = alpha * a @ b
-    b = b.copy(order='F')
+    expected = sp_blas.ztrsm (alpha, a, b)
     blas_ztrsm (alpha, a, b)
-    assert(np.linalg.norm(b- expected) < 1.e-12)
+    assert(np.linalg.norm(b- expected) < TOL)
     # ...
 
 # ******************************************************************************
