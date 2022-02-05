@@ -4,9 +4,6 @@ import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
 from utilities import random_array
 
-TOL = 1.e-7
-DTYPE = np.complex64
-
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -16,6 +13,9 @@ DTYPE = np.complex64
 # ==============================================================================
 def test_ccopy_1():
     from cblas import blas_ccopy
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 3
     x = random_array(n, dtype=DTYPE)
@@ -31,6 +31,9 @@ def test_ccopy_1():
 # ==============================================================================
 def test_cswap_1():
     from cblas import blas_cswap
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -49,6 +52,9 @@ def test_cswap_1():
 def test_cscal_1():
     from cblas import blas_cscal
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -65,6 +71,9 @@ def test_cscal_1():
 def test_scnrm2_1():
     from cblas import blas_scnrm2
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -77,6 +86,9 @@ def test_scnrm2_1():
 # ==============================================================================
 def test_scasum_1():
     from cblas import blas_scasum
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -91,6 +103,9 @@ def test_scasum_1():
 def test_icamax_1():
     from cblas import blas_icamax
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -103,6 +118,9 @@ def test_icamax_1():
 # ==============================================================================
 def test_caxpy_1():
     from cblas import blas_caxpy
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -120,6 +138,9 @@ def test_caxpy_1():
 def test_cdotc_1():
     from cblas import blas_cdotc
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 3
     x = random_array(n, dtype=DTYPE)
     y = random_array(n, dtype=DTYPE)
@@ -133,6 +154,9 @@ def test_cdotc_1():
 # ==============================================================================
 def test_cdotu_1():
     from cblas import blas_cdotu
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -154,6 +178,9 @@ def test_cdotu_1():
 def test_cgemv_1():
     from cblas import blas_cgemv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -171,6 +198,9 @@ def test_cgemv_1():
 # ==============================================================================
 def test_cgbmv_1():
     from cblas import blas_cgbmv
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 5
     kl = np.int32(2)
@@ -200,6 +230,9 @@ def test_cgbmv_1():
 def test_chemv_1():
     from cblas import blas_chemv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -217,6 +250,9 @@ def test_chemv_1():
 # ==============================================================================
 def test_chbmv_1():
     from cblas import blas_chbmv
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 5
     k = np.int32(2)
@@ -245,6 +281,9 @@ def test_chbmv_1():
 def test_chpmv_1():
     from cblas import blas_chpmv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -266,6 +305,9 @@ def test_chpmv_1():
 def test_ctrmv_1():
     from cblas import blas_ctrmv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -282,6 +324,9 @@ def test_ctrmv_1():
 # ==============================================================================
 def test_ctbmv_1():
     from cblas import blas_ctbmv
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 5
     k = np.int32(2)
@@ -309,6 +354,9 @@ def test_ctbmv_1():
 def test_ctpmv_1():
     from cblas import blas_ctpmv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -327,6 +375,9 @@ def test_ctpmv_1():
 def test_ctrsv_1():
     from cblas import blas_ctrsv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -344,6 +395,9 @@ def test_ctrsv_1():
 # ==============================================================================
 def test_ctbsv_1():
     from cblas import blas_ctbsv
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 5
     k = np.int32(2)
@@ -368,6 +422,9 @@ def test_ctbsv_1():
 def test_ctpsv_1():
     from cblas import blas_ctpsv
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -387,6 +444,9 @@ def test_ctpsv_1():
 def test_cgeru_1():
     from cblas import blas_cgeru
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -403,6 +463,9 @@ def test_cgeru_1():
 def test_cgerc_1():
     from cblas import blas_cgerc
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -418,6 +481,9 @@ def test_cgerc_1():
 # ==============================================================================
 def test_cher_1():
     from cblas import blas_cher
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -436,6 +502,9 @@ def test_cher_1():
 # ==============================================================================
 def test_chpr_1():
     from cblas import blas_chpr
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 10
     a = random_array((n,n), dtype=DTYPE)
@@ -456,6 +525,9 @@ def test_chpr_1():
 def test_cher2_1():
     from cblas import blas_cher2
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -474,6 +546,9 @@ def test_cher2_1():
 # ==============================================================================
 def test_chpr2_1():
     from cblas import blas_chpr2
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 10
     a = random_array((n,n), dtype=DTYPE)
@@ -501,6 +576,9 @@ def test_chpr2_1():
 def test_cgemm_1():
     from cblas import blas_cgemm
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -517,6 +595,9 @@ def test_cgemm_1():
 # ==============================================================================
 def test_csymm_1():
     from cblas import blas_csymm
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -539,6 +620,9 @@ def test_csymm_1():
 def test_chemm_1():
     from cblas import blas_chemm
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -560,6 +644,9 @@ def test_chemm_1():
 def test_csyrk_1():
     from cblas import blas_csyrk
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     c = random_array((n,n), dtype=DTYPE)
@@ -578,6 +665,9 @@ def test_csyrk_1():
 # ==============================================================================
 def test_csyr2k_1():
     from cblas import blas_csyr2k
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -600,6 +690,9 @@ def test_csyr2k_1():
 def test_cherk_1():
     from cblas import blas_cherk
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     c = random_array((n,n), dtype=DTYPE)
@@ -618,6 +711,9 @@ def test_cherk_1():
 # ==============================================================================
 def test_cher2k_1():
     from cblas import blas_cher2k
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -640,6 +736,9 @@ def test_cher2k_1():
 def test_ctrmm_1():
     from cblas import blas_ctrmm
 
+    TOL = 1.e-7
+    DTYPE = np.complex64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -657,6 +756,9 @@ def test_ctrmm_1():
 # ==============================================================================
 def test_ctrsm_1():
     from cblas import blas_ctrsm
+
+    TOL = 1.e-7
+    DTYPE = np.complex64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)

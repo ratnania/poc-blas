@@ -4,9 +4,6 @@ import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
 from utilities import random_array
 
-TOL = 1.e-13
-DTYPE = np.float64
-
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -16,6 +13,9 @@ DTYPE = np.float64
 # ==============================================================================
 def test_drotg_1():
     from dblas import blas_drotg
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     a = b = np.float64(1.)
     c, s = blas_drotg (a, b)
@@ -27,6 +27,9 @@ def test_drotg_1():
 def test_drotmg_1():
     from dblas import blas_drotmg
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     d1 = d2 = np.float64(1.)
     x1 = y1 = np.float64(.5)
     result = np.zeros(5, dtype=np.float64)
@@ -37,6 +40,9 @@ def test_drotmg_1():
 # ==============================================================================
 def test_drot_1():
     from dblas import blas_drot
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -60,6 +66,9 @@ def test_drot_1():
 def test_drotm_1():
     from dblas import blas_drotm
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
     y = random_array(n, dtype=DTYPE)
@@ -82,6 +91,9 @@ def test_drotm_1():
 def test_dcopy_1():
     from dblas import blas_dcopy
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
     y = random_array(n, dtype=DTYPE)
@@ -96,6 +108,9 @@ def test_dcopy_1():
 # ==============================================================================
 def test_dswap_1():
     from dblas import blas_dswap
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -114,6 +129,9 @@ def test_dswap_1():
 def test_dscal_1():
     from dblas import blas_dscal
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -129,6 +147,9 @@ def test_dscal_1():
 def test_ddot_1():
     from dblas import blas_ddot
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
     y = random_array(n, dtype=DTYPE)
@@ -143,6 +164,9 @@ def test_ddot_1():
 def test_dnrm2_1():
     from dblas import blas_dnrm2
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -155,6 +179,9 @@ def test_dnrm2_1():
 # ==============================================================================
 def test_dasum_1():
     from dblas import blas_dasum
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -169,6 +196,9 @@ def test_dasum_1():
 def test_idamax_1():
     from dblas import blas_idamax
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -181,6 +211,9 @@ def test_idamax_1():
 # ==============================================================================
 def test_daxpy_1():
     from dblas import blas_daxpy
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -204,6 +237,9 @@ def test_daxpy_1():
 def test_dgemv_1():
     from dblas import blas_dgemv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -221,6 +257,9 @@ def test_dgemv_1():
 # ==============================================================================
 def test_dgbmv_1():
     from dblas import blas_dgbmv
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 5
     kl = np.int32(2)
@@ -250,6 +289,9 @@ def test_dgbmv_1():
 def test_dsymv_1():
     from dblas import blas_dsymv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -271,6 +313,9 @@ def test_dsymv_1():
 # ==============================================================================
 def test_dsbmv_1():
     from dblas import blas_dsbmv
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 5
     k = np.int32(2)
@@ -299,6 +344,9 @@ def test_dsbmv_1():
 def test_dspmv_1():
     from dblas import blas_dspmv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -320,6 +368,9 @@ def test_dspmv_1():
 def test_dtrmv_1():
     from dblas import blas_dtrmv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -336,6 +387,9 @@ def test_dtrmv_1():
 # ==============================================================================
 def test_dtbmv_1():
     from dblas import blas_dtbmv
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 5
     k = np.int32(2)
@@ -360,6 +414,9 @@ def test_dtbmv_1():
 def test_dtpmv_1():
     from dblas import blas_dtpmv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -378,6 +435,9 @@ def test_dtpmv_1():
 def test_dtrsv_1():
     from dblas import blas_dtrsv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -395,6 +455,9 @@ def test_dtrsv_1():
 # ==============================================================================
 def test_dtbsv_1():
     from dblas import blas_dtbsv
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 5
     k = np.int32(2)
@@ -419,6 +482,9 @@ def test_dtbsv_1():
 def test_dtpsv_1():
     from dblas import blas_dtpsv
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -438,6 +504,9 @@ def test_dtpsv_1():
 def test_dger_1():
     from dblas import blas_dger
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -453,6 +522,9 @@ def test_dger_1():
 # ==============================================================================
 def test_dsyr_1():
     from dblas import blas_dsyr
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -471,6 +543,9 @@ def test_dsyr_1():
 # ==============================================================================
 def test_dspr_1():
     from dblas import blas_dspr
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 10
     a = random_array((n,n), dtype=DTYPE)
@@ -491,6 +566,9 @@ def test_dspr_1():
 def test_dsyr2_1():
     from dblas import blas_dsyr2
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -509,6 +587,9 @@ def test_dsyr2_1():
 # ==============================================================================
 def test_dspr2_1():
     from dblas import blas_dspr2
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -536,6 +617,9 @@ def test_dspr2_1():
 def test_dgemm_1():
     from dblas import blas_dgemm
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -552,6 +636,9 @@ def test_dgemm_1():
 # ==============================================================================
 def test_dsymm_1():
     from dblas import blas_dsymm
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -574,6 +661,9 @@ def test_dsymm_1():
 def test_dtrmm_1():
     from dblas import blas_dtrmm
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -591,6 +681,9 @@ def test_dtrmm_1():
 # ==============================================================================
 def test_dtrsm_1():
     from dblas import blas_dtrsm
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -610,6 +703,9 @@ def test_dtrsm_1():
 def test_dsyrk_1():
     from dblas import blas_dsyrk
 
+    TOL = 1.e-13
+    DTYPE = np.float64
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     c = random_array((n,n), dtype=DTYPE)
@@ -628,6 +724,9 @@ def test_dsyrk_1():
 # ==============================================================================
 def test_dsyr2k_1():
     from dblas import blas_dsyr2k
+
+    TOL = 1.e-13
+    DTYPE = np.float64
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)

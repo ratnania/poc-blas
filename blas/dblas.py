@@ -4,9 +4,6 @@ The aim of this file is to provide functions that can be either:
     - called as inlined statements
 """
 
-import numpy as np
-import pyccel.stdlib.internal.blas as mod_blas
-
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -19,6 +16,9 @@ def blas_drotg(a: 'float64', b: 'float64',
                s: 'float64' = 0.,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     mod_blas.drotg (a, b, c, s)
 
     return c, s
@@ -27,6 +27,9 @@ def blas_drotg(a: 'float64', b: 'float64',
 def blas_drotmg(d1: 'float64', d2: 'float64', x1: 'float64', y1: 'float64',
                 param: 'float64[:]'):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     mod_blas.drotmg (d1, d2, x1, y1, param)
 
 # ==============================================================================
@@ -34,6 +37,9 @@ def blas_drot(x: 'float64[:]', y: 'float64[:]', c: 'float64', s: 'float64',
               incx: 'int32' = 1,
               incy: 'int32' = 1
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -45,6 +51,9 @@ def blas_drotm(x: 'float64[:]', y: 'float64[:]', param: 'float64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.drotm (n, x, incx, y, incy, param)
@@ -54,6 +63,9 @@ def blas_dcopy(x: 'float64[:]', y: 'float64[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -65,6 +77,9 @@ def blas_dswap(x: 'float64[:]', y: 'float64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.dswap (n, x, incx, y, incy)
@@ -73,6 +88,9 @@ def blas_dswap(x: 'float64[:]', y: 'float64[:]',
 def blas_dscal(alpha: 'float64', x: 'float64[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -83,6 +101,9 @@ def blas_ddot(x: 'float64[:]', y: 'float64[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -95,6 +116,9 @@ def blas_daxpy(x: 'float64[:]', y: 'float64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.daxpy (n, a, x, incx, y, incy)
@@ -103,6 +127,9 @@ def blas_daxpy(x: 'float64[:]', y: 'float64[:]',
 def blas_dnrm2(x: 'float64[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -113,6 +140,9 @@ def blas_dasum(x: 'float64[:]',
                incx: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     return mod_blas.dasum (n, x, incx)
@@ -121,6 +151,9 @@ def blas_dasum(x: 'float64[:]',
 def blas_idamax(x: 'float64[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -143,6 +176,9 @@ def blas_dgemv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
                trans: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -162,6 +198,9 @@ def blas_dgbmv(kl : 'int32', ku: 'int32', alpha: 'float64',
                incy: 'int32' = 1,
                trans: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -184,6 +223,9 @@ def blas_dsymv(alpha: 'float64', a: 'float64[:,:](order=F)', x: 'float64[:]', y:
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -204,6 +246,9 @@ def blas_dsbmv(k : 'int32', alpha: 'float64',
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -223,6 +268,9 @@ def blas_dspmv(alpha: 'float64', a: 'float64[:]', x: 'float64[:]', y: 'float64[:
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -239,6 +287,9 @@ def blas_dtrmv(a: 'float64[:,:](order=F)', x: 'float64[:]',
                trans: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -269,6 +320,9 @@ def blas_dtbmv(k : 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -298,6 +352,9 @@ def blas_dtpmv(a: 'float64[:]', x: 'float64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -324,6 +381,9 @@ def blas_dtrsv(a: 'float64[:,:](order=F)', x: 'float64[:]',
                trans: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -354,6 +414,9 @@ def blas_dtbsv(k: 'int32', a: 'float64[:,:](order=F)', x: 'float64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -383,6 +446,9 @@ def blas_dtpsv(a: 'float64[:]', x: 'float64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -408,6 +474,9 @@ def blas_dger(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:,
               incy: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -419,6 +488,9 @@ def blas_dsyr(alpha: 'float64', x: 'float64[:]', a: 'float64[:,:](order=F)',
               incx: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -437,6 +509,9 @@ def blas_dspr(alpha: 'float64', x: 'float64[:]', a: 'float64[:]',
               lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -452,6 +527,9 @@ def blas_dsyr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
               incy: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -470,6 +548,9 @@ def blas_dspr2(alpha: 'float64', x: 'float64[:]', y: 'float64[:]', a: 'float64[:
               incy: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -492,6 +573,9 @@ def blas_dgemm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
                trans_a: 'bool' = False,
                trans_b: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     l = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -525,6 +609,9 @@ def blas_dsymm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
                lower: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
 
@@ -555,6 +642,9 @@ def blas_dsyrk(alpha: 'float64', a: 'float64[:,:](order=F)', c: 'float64[:,:](or
                trans: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(c.shape[0])
     k = np.int32(c.shape[1])
 
@@ -583,6 +673,9 @@ def blas_dsyr2k(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](o
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(c.shape[0])
 
@@ -616,6 +709,9 @@ def blas_dtrmm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
                trans_a: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])
@@ -656,6 +752,9 @@ def blas_dtrsm(alpha: 'float64', a: 'float64[:,:](order=F)', b: 'float64[:,:](or
                trans_a: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])

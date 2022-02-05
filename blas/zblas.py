@@ -4,9 +4,6 @@ The aim of this file is to provide functions that can be either:
     - called as inlined statements
 """
 
-import numpy as np
-import pyccel.stdlib.internal.blas as mod_blas
-
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -19,6 +16,9 @@ def blas_zcopy(x: 'complex128[:]', y: 'complex128[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.zcopy (n, x, incx, y, incy)
@@ -29,6 +29,9 @@ def blas_zswap(x: 'complex128[:]', y: 'complex128[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.zswap (n, x, incx, y, incy)
@@ -37,6 +40,9 @@ def blas_zswap(x: 'complex128[:]', y: 'complex128[:]',
 def blas_zscal(alpha: 'complex128', x: 'complex128[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -48,6 +54,9 @@ def blas_zdotc(x: 'complex128[:]', y: 'complex128[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     return mod_blas.zdotc (n, x, incx, y, incy)
@@ -57,6 +66,9 @@ def blas_zdotu(x: 'complex128[:]', y: 'complex128[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -69,6 +81,9 @@ def blas_zaxpy(x: 'complex128[:]', y: 'complex128[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.zaxpy (n, a, x, incx, y, incy)
@@ -77,6 +92,9 @@ def blas_zaxpy(x: 'complex128[:]', y: 'complex128[:]',
 def blas_dznrm2(x: 'complex128[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -87,6 +105,9 @@ def blas_dzasum(x: 'complex128[:]',
                incx: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     return mod_blas.dzasum (n, x, incx)
@@ -95,6 +116,9 @@ def blas_dzasum(x: 'complex128[:]',
 def blas_izamax(x: 'complex128[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -117,6 +141,9 @@ def blas_zgemv(alpha: 'complex128', a: 'complex128[:,:](order=F)', x: 'complex12
                trans: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -136,6 +163,9 @@ def blas_zgbmv(kl : 'int32', ku: 'int32', alpha: 'complex128',
                incy: 'int32' = 1,
                trans: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -158,6 +188,9 @@ def blas_zhemv(alpha: 'complex128', a: 'complex128[:,:](order=F)', x: 'complex12
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(a.shape[0])
     lda = n
 
@@ -177,6 +210,9 @@ def blas_zhbmv(k : 'int32', alpha: 'complex128',
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(a.shape[0])
     lda = n
 
@@ -195,6 +231,9 @@ def blas_zhpmv(alpha: 'complex128', a: 'complex128[:]', x: 'complex128[:]', y: '
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -211,6 +250,9 @@ def blas_ztrmv(a: 'complex128[:,:](order=F)', x: 'complex128[:]',
                trans: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -241,6 +283,9 @@ def blas_ztbmv(k : 'int32', a: 'complex128[:,:](order=F)', x: 'complex128[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -270,6 +315,9 @@ def blas_ztpmv(a: 'complex128[:]', x: 'complex128[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -296,6 +344,9 @@ def blas_ztrsv(a: 'complex128[:,:](order=F)', x: 'complex128[:]',
                trans: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -326,6 +377,9 @@ def blas_ztbsv(k: 'int32', a: 'complex128[:,:](order=F)', x: 'complex128[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -355,6 +409,9 @@ def blas_ztpsv(a: 'complex128[:]', x: 'complex128[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -380,6 +437,9 @@ def blas_zgeru(alpha: 'complex128', x: 'complex128[:]', y: 'complex128[:]', a: '
               incy: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -392,6 +452,9 @@ def blas_zgerc(alpha: 'complex128', x: 'complex128[:]', y: 'complex128[:]', a: '
               incy: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -403,6 +466,9 @@ def blas_zher(alpha: 'float64', x: 'complex128[:]', a: 'complex128[:,:](order=F)
               incx: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -421,6 +487,9 @@ def blas_zhpr(alpha: 'float64', x: 'complex128[:]', a: 'complex128[:]',
               lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -436,6 +505,9 @@ def blas_zher2(alpha: 'complex128', x: 'complex128[:]', y: 'complex128[:]', a: '
               incy: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -454,6 +526,9 @@ def blas_zhpr2(alpha: 'complex128', x: 'complex128[:]', y: 'complex128[:]', a: '
               incy: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -476,6 +551,9 @@ def blas_zgemm(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex12
                trans_a: 'bool' = False,
                trans_b: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     l = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -509,6 +587,9 @@ def blas_zsymm(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex12
                lower: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
 
@@ -538,6 +619,9 @@ def blas_zhemm(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex12
                side: 'bool' = False,
                lower: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -569,6 +653,9 @@ def blas_zsyrk(alpha: 'complex128', a: 'complex128[:,:](order=F)', c: 'complex12
                trans: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(c.shape[0])
     k = np.int32(c.shape[1])
 
@@ -597,6 +684,9 @@ def blas_zsyr2k(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex1
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(c.shape[0])
 
@@ -630,6 +720,9 @@ def blas_zherk(alpha: 'complex128', a: 'complex128[:,:](order=F)', c: 'complex12
                trans: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(c.shape[0])
     k = np.int32(c.shape[1])
 
@@ -658,6 +751,9 @@ def blas_zher2k(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex1
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(c.shape[0])
 
@@ -691,6 +787,9 @@ def blas_ztrmm(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex12
                trans_a: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])
@@ -731,6 +830,9 @@ def blas_ztrsm(alpha: 'complex128', a: 'complex128[:,:](order=F)', b: 'complex12
                trans_a: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])

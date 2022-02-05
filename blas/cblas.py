@@ -4,9 +4,6 @@ The aim of this file is to provide functions that can be either:
     - called as inlined statements
 """
 
-import numpy as np
-import pyccel.stdlib.internal.blas as mod_blas
-
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -19,6 +16,9 @@ def blas_ccopy(x: 'complex64[:]', y: 'complex64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.ccopy (n, x, incx, y, incy)
@@ -29,6 +29,9 @@ def blas_cswap(x: 'complex64[:]', y: 'complex64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.cswap (n, x, incx, y, incy)
@@ -37,6 +40,9 @@ def blas_cswap(x: 'complex64[:]', y: 'complex64[:]',
 def blas_cscal(alpha: 'complex64', x: 'complex64[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -48,6 +54,9 @@ def blas_cdotc(x: 'complex64[:]', y: 'complex64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     return mod_blas.cdotc (n, x, incx, y, incy)
@@ -57,6 +66,9 @@ def blas_cdotu(x: 'complex64[:]', y: 'complex64[:]',
                incx: 'int32' = 1,
                incy: 'int32' = 1
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -69,6 +81,9 @@ def blas_caxpy(x: 'complex64[:]', y: 'complex64[:]',
                incy: 'int32' = 1
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     mod_blas.caxpy (n, a, x, incx, y, incy)
@@ -77,6 +92,9 @@ def blas_caxpy(x: 'complex64[:]', y: 'complex64[:]',
 def blas_scnrm2(x: 'complex64[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -87,6 +105,9 @@ def blas_scasum(x: 'complex64[:]',
                incx: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     return mod_blas.scasum (n, x, incx)
@@ -95,6 +116,9 @@ def blas_scasum(x: 'complex64[:]',
 def blas_icamax(x: 'complex64[:]',
                incx: 'int32' = 1,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -117,6 +141,9 @@ def blas_cgemv(alpha: 'complex64', a: 'complex64[:,:](order=F)', x: 'complex64[:
                trans: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -136,6 +163,9 @@ def blas_cgbmv(kl : 'int32', ku: 'int32', alpha: 'complex64',
                incy: 'int32' = 1,
                trans: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -158,6 +188,9 @@ def blas_chemv(alpha: 'complex64', a: 'complex64[:,:](order=F)', x: 'complex64[:
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(a.shape[0])
     lda = n
 
@@ -177,6 +210,9 @@ def blas_chbmv(k : 'int32', alpha: 'complex64',
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(a.shape[0])
     lda = n
 
@@ -195,6 +231,9 @@ def blas_chpmv(alpha: 'complex64', a: 'complex64[:]', x: 'complex64[:]', y: 'com
                lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -211,6 +250,9 @@ def blas_ctrmv(a: 'complex64[:,:](order=F)', x: 'complex64[:]',
                trans: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -241,6 +283,9 @@ def blas_ctbmv(k : 'int32', a: 'complex64[:,:](order=F)', x: 'complex64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -270,6 +315,9 @@ def blas_ctpmv(a: 'complex64[:]', x: 'complex64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -296,6 +344,9 @@ def blas_ctrsv(a: 'complex64[:,:](order=F)', x: 'complex64[:]',
                trans: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -326,6 +377,9 @@ def blas_ctbsv(k: 'int32', a: 'complex64[:,:](order=F)', x: 'complex64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -355,6 +409,9 @@ def blas_ctpsv(a: 'complex64[:]', x: 'complex64[:]',
                diag: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -380,6 +437,9 @@ def blas_cgeru(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'com
               incy: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -392,6 +452,9 @@ def blas_cgerc(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'com
               incy: 'int32' = 1,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
     lda = m
@@ -403,6 +466,9 @@ def blas_cher(alpha: 'float32', x: 'complex64[:]', a: 'complex64[:,:](order=F)',
               incx: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -421,6 +487,9 @@ def blas_chpr(alpha: 'float32', x: 'complex64[:]', a: 'complex64[:]',
               lower: 'bool' = False
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(x.shape[0])
 
     # ...
@@ -436,6 +505,9 @@ def blas_cher2(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'com
               incy: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(a.shape[0])
     n = np.int32(a.shape[1])
@@ -454,6 +526,9 @@ def blas_chpr2(alpha: 'complex64', x: 'complex64[:]', y: 'complex64[:]', a: 'com
               incy: 'int32' = 1,
               lower: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(x.shape[0])
 
@@ -476,6 +551,9 @@ def blas_cgemm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:
                trans_a: 'bool' = False,
                trans_b: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     l = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -509,6 +587,9 @@ def blas_csymm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:
                lower: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     m = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
 
@@ -538,6 +619,9 @@ def blas_chemm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:
                side: 'bool' = False,
                lower: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(c.shape[0])
     n = np.int32(c.shape[1])
@@ -569,6 +653,9 @@ def blas_csyrk(alpha: 'complex64', a: 'complex64[:,:](order=F)', c: 'complex64[:
                trans: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(c.shape[0])
     k = np.int32(c.shape[1])
 
@@ -597,6 +684,9 @@ def blas_csyr2k(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(c.shape[0])
 
@@ -630,6 +720,9 @@ def blas_cherk(alpha: 'complex64', a: 'complex64[:,:](order=F)', c: 'complex64[:
                trans: 'bool' = False,
               ):
 
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
+
     n = np.int32(c.shape[0])
     k = np.int32(c.shape[1])
 
@@ -658,6 +751,9 @@ def blas_cher2k(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[
                lower: 'bool' = False,
                trans: 'bool' = False,
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     n = np.int32(c.shape[0])
 
@@ -691,6 +787,9 @@ def blas_ctrmm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:
                trans_a: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])
@@ -731,6 +830,9 @@ def blas_ctrsm(alpha: 'complex64', a: 'complex64[:,:](order=F)', b: 'complex64[:
                trans_a: 'bool' = False,
                diag: 'bool' = False
               ):
+
+    import numpy as np
+    import pyccel.stdlib.internal.blas as mod_blas
 
     m = np.int32(b.shape[0])
     n = np.int32(b.shape[1])

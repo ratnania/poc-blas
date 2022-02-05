@@ -4,9 +4,6 @@ import scipy.linalg.blas as sp_blas
 from utilities import symmetrize, triangulize, general_to_band, general_to_packed
 from utilities import random_array
 
-TOL = 1.e-12
-DTYPE = np.complex128
-
 # ==============================================================================
 #
 #                                  LEVEL 1
@@ -16,6 +13,9 @@ DTYPE = np.complex128
 # ==============================================================================
 def test_zcopy_1():
     from zblas import blas_zcopy
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 3
     x = random_array(n, dtype=DTYPE)
@@ -31,6 +31,9 @@ def test_zcopy_1():
 # ==============================================================================
 def test_zswap_1():
     from zblas import blas_zswap
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -49,6 +52,9 @@ def test_zswap_1():
 def test_zscal_1():
     from zblas import blas_zscal
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -65,6 +71,9 @@ def test_zscal_1():
 def test_dznrm2_1():
     from zblas import blas_dznrm2
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -77,6 +86,9 @@ def test_dznrm2_1():
 # ==============================================================================
 def test_dzasum_1():
     from zblas import blas_dzasum
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -91,6 +103,9 @@ def test_dzasum_1():
 def test_izamax_1():
     from zblas import blas_izamax
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     x = random_array(n, dtype=DTYPE)
 
@@ -103,6 +118,9 @@ def test_izamax_1():
 # ==============================================================================
 def test_zaxpy_1():
     from zblas import blas_zaxpy
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -120,6 +138,9 @@ def test_zaxpy_1():
 def test_zdotc_1():
     from zblas import blas_zdotc
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 3
     x = random_array(n, dtype=DTYPE)
     y = random_array(n, dtype=DTYPE)
@@ -133,6 +154,9 @@ def test_zdotc_1():
 # ==============================================================================
 def test_zdotu_1():
     from zblas import blas_zdotu
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 10
     x = random_array(n, dtype=DTYPE)
@@ -154,6 +178,9 @@ def test_zdotu_1():
 def test_zgemv_1():
     from zblas import blas_zgemv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -171,6 +198,9 @@ def test_zgemv_1():
 # ==============================================================================
 def test_zgbmv_1():
     from zblas import blas_zgbmv
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 5
     kl = np.int32(2)
@@ -200,6 +230,9 @@ def test_zgbmv_1():
 def test_zhemv_1():
     from zblas import blas_zhemv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -217,6 +250,9 @@ def test_zhemv_1():
 # ==============================================================================
 def test_zhbmv_1():
     from zblas import blas_zhbmv
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 5
     k = np.int32(2)
@@ -245,6 +281,9 @@ def test_zhbmv_1():
 def test_zhpmv_1():
     from zblas import blas_zhpmv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -266,6 +305,9 @@ def test_zhpmv_1():
 def test_ztrmv_1():
     from zblas import blas_ztrmv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -282,6 +324,9 @@ def test_ztrmv_1():
 # ==============================================================================
 def test_ztbmv_1():
     from zblas import blas_ztbmv
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 5
     k = np.int32(2)
@@ -309,6 +354,9 @@ def test_ztbmv_1():
 def test_ztpmv_1():
     from zblas import blas_ztpmv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -327,6 +375,9 @@ def test_ztpmv_1():
 def test_ztrsv_1():
     from zblas import blas_ztrsv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -344,6 +395,9 @@ def test_ztrsv_1():
 # ==============================================================================
 def test_ztbsv_1():
     from zblas import blas_ztbsv
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 5
     k = np.int32(2)
@@ -368,6 +422,9 @@ def test_ztbsv_1():
 def test_ztpsv_1():
     from zblas import blas_ztpsv
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -387,6 +444,9 @@ def test_ztpsv_1():
 def test_zgeru_1():
     from zblas import blas_zgeru
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -403,6 +463,9 @@ def test_zgeru_1():
 def test_zgerc_1():
     from zblas import blas_zgerc
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 10
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -418,6 +481,9 @@ def test_zgerc_1():
 # ==============================================================================
 def test_zher_1():
     from zblas import blas_zher
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -436,6 +502,9 @@ def test_zher_1():
 # ==============================================================================
 def test_zhpr_1():
     from zblas import blas_zhpr
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 10
     a = random_array((n,n), dtype=DTYPE)
@@ -456,6 +525,9 @@ def test_zhpr_1():
 def test_zher2_1():
     from zblas import blas_zher2
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     x = random_array(n, dtype=DTYPE)
@@ -474,6 +546,9 @@ def test_zher2_1():
 # ==============================================================================
 def test_zhpr2_1():
     from zblas import blas_zhpr2
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 10
     a = random_array((n,n), dtype=DTYPE)
@@ -501,6 +576,9 @@ def test_zhpr2_1():
 def test_zgemm_1():
     from zblas import blas_zgemm
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -517,6 +595,9 @@ def test_zgemm_1():
 # ==============================================================================
 def test_zsymm_1():
     from zblas import blas_zsymm
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -539,6 +620,9 @@ def test_zsymm_1():
 def test_zhemm_1():
     from zblas import blas_zhemm
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -560,6 +644,9 @@ def test_zhemm_1():
 def test_zsyrk_1():
     from zblas import blas_zsyrk
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     c = random_array((n,n), dtype=DTYPE)
@@ -578,6 +665,9 @@ def test_zsyrk_1():
 # ==============================================================================
 def test_zsyr2k_1():
     from zblas import blas_zsyr2k
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -600,6 +690,9 @@ def test_zsyr2k_1():
 def test_zherk_1():
     from zblas import blas_zherk
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     c = random_array((n,n), dtype=DTYPE)
@@ -618,6 +711,9 @@ def test_zherk_1():
 # ==============================================================================
 def test_zher2k_1():
     from zblas import blas_zher2k
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
@@ -640,6 +736,9 @@ def test_zher2k_1():
 def test_ztrmm_1():
     from zblas import blas_ztrmm
 
+    TOL = 1.e-12
+    DTYPE = np.complex128
+
     n = 4
     a = random_array((n,n), dtype=DTYPE)
     b = random_array((n,n), dtype=DTYPE)
@@ -657,6 +756,9 @@ def test_ztrmm_1():
 # ==============================================================================
 def test_ztrsm_1():
     from zblas import blas_ztrsm
+
+    TOL = 1.e-12
+    DTYPE = np.complex128
 
     n = 4
     a = random_array((n,n), dtype=DTYPE)
